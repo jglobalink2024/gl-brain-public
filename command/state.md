@@ -84,6 +84,16 @@ Commit: a50ffa4
 - No schema migration required — existing anthropic_api_key / openai_api_key / perplexity_api_key columns reused as BYOK columns
 - TODO in proxy route: rate limit pooled key usage by plan tier (Phase 3)
 
+## Claude Code Tooling (260413 — session 3)
+Implemented all recommendations from /insights report (177 sessions, Apr 3-14):
+- Root CLAUDE.md: added SESSION PROTOCOL, BRAIN REPO, WORKING STYLE, SECURITY, GIT DISCIPLINE, NAMING CONVENTIONS
+- command-app CLAUDE.md: added GIT DISCIPLINE + SQL DISCIPLINE (info_schema check, IF EXISTS guards, FK constraints)
+- command-gl CLAUDE.md: added GIT DISCIPLINE + public repo secret-check callout
+- command-extension CLAUDE.md: rebuilt from near-empty — added REPO IDENTITY, HARD RULES, BRAIN PROTOCOL, GIT DISCIPLINE
+- ~/.claude/commands/preflight.md: /preflight custom command (tsc → eslint → staged diff)
+- ~/.claude/commands/closeout.md: /closeout custom command (chat name → brain update → commit → push)
+- ~/.claude/settings.json: pre-commit hook — blocks git commit if tsc or eslint fails (scoped to TypeScript projects only)
+
 ## Next Session Priorities
 1. Send Eric beta invite (Phase 2 + audit-clean, ready now)
 2. Grant Carlson 7-day follow-up (check date)
