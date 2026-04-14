@@ -40,3 +40,15 @@ Status: Build as industry-standard feature, don't patent
 ## Provenance Edge Type Names (patent claim) — DEAD
 Killed: IETF ACTA Knowledge Units — identical names
 Status: Use freely, don't patent
+
+## Quorum Sensing / MHC Self-Non-Self — DEAD
+Killed: First Principles Kill Test (260413)
+Reason: Maps to 5 existing prior art kills: Cognitive Stigmergy
+  (Ricci 2007), Stigmergic Epistemology (Marsh & Onof 2008),
+  Linda/Tuple Space (Gelernter 1986), Blackboard Architecture
+  (Erman 1980), Active Inference Collective Intelligence
+  (Kaufmann 2021). Mechanism = environment-mediated stigmergic
+  coordination — a commodity pattern.
+Biology language: Retired per SOP v8 Section 13.
+Pain story captured as discovery call ammunition.
+Revive condition: Never
