@@ -257,7 +257,7 @@ Chat/thread naming canonical format: [GL | WORKSTREAM | Topic · Topic | YYMMDD]
 Authoritative rules + examples: globalink-brain/command/patterns.md → "Chat/Thread Naming Convention"
 
 ## Next Session Priorities
-1. Jason setup action: GitHub PAT (contents:write on brain repo only) + GitHub MCP in Claude.ai → enables brain writes from chat sessions
+1. Verify brain write access from Claude chat: ask Claude.ai to read `command/state.md` from `jglobalink2024/globalink-brain` via GitHub Integration connector — if it reads, write is live
 2. v11 symphony run — 20 personas, 8 previously-blocked items, real transactions (tonight 10 PM CT)
 3. Post-deploy verify F01/F02 on production (see COMMAND_F01_F02_Fix_Verify.md) — inspect hrefs + click through OAuth consent screens
 4. Close Dependabot PR #5 on GitHub (follow-redirects fix already applied via npm overrides in 5bccc73)
