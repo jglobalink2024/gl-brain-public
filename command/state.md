@@ -223,13 +223,43 @@ Build is clean and all infrastructure is wired:
 Best run window: 10 PM – 2 AM CT (off-peak Anthropic API throughput)
 Avoid: 9 AM – 6 PM CT (peak); avoid 7:01 AM (ops watchdog scheduled run)
 
+## File Lifecycle + Brain Sync Protocol — SHIPPED (260416)
+Session: GL | OPS | File Lifecycle + Brain Multi-Variant Sync | 260416
+
+Implemented full file lifecycle policy and multi-variant brain sync protocol:
+
+File lifecycle:
+- Purpose tags [ONE-USE] / [EVIDENCE] / [PERSISTENT] — required on every file CC creates
+- Retention rules: CC_*.md (7d), SESSION_CLOSEOUT_*.md (3d), tests/personas/* (90d), docs/ops/* (30d)
+- Enforcement: ops-watchdog Step 6 added — cleanup sweep runs daily after health checks
+- Brain file: globalink-brain/command/file-lifecycle.md
+
+Brain multi-variant sync:
+- All Claude variants (Code, chat, Cursor) read + write the same private brain repo
+- Claude Code: local filesystem + git push (unchanged)
+- Claude chat: GitHub MCP server (`github-brain`) → direct commit to private brain repo
+- Fallback: public mirror for reads, output block for writes if MCP not active
+- Commit format all variants: `brain: [description] [via: CC | chat | cursor]`
+- Brain file: globalink-brain/gl/brain-sync-protocol.md
+- Setup required (Jason one-time action): GitHub PAT (contents:write on brain repo) + GitHub MCP in Claude.ai
+
+Files updated:
+- globalink-brain/gl/brain-sync-protocol.md (new)
+- globalink-brain/command/file-lifecycle.md (already committed 2f22175)
+- globalink-brain/command/patterns.md (brain sync + file lifecycle patterns added)
+- Root CLAUDE.md (FILE LIFECYCLE section added, BRAIN REPO updated)
+- command-app/CLAUDE.md (FILE LIFECYCLE section added, Session Open/Close updated)
+- command-app/.claude/agents/ops-watchdog.md (Step 6 cleanup sweep added)
+- feedback_thread_naming.md in CC memory (date = start date rule, updated when to surface name)
+
 ## Next Session Priorities
-1. v11 symphony run — 20 personas, 8 previously-blocked items, real transactions (tonight 10 PM CT)
-2. Post-deploy verify F01/F02 on production (see COMMAND_F01_F02_Fix_Verify.md) — inspect hrefs + click through OAuth consent screens
-3. Close Dependabot PR #5 on GitHub (follow-redirects fix already applied via npm overrides in 5bccc73)
-4. Send Eric beta invite (Phase 2 + audit-clean + v10.1 verified — ready now)
-5. Grant Carlson 7-day follow-up (check date)
-6. Delete stray GCP project: command-globalink under jdavis5206@gmail.com (created in error, low priority)
+1. Jason setup action: GitHub PAT (contents:write on brain repo only) + GitHub MCP in Claude.ai → enables brain writes from chat sessions
+2. v11 symphony run — 20 personas, 8 previously-blocked items, real transactions (tonight 10 PM CT)
+3. Post-deploy verify F01/F02 on production (see COMMAND_F01_F02_Fix_Verify.md) — inspect hrefs + click through OAuth consent screens
+4. Close Dependabot PR #5 on GitHub (follow-redirects fix already applied via npm overrides in 5bccc73)
+5. Send Eric beta invite (Phase 2 + audit-clean + v10.1 verified — ready now)
+6. Grant Carlson 7-day follow-up (check date)
+7. Delete stray GCP project: command-globalink under jdavis5206@gmail.com (created in error, low priority)
 
 ## FM Cohort
 25 slots | $99/mo | Closes Sep 30 2026

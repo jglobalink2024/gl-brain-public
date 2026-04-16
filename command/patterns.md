@@ -117,6 +117,17 @@ Never use the current date if the chat started on a different day — always use
 Review the full conversation before naming.
 Always suggest a thread name when the session is closing out.
 
+## Brain Multi-Variant Sync (LOCKED 260416)
+All Claude variants (Code, chat, Cursor) read from and write to the same private
+brain repo. No variant is a second-class citizen.
+
+READ priority: GitHub MCP → local filesystem → public mirror fallback
+WRITE priority: GitHub MCP (chat) | local git (CC/Cursor) | output block (fallback)
+
+Commit format all variants: `brain: [description] [via: CC | chat | cursor]`
+Full protocol: globalink-brain/gl/brain-sync-protocol.md
+Setup required: GitHub PAT (contents:write on brain repo) + GitHub MCP in Claude.ai
+
 ## File Lifecycle Policy (LOCKED 260416)
 Every file Claude creates must be tagged at creation:
 [ONE-USE] — delete after 7 days or after the commit that ran it
