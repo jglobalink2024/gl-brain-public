@@ -4,6 +4,7 @@
 
 ## Fetch before every non-trivial session:
 
+https://raw.githubusercontent.com/jglobalink2024/globalink-brain-public/main/gl/format.md
 https://raw.githubusercontent.com/jglobalink2024/globalink-brain-public/main/command/state.md
 https://raw.githubusercontent.com/jglobalink2024/globalink-brain-public/main/command/decisions.md
 https://raw.githubusercontent.com/jglobalink2024/globalink-brain-public/main/command/patterns.md
