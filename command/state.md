@@ -1,5 +1,5 @@
 # COMMAND — Current State
-Last updated: 260415-2
+Last updated: 260416
 
 ## Live URLs
 App: app.command.globalinkservices.io
@@ -183,11 +183,29 @@ All items that were "pending manual steps" are now closed:
 - VERCEL_API_TOKEN created + added to Vercel prod + .env.local — ops-watchdog unblocked
 - Stray GCP project (command-globalink under jdavis5206@gmail.com) still needs deletion — low priority
 
+## CSP Fix — SHIPPED (dfc12b2, 260416)
+Session: COMMAND | Ops | Third-Party Infra + CSP Fix | 260416
+HubSpot was blocked by the Content Security Policy in next.config.mjs:
+- connect-src: added https://api.hubapi.com (was missing — browser blocks fetch to HubSpot API)
+- frame-src: added https://app.hubspot.com (was 'self' only — blocks HubSpot OAuth in frame context)
+All HubSpot calls are currently server-side; fix is forward-looking for client-side status checks
+and any future HubSpot widgets (meetings embed, chat). TypeScript clean. Deployed to production.
+
+## Symphony v11 — READY TO RUN
+Build is clean and all infrastructure is wired:
+- Phase 2 complete + all audits closed
+- v10.1 verified (6/6 PASS on production)
+- Google OAuth + HubSpot OAuth + VERCEL_API_TOKEN all configured
+- CSP unblocked for HubSpot
+- P1 carryovers from v9.5: M10, N2, N5 — may surface in v11 run
+Best run window: 10 PM – 2 AM CT (off-peak Anthropic API throughput)
+Avoid: 9 AM – 6 PM CT (peak); avoid 7:01 AM (ops watchdog scheduled run)
+
 ## Next Session Priorities
-1. Send Eric beta invite (Phase 2 + audit-clean + v10.1 verified — ready now)
-2. Grant Carlson 7-day follow-up (check date)
-3. v11 symphony run — 20 personas, 8 previously-blocked items, real transactions
-4. Delete stray GCP project: command-globalink under jdavis5206@gmail.com (created in error)
+1. v11 symphony run — 20 personas, 8 previously-blocked items, real transactions (tonight 10 PM CT)
+2. Send Eric beta invite (Phase 2 + audit-clean + v10.1 verified — ready now)
+3. Grant Carlson 7-day follow-up (check date)
+4. Delete stray GCP project: command-globalink under jdavis5206@gmail.com (created in error, low priority)
 
 ## FM Cohort
 25 slots | $99/mo | Closes Sep 30 2026
