@@ -133,6 +133,16 @@ Never use the current date if the chat started on a different day — always use
 Review the full conversation before naming.
 Always suggest a thread name when the session is closing out.
 
+## Pending Actions Tracking (LOCKED 260416)
+Never bury manual Jason-action deliverables in prose. Always write to
+PENDING_ACTIONS.md in the target repo root.
+
+Row format: `- [ ] TYPE | WHERE | WHAT | YYMMDD | SESSION`
+Types: SQL | VERCEL | GITHUB | GCP | VERIFY | STRIPE | HUBSPOT | OTHER
+
+CC reads at session open (surface relevant open items), writes at session close
+(any new manual actions). Jason checks off. Never delete rows.
+
 ## Brain Multi-Variant Sync (LOCKED 260416)
 All Claude variants (Code, chat, Cursor) read from and write to the same private
 brain repo. No variant is a second-class citizen.
