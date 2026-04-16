@@ -252,6 +252,10 @@ Files updated:
 - command-app/.claude/agents/ops-watchdog.md (Step 6 cleanup sweep added)
 - feedback_thread_naming.md in CC memory (date = start date rule, updated when to surface name)
 
+## Standards
+Chat/thread naming canonical format: [GL | WORKSTREAM | Topic · Topic | YYMMDD]
+Authoritative rules + examples: globalink-brain/command/patterns.md → "Chat/Thread Naming Convention"
+
 ## Next Session Priorities
 1. Jason setup action: GitHub PAT (contents:write on brain repo only) + GitHub MCP in Claude.ai → enables brain writes from chat sessions
 2. v11 symphony run — 20 personas, 8 previously-blocked items, real transactions (tonight 10 PM CT)

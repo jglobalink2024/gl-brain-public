@@ -1,5 +1,5 @@
 # COMMAND — Build Patterns
-Last updated: 260413-4
+Last updated: 260416
 
 ## Concurrent CC Sessions
 Safe when file surfaces confirmed non-overlapping.
@@ -105,13 +105,29 @@ New routes not in baseline = uncovered monitoring gap → queue for self-patch.
 Removed routes still in baseline = dead checks → flag and remove.
 Always compare local vs production commit SHA — catches silent deploy failures.
 
-## Chat Naming Convention (LOCKED 260413, UPDATED 260416)
+## Chat/Thread Naming Convention (LOCKED 260413, UPDATED 260416)
 Name every Claude.ai chat based on the ENTIRETY of the
 conversation — not just the opening topic.
-Format: [GL | WORKSTREAM | Topic · Topic · Topic | YYMMDD]
-Multiple topics separated by ·
-Date = chat START date (the date the chat was created/opened — NOT the date of last activity)
-Example: [GL | COMMAND | Phase 2 Sprint · Audit · Brain Init · 260413]
+
+CANONICAL FORMAT: [GL | WORKSTREAM | Topic · Topic | YYMMDD]
+
+HARD RULES:
+1. Leading namespace is always "GL" — never "COMMAND" or any project name
+2. Separator between topics is middle-dot "·" (U+00B7) — never "-" or ","
+3. Date = START date of the chat (when it was created/opened — NOT last activity)
+   If uncertain about start date, Claude asks Jason before naming
+4. Brackets [ ] are required
+5. Pipe with spaces " | " separates all sections
+
+VALID EXAMPLES:
+✅ [GL | QA | F01-F02 OAuth Fix · Dependabot #8 | 260416]
+✅ [GL | OPS | File Lifecycle Policy · Cleanup Agent · Chat Naming Fix | 260416]
+
+INVALID EXAMPLES:
+❌ COMMAND | QA | F01-F02 OAuth Fix + Dependabot #8 | 260416  (missing brackets, wrong namespace, wrong separator)
+❌ [GL | QA | F01-F02 | 260417]  (wrong date if chat opened 260416)
+❌ [GL | COMMAND | Phase 2 Sprint · Audit · Brain Init · 260413]  (wrong namespace)
+
 Never name a chat based only on the opening question.
 Never use the current date if the chat started on a different day — always use start date.
 Review the full conversation before naming.
