@@ -256,6 +256,33 @@ Files updated:
 Chat/thread naming canonical format: [GL | WORKSTREAM | Topic · Topic | YYMMDD]
 Authoritative rules + examples: globalink-brain/command/patterns.md → "Chat/Thread Naming Convention"
 
+## RUNWAY Primer — Alhaji Bangura / Crown Government Services (260416)
+Session: GL | GTM · OPS | RUNWAY Delivery + Response Format | 260416
+
+Built interactive HTML AI Starter Package for Alhaji Bangura (Crown Government Services, LLC).
+File: C:\Users\jdavi\Downloads\alhaji_starter_package.html
+Preview: http://localhost:8055/alhaji_starter_package.html (requires preview server running)
+
+Deliverable named: RUNWAY (the pre-COMMAND primer)
+Other commercial names locked this session:
+- CALIBER = model selection rubric (6-point scoring Haiku/Sonnet/Opus)
+- DIRECTED = AI-as-action-officer workflow
+
+Contents: Phase 0–4 interactive toolkit with copy-paste prompts, progress checkboxes, inventory tables, Second Brain setup, Claude Setup, and Phase 5 / COMMAND transition card.
+
+4 follow-on prompts produced (separate Claude Chat sessions, run in parallel):
+1. Brain Connectivity — how all Claude instances access globalink-brain
+2. CALIBER Rubric — model selection scoring table
+3. KM Architecture — 6 foundation decisions (Opus, review before committing)
+4. COMMAND Artifact Gaps — 10 missing artifacts, prioritize by Phase 3 blockers
+
+Status: RUNWAY needs a full restart in a new chat — user flagged it lost mark.
+JRF v1.0 format adopted this session (Quick Summary / Body / Recommendations / What I Owe You / Thread Name).
+
+Standards locked this session:
+- All deliverables must be clickable links (preview server URL) — never raw file paths
+- All outputs surfaced at END of the turn they are produced
+
 ## Next Session Priorities
 1. (Optional) Enable Claude chat brain writes: GitHub PAT (contents:write on brain repo only) + GitHub's hosted MCP at claude.ai Settings → Integrations → custom MCP. Until then, chat uses output-block fallback — Claude Code commits on next session.
 2. v11 symphony run — 20 personas, 8 previously-blocked items, real transactions (tonight 10 PM CT)
