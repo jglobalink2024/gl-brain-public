@@ -331,6 +331,29 @@ MCP config (after next Claude restart):
 - Public mirror writes: same token works on globalink-brain-public
 - Cowork/RECON-1 snippet: see brain-sync-protocol.md
 
+## CALIBER + KM Architecture + Artifact Gaps — LOCKED (260416)
+Session: GL | OPS | CALIBER · Brain Connectivity · KM Architecture · Phase 3 Gaps | 260416
+
+Produced and committed 4 foundational brain artifacts:
+
+1. CALIBER (globalink-brain/gl/caliber.md) — 6-factor model selection rubric.
+   Haiku (6–9) / Sonnet (10–14) / Opus (15–18). Score declared before every task.
+   Encoded as mandatory pre-flight block in root CLAUDE.md (replaces ad-hoc tier selection).
+   Project Instructions block drafted for all active Claude.ai Projects (GL, PL, Traverse, Ponte, GTM).
+
+2. Brain Connectivity (globalink-brain/gl/brain-connectivity.md) — implementation spec
+   for all 4 Claude instances to read globalink-brain without manual paste-work.
+   CC: local filesystem (done). Chat/Cowork: GitHub MCP + session-type auto-fetch map.
+   Chrome: get_page_text on GitHub. Cursor: workspace root. Fallback: MEMORY.md paste only.
+
+3. KM Architecture (globalink-brain/command/km-architecture.md) — 6 locked decisions
+   gating Phase 3 build: flat tag taxonomy, atomic 300-token granularity, append-only
+   versioning, hybrid BM25+pgvector retrieval, read-only agent access, zero cross-workspace sharing.
+
+4. Artifact Gaps (globalink-brain/command/artifact-gaps-phase3.md) — 5 Phase 3 blockers
+   identified: Schema Migration Log, FM Cohort Tracker, Credentials Audit Log,
+   Onboarding Runbook, Feature Flag Registry. 5 artifacts deferred to Phase 4.
+
 ## Next Session Priorities
 1. Restart Claude Desktop to activate github-brain MCP server — verify with `claude mcp list`
 2. v11 symphony run — 20 personas, 8 previously-blocked items, real transactions (tonight 10 PM CT)
