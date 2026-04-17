@@ -354,6 +354,25 @@ Produced and committed 4 foundational brain artifacts:
    identified: Schema Migration Log, FM Cohort Tracker, Credentials Audit Log,
    Onboarding Runbook, Feature Flag Registry. 5 artifacts deferred to Phase 4.
 
+## RESPONSE_RULES.md — Brain Infrastructure (260416)
+Session: GL | OPS | Brain Infrastructure · Response Rules | 260416
+
+Centralized universal response formatting rules into a single brain file.
+
+What shipped:
+- globalink-brain/RESPONSE_RULES.md (new) — universal format source of truth for all Claude instances
+  Covers: output structure order, formatting rules, Output Dock schema, self-execution doctrine,
+  git commit rule, no-fishing rule, thread naming, brain pruning gate
+- globalink-brain/POINTER_COMMAND.md — added RESPONSE_RULES.md fetch URL + "Response format" section
+- command-app/command-app/CLAUDE.md — appended "Response format" section pointing to brain URL
+  (no inline duplication — single source of truth enforced)
+
+Commits:
+- f2e1da0 brain: add RESPONSE_RULES.md — universal format source of truth
+- 273cd78 brain: POINTER_COMMAND now fetches RESPONSE_RULES.md
+- 65e10ce chore: CLAUDE.md sources response rules from brain repo (command-app)
+All pushed to main. Brain rebased cleanly against 2 remote commits (CALIBER/KM artifacts from prior session).
+
 ## Next Session Priorities
 1. Restart Claude Desktop to activate github-brain MCP server — verify with `claude mcp list`
 2. v11 symphony run — 20 personas, 8 previously-blocked items, real transactions (tonight 10 PM CT)
