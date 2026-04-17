@@ -1,5 +1,5 @@
 # COMMAND — Current State
-Last updated: 260416
+Last updated: 260416 (session 2)
 
 ## Live URLs
 App: app.command.globalinkservices.io
@@ -373,6 +373,58 @@ Commits:
 - 65e10ce chore: CLAUDE.md sources response rules from brain repo (command-app)
 All pushed to main. Brain rebased cleanly against 2 remote commits (CALIBER/KM artifacts from prior session).
 
+## Multi-Task Build Session — SHIPPED (260416, session 2)
+Session: GL · OPS · Multi-task Build | 260416
+
+Shipped 6 task groups in a single no-stop session.
+
+### Task Group 1 — 3 Critical Bug Fixes (commit d06ee25)
+Fix 1 — StepDetailSidebar "Run in [Agent]" button (components/canvas/StepDetailSidebar.tsx):
+- Was: onClick = `() => {}` with no handler wired
+- Fix: added stepLoading state, async fetch with r.ok + data.success guard, .finally() reset
+- Root cause: fetch() only rejects on network error — HTTP 4xx/5xx silently dropped without r.ok check
+
+Fix 2 — ROI baseline inflation (lib/analytics/roiCalculator.ts):
+- Was: discontinuous bracket system (5/15/30 min fixed tiers regardless of actual duration)
+- Fix: continuous 3x multiplier from real duration_ms — manualMinutesPerTask = max(3, actual × 3)
+
+Fix 3 — Smart Suggestions wrong hint mapping (lib/pipeline/suggestions.ts):
+- Was: research keywords → "content" hint, writing keywords → "ops" hint (inverted)
+- Fix: corrected keyword→type mapping, added "research" as valid HandoffHint, added priority fallback chain so no-match returns best available agent rather than null
+
+### Task Group 2 — Schema Migration Log (commit 47e610d)
+- docs/ops/migration-log.md: 40-row tracking table, all migrations in dependency order
+- All pre-260413 migrations: Applied Date = "PENDING" (Jason to verify against live Supabase schema)
+- All 260413xxx migrations: confirmed applied per brain state 260413
+- 20260416100000_brain_queue: confirmed applied (PENDING_ACTIONS item checked off)
+- Includes SQL blocks for 3 key migrations + dependency graph
+
+### Task Group 3 — Onboarding Runbook (commit 47e610d)
+- docs/ops/onboarding-runbook.md: 8-step activation checklist
+- Covers: workspace row, user association, Stripe subscription, feature flag defaults, pooled key vs BYOK, seed agents, welcome email, verification SQL
+- Non-technical operator can follow without reading code
+
+### Task Group 4 — Feature Flag Registry (commit 47e610d)
+- docs/ops/feature-flags.md: 28 flags across 5 categories
+- Plan-gated (8), env var (14), workspace booleans (3), UI/session (3), rate limits (2)
+- Phase 3 deferred gates section
+
+### Task Group 5 — FM Cohort Tracker (commit 7ebd727 — brain repo)
+- globalink-brain/command/fm-cohort-tracker.md: 25-row capacity table, all blank
+- Footer: Stripe FM link, NDA URL, Notion cross-reference
+- NOT in sync-public.yml — private by default
+
+### Task Group 6 — Credentials Audit Log (commit 7ebd727 — brain repo)
+- globalink-brain/command/credentials-audit.md: 22 credentials documented
+- Services: Supabase (3), Stripe (7), Anthropic, OpenAI, Perplexity, Google OAuth (3), HubSpot (3), Vercel, Clarity, Documenso, GitHub PAT
+- NOT in sync-public.yml — private; header warns against public sync
+
+### PENDING_ACTIONS.md updates (commit 4a3b740)
+3 new OPEN items added:
+- VERIFY: Update Applied Date for pre-260413 migrations in migration-log.md
+- VERIFY: Fill FM cohort tracker rows as signups land
+- VERIFY: Confirm Documenso admin credentials in password manager
+
 ## Next Session Priorities
 1. Restart Claude Desktop to activate github-brain MCP server — verify with `claude mcp list`
 2. v11 symphony run — 20 personas, 8 previously-blocked items, real transactions (tonight 10 PM CT)
@@ -381,6 +433,7 @@ All pushed to main. Brain rebased cleanly against 2 remote commits (CALIBER/KM a
 5. Send Eric beta invite (Phase 2 + audit-clean + v10.1 verified — ready now)
 6. Grant Carlson 7-day follow-up (check date)
 7. Delete stray GCP project: command-globalink under jdavis5206@gmail.com (created in error, low priority)
+8. Update Applied Date column in migration-log.md for pre-260413 migrations (verify against live Supabase schema)
 
 ## FM Cohort
 25 slots | $99/mo | Closes Sep 30 2026
