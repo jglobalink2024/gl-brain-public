@@ -1,0 +1,6 @@
+{
+  "CRITICAL":   { "injects_days": [3, 7],   "auto_archive_days": null },
+  "ACTIONABLE": { "injects_days": [7, 14],  "auto_archive_days": 45  },
+  "WATCH":      { "injects_days": [14, 30], "auto_archive_days": 60  },
+  "INTEL":      { "injects_days": [],       "auto_archive_days": 30  }
+}
