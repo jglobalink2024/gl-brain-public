@@ -1,7 +1,7 @@
 # GlobaLink Brain — Public Mirror
 
 Auto-synced from private brain after every commit.
-Last sync: 2026-04-17 13:36 UTC
+Last sync: 2026-04-18 23:49 UTC
 
 ## What's here
 - command/ — COMMAND app build state and decisions
