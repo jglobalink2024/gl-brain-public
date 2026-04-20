@@ -21,8 +21,26 @@ Last updated: 260420
   command/symphony/v11/) remain frozen and authoritative for items covered by v11.
   v12 augments — it does not replace v11 findings.
 
-Brain artifacts: command/symphony/v12/ (5 files staged 260420 via CC)
-Playwright harness: command-app e2e/symphony_v12/ (staged 260420 via CC)
+Brain artifacts: command/symphony/v12/ (5 files committed c29cfa7 via CC)
+Playwright harness: command-app e2e/symphony_v12/ (committed b489aaf, c69db5b via CC)
+
+## Symphony v12 Playwright Harness — STAGED (260420)
+Session: [GL | QA | Symphony v12 Staging · Harness Build | 260420]
+
+Built full Playwright test harness in command-app/e2e/symphony_v12/:
+- **Preflight specs**: bill02_deploy_check.spec.ts, agent_state_check.spec.ts, credit_balance_check.spec.ts
+- **Helpers**: persona_protocol.ts, network_capture.ts, credit_delta.ts, dom_assertions.ts, screenshot_pairs.ts, backend_query.ts
+- **Fixtures**: personas.ts (all 4 PersonaSpec exports with behavioral data from v12 personas), abandon_triggers.ts (17 structured trigger checks), test_prompts.ts (all persona × journey prompts)
+- **journeys/** left empty — orchestrator owns that directory
+
+TypeScript: exit 0 | ESLint: 0 errors | preflight.ps1: PASS
+
+Preflight test run results:
+- bill02_deploy_check: **FAIL** — auth session injection doesn't survive production middleware redirect; test shows sign-in page. BILL-02 code fix IS confirmed in codebase (3593d49). Manual verify required (see PENDING_ACTIONS.md).
+- agent_state_check: **PASS** (probe-only) — returned "unknown" for all 3 agents (display names on integrations page don't match text heuristic). Jason must re-auth all 3 agents before firing Symphony v12.
+- credit_balance_check: **PASS** (warn path) — balance unreadable from UI; no `[data-credit-balance]` element found. Jason must verify balance > $5 manually.
+
+PENDING_ACTIONS.md updated with full Symphony v12 execution queue (12 items).
 
 ## Symphony v11 Full Production QA Sweep — COMPLETE (4822016, 260417)
 Session: [GL | QA | Symphony v11 Full Run · Billing Tier Mismatch | 260417]
@@ -555,16 +573,26 @@ Fixed billing page tier mismatch (Symphony v11 MAJOR finding):
 TypeScript: exit 0 | ESLint: 0 errors | preflight.ps1: PASS
 Post-deploy browser verify: PENDING (see PENDING_ACTIONS.md)
 
-## Next Session Priorities
-1. Send Vercel security email re: prompt-injection payload in `vercel env ls` (draft ready)
-2. Verify NEXT_PUBLIC_GL_INTERNAL plaintext value on production (pull or dashboard)
-3. Restart Claude Desktop to activate github-brain MCP server — verify with `claude mcp list`
-4. v11 symphony run — 20 personas, 8 previously-blocked items, real transactions (tonight 10 PM CT)
-5. Post-deploy verify F01/F02 on production (see COMMAND_F01_F02_Fix_Verify.md) — inspect hrefs + click through OAuth consent screens
-6. Close Dependabot PR #5 on GitHub (follow-redirects fix already applied via npm overrides in 5bccc73)
-7. Send Eric beta invite (Phase 2 + audit-clean + v10.1 verified — ready now)
-8. Grant Carlson 7-day follow-up (check date)
-9. Delete stray GCP project: command-globalink under jdavis5206@gmail.com (created in error, low priority)
+## Next Session Priorities (updated 260420)
+### Immediate — Symphony v12 preconditions (Jason manual, no CC needed)
+1. Verify BILL-02 on production: sign in as jcameron5206@proton.me → /settings/billing → confirm 4 tiers, no Studio, "Pilot (free)" plan label
+2. Re-auth Claude-1 / GPT-4-1 / Perplexity-1 in /settings/integrations (paste API keys)
+3. Confirm credit balance > $5 on test workspace
+4. Fire Symphony v12 orchestrator prompt in fresh Opus 4.7 chat (prompt at globalink-brain/command/symphony/v12/COMMAND_Symphony_v12_Prompt.md)
+
+### After Symphony v12 verdict lands
+5. Commit proof files (ProofLog, Findings, Matrix, Delta) to globalink-brain/command/symphony/v12/
+6. Update state.md with v12 verdict
+7. If SHIP: canary (Iris 10-min walk) → Eric invite draft for May 5–10 window
+
+### Carry-forward
+8. Send Vercel security email re: prompt-injection payload in `vercel env ls` (draft ready)
+9. Verify NEXT_PUBLIC_GL_INTERNAL plaintext value on production
+10. Post-deploy verify F01/F02 on production (inspect OAuth hrefs)
+11. Close Dependabot PR #5 on GitHub (fix already in 5bccc73)
+12. Send Eric beta invite after Symphony v12 verdict SHIP
+13. Grant Carlson 7-day follow-up (check date)
+14. Delete stray GCP project: command-globalink under jdavis5206@gmail.com (low priority)
 
 ## FM Cohort
 25 slots | $99/mo | Closes Sep 30 2026
