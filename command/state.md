@@ -1,5 +1,38 @@
 # COMMAND — Current State
-Last updated: 260420 (brain sync workflow fixed + Grant follow-up SENT + voice profile locked)
+Last updated: 260420 (symphony-scorer built + v12.1 live test produced stricter DO NOT SHIP verdict)
+
+## symphony-scorer Agent — BUILT + LIVE-TESTED (260420)
+Session: [GL | AGENTS | symphony-scorer Build · v12.1 Doctrine Test · Closeout | 260420]
+Commit: d417ab0 (agent file) + this closeout commit (log + spec + state)
+
+**What changed:**
+- Agent file created: `~/.claude/agents/symphony-scorer/SKILL.md` (~15KB)
+  - Opus-only, tier: doctrine-enforcer
+  - 4-file output contract: Matrix / Findings / ProofLog / Delta
+  - 7 hard doctrine rules: C3 2× weight, Shallow ≠ PASS, INCONCLUSIVE ≠ PARTIAL, severity thresholds, categorical ship rubric (<85% OR any CRITICAL on thesis → DO NOT SHIP), evidence specificity, matrix/rationale consistency
+  - Verdicts: SHIP / SHIP WITH FIXES / DO NOT SHIP only (resisted inventing 4th "CANNOT CERTIFY" verdict — math handles INCONCLUSIVE naturally)
+- `command/agent_activity_log.md`: appended zeroth entry for symphony-scorer (dep-check override, self-test result, RAP compliance)
+- `command/candidate_agent_specs.md`: AGENT 5 marked `[BUILT — 260420]` with location + self-test summary
+
+**Live test against v12.1 artifacts (read-only):**
+- Input: `e2e/symphony_v12/artifacts/v121_run/` (J2×P2 ERIC + J2×P3 DANIELLE result+network JSONs)
+- Scorer correctly overrode harness-emitted `cell_verdict: FAIL` → authoritative `c3_assessment.c3_verdict: INCONCLUSIVE` (agent_calls_observed=0 = chain not walked, not product defect)
+- Arithmetic: C3 weighted 2×; 22 / 26 = **84.615%** → below 85% threshold
+- **Scorer verdict: DO NOT SHIP** (stricter than existing v12.1 "SHIP with C3 unverified")
+- Caught "(with C3 unverified)" as non-rubric-compliant modifier — exactly the failure mode the agent was built to prevent
+- Proposed F0 CRITICAL finding (C3 thesis claim without positive evidence) not in existing synthesis
+- Test report (one-use, 7-day retention): `C:\Users\jdavi\Downloads\symphony_scorer_v121_test_run_260420.md`
+
+**No frozen v12 or v12.1 brain files modified.** Existing synthesis stands; scorer output is advisory until operator accepts/overrides.
+
+**What's next:**
+- Operator decision: (A) amend v12.1 to DO NOT SHIP pending v12.2 harness rewrite, OR (B) keep as SHIP WITH FIXES with explicit risk acceptance in decisions.md — lean toward B if Eric onboarding is the pressure
+- Next activation: v13 closeout synthesis or v12.2 verification produces the four canonical files mechanically
+- Agent bundle now complete: cc-prompt-architect + brain-committer + symphony-journey-architect + symphony-scorer (4 of 6 planned)
+
+**Blockers:** none
+
+
 
 ## Brain Sync Workflow FIXED — allowlist → blocklist (260420)
 Session: [GL | OPS | Brain Sync Fix · Grant Follow-up · Voice Profile | 260420]
