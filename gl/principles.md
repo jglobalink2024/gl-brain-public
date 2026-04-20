@@ -1,5 +1,5 @@
 # GlobaLink Operating Principles
-Last updated: 260413
+Last updated: 260420
 
 ## Hard Rules (never violate)
 - Entity name: GlobaLink — never "GlobalInk"
@@ -20,11 +20,37 @@ Last updated: 260413
 - Every CC prompt ends with git commit + push
 - Remember rule: "remember X" → appended to next CC prompt
 
-## Voice Rules
-- Opener: "Name —" hard line break
-- Banned words: "in the trenches," "pain points,"
-  "value prop," "seamlessly," "empower," "let's get started"
-- Sign-off: JCMD = Jason personal. JD = automated.
+## Voice Profile — Jason
+
+**Opener:** "Name —" with hard line break after.
+
+**Structure:** Short blocks. Sentences break mid-thought for rhythm.
+
+**Verbs:** Casual over corporate.
+- "hit you back up" not "circle back"
+- "grateful for the intro" not "appreciate your consideration"
+
+**Frame:** Peer, not vendor. Skip setup the prospect already knows.
+- Not "Sent the one-pager a bit ago — curious if anything stuck"
+- Use "Curious your thoughts on the one-pager"
+
+**Warmth:** Possessives over articles.
+- "our call" not "the call"
+
+**Rhythm:** Repetition is intentional. Don't edit out deliberate echoes ("curious your thoughts... curious if anything stuck").
+
+**Sign-off:**
+- **JCMD** — when Jason personally types and sends
+- **JD** — all automated outreach (Waalaxy, Brevo, templates)
+
+**Banned phrases:**
+- "in the trenches"
+- "pain points"
+- "value prop"
+- "seamlessly"
+- "empower"
+- "let's get started"
+- "circle back" *(added 260420)*
 
 ## ICP Priority
 1. Sales/RevOps consulting (1–15 people, owner-led)

@@ -1,5 +1,5 @@
 # COMMAND — Current State
-Last updated: 260420 (symphony-journey-architect BUILT + activation-tested)
+Last updated: 260420 (Grant Carlson follow-up SENT + voice profile locked)
 
 ## symphony-journey-architect Agent — BUILT + TESTED (260420)
 Session: [GL | AGENTS | symphony-journey-architect Build · Activation Test | 260420]
@@ -672,6 +672,16 @@ Public mirror: patterns.md synced ✓; new files 404 as of commit time (sync lag
 
 ---
 
+## GTM Pipeline — Active Contacts (260420)
+
+- **Grant Carlson** (Global Entry Hub) — T1 warm
+  - Discovery call: COMPLETE
+  - One-pager: SENT
+  - Follow-up #1: SENT 260420 (soft check-in — reaction + referral ask, no beta invite)
+  - Status: AWAITING REPLY
+  - Next action: branch on Grant's response (A=feedback, B=no bandwidth, C=referral, D=silence day 7)
+  - Open data gaps: firm size, function, AI stack
+
 ## Next Session Priorities (updated 260420)
 ### Immediate — Symphony v12 preconditions (Jason manual, no CC needed)
 1. Verify BILL-02 on production: sign in as jcameron5206@proton.me → /settings/billing → confirm 4 tiers, no Studio, "Pilot (free)" plan label
@@ -690,7 +700,7 @@ Public mirror: patterns.md synced ✓; new files 404 as of commit time (sync lag
 10. Post-deploy verify F01/F02 on production (inspect OAuth hrefs)
 11. Close Dependabot PR #5 on GitHub (fix already in 5bccc73)
 12. Send Eric beta invite after Symphony v12 verdict SHIP
-13. Grant Carlson 7-day follow-up (check date)
+13. Grant Carlson — tracked in GTM Pipeline section (follow-up #1 sent 260420, awaiting reply)
 14. Delete stray GCP project: command-globalink under jdavis5206@gmail.com (low priority)
 
 ## FM Cohort
