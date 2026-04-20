@@ -33,3 +33,12 @@ Key findings:
 ROI Tracker finding:
 15-min baseline inflated. Confirmed critical by audit.
 Adaptive baseline implemented in Fix 2.
+
+---
+## Brain-Commit Pipeline Test — 260420
+[ONE-USE]
+Last updated: 260420
+Author: CC
+
+Brain-commit pipeline test entry. Verifies brain-committer append + stage + commit + push sequence.
+---
