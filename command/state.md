@@ -1,6 +1,38 @@
 # COMMAND — Current State
 Last updated: 260419
 
+## Symphony v11 Full Production QA Sweep — COMPLETE (4822016, 260417)
+Session: [GL | QA | Symphony v11 Full Run · Billing Tier Mismatch | 260417]
+Real-browser only (Claude in Chrome MCP) against app.command.globalinkservices.io.
+Test user: jcameron5206@proton.me. Credit spend: ~$0.06 ($9.94→$9.94 net hold).
+
+Scoreboard: 56 PASS / 5 PARTIAL / 2 FAIL across 64 items (87.5% PASS rate).
+- 0 CRIT
+- 1 MAJOR open: BILL-02 — /settings/billing tier block does NOT match /pricing
+  - Billing shows: Solo $49 / Pro $149 (labeled "Current plan") / Studio $349
+  - Pricing shows: FM $99 / Solo $49 / Standard Pro $149 / Agency $799
+  - FM $99 missing from billing — FM cohort cannot self-activate locked rate
+  - Agency $799 missing from billing
+  - Phantom "Studio $349" not on pricing page
+  - "Current plan" mislabeled Pro when user is Pilot (Free)
+- 4 MINOR: glossary underline style, billing glossary anchors, test-env agents
+  stalled (environmental), /pricing page title generic
+- All 8 pre-v10 fixes held (F01-F08) — F01/F02 OAuth workspace_id, CRIT-03 server-side key verify, F04 graceful workspace_not_found, F05 dashboard/canvas split, F06 pilot>trial, F07 LOCKED RATE copy, F08 zero banned codenames
+
+Verdict: GO WITH FIX. Close BILL-02 before next FM outbound wave.
+
+8 deliverables in command/symphony/v11/:
+- COMMAND_ProofLog_v11.md (full section-by-section proof log)
+- COMMAND_Findings_v11.md (MAJOR-04 BILL-02 + 4 MINOR + 1 NIT)
+- COMMAND_Sim_v11.md (Sandra 10-min simulation)
+- COMMAND_PurchaseIntent_v11.md (72/100 composite, GO WITH FIX)
+- COMMAND_RegressionSpotCheck_v11.md (10/10 PASS)
+- COMMAND_NewFixVerify_v11.md (MAJOR-02 PARTIAL, MAJOR-03 PASS)
+- COMMAND_GlossaryVerify_v11.md (4/5 pages PASS, billing 0 anchors)
+- COMMAND_Delta_v10_v11.md (held from v10.1 + new in v11)
+
+PENDING: Fix BILL-02 (P0 priority — blocks FM pilot→paid path).
+
 ## Live URLs
 App: app.command.globalinkservices.io
 Landing: command.globalinkservices.io
