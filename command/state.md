@@ -1,6 +1,18 @@
 # COMMAND — Current State
 Last updated: 260420
 
+## Symphony v12 EXECUTED — verdict: SHIP WITH FIXES (260420)
+Session: [GL | QA | Symphony v12 Execution · 4P × 5J Matrix | 260420]
+
+- **Matrix**: 19 PASS / 1 PARTIAL / 0 FAIL across 20 cells
+- **C3 handoff (crown jewel)**: PARTIAL — router stage verified, full Agent A → Agent B chain not walked by harness (F2, harness gap not app regression)
+- **C1 router intelligence CONFIRMED LIVE** — research task routed to Perplexity-1 at 68% confidence, reason "type match (research) + active"
+- **BILL-02 re-verified** under real auth — 4 tiers, no $349 phantom, glossary styled
+- **Auth architecture fixed** — real UI sign-in → storageState (captures sb-<ref>-auth-token cookie); replaces broken localStorage injection that blocked 260419 preflight
+- **F1 new finding** — 3 "Current plan" labels on billing for Pilot/Free user (should be 1). MINOR UX, fix before first paid upgrade
+- **Proof files**: command/symphony/v12/COMMAND_{ProofLog,Findings,Matrix,Delta_v11_v12}_v12.md
+- **Harness shipped**: command-app/e2e/symphony_v12/{auth.spec.ts, journeys/J1-J5_*.spec.ts}, playwright.config.ts with SYMPHONY_V12=1 mode
+
 ## v12 design complete (260420)
 
 - **BILL-02 fix shipped**: commit 3593d49 in command-app. Billing page now shows
