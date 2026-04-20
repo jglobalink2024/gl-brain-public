@@ -585,6 +585,20 @@ Fixed billing page tier mismatch (Symphony v11 MAJOR finding):
 TypeScript: exit 0 | ESLint: 0 errors | preflight.ps1: PASS
 Post-deploy browser verify: PENDING (see PENDING_ACTIONS.md)
 
+## Agent Tracking System — COMMITTED (cb46fe1, 260420)
+Session: [GL | OPS | Agent Tracking System · RAP Doctrine · Candidate Specs | 260420]
+
+Committed 3 files to globalink-brain/command/:
+- agent_activity_log.md (NEW) — YAML entry log for all agent/skill activations
+- candidate_agent_specs.md (NEW) — 6 post-Eric candidate agent specs (HOLD)
+- patterns.md (APPENDED) — RAP doctrine + load-bearing / retirement / concentration metrics
+
+Key addition: activation-concentration metric (>40% single-agent in 30-day window = soft flag).
+First monthly review fires May 1 2026.
+Public mirror: patterns.md synced ✓; new files 404 as of commit time (sync lag — not a broken commit).
+
+---
+
 ## Next Session Priorities (updated 260420)
 ### Immediate — Symphony v12 preconditions (Jason manual, no CC needed)
 1. Verify BILL-02 on production: sign in as jcameron5206@proton.me → /settings/billing → confirm 4 tiers, no Studio, "Pilot (free)" plan label
