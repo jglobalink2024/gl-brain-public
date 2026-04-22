@@ -1,5 +1,22 @@
 # COMMAND — Current State
-Last updated: 260420 (executeTask pooled key fallback — getPooledKey helper extracted)
+Last updated: 260421 (task cancel button + cancelled status + Working… cleared on error)
+
+## Task Cancel + Agent Status Fix — SHIPPED (260421)
+Session: [GL | COMMAND | Task Cancel · Agent Status Fix | 260421]
+
+**What changed (command-app):**
+
+1. **`lib/types.ts` + `lib/store.ts`** — added `"cancelled"` to `TaskStatus` union (both files kept in sync)
+2. **`lib/command-data.ts`** — added `cancelled: "cancelled"` to `statusMap` in `taskToInsert()` (was a required Record key)
+3. **`app/router/page.tsx`** — Cancel button added to every queued/active task row in the task queue
+   - Red outline button (`#F85149` border), calls `updateTaskStatus(task.id, "cancelled")`
+   - "Cancelled" badge added (muted grey border, `#9DA8B5` text) for status display
+4. **`lib/pipeline/executeTask.ts`** — on execution failure, resets agent to `status: 'idle', current_task: null`
+   - Fixes "Working..." persisting in the AppLayout sidebar after an execute error
+   - Was: only task row updated to `failed`; agent remained `active`
+   - Now: agent immediately cleared alongside the task failure write
+
+TypeScript: exit 0 | ESLint: 0 errors | No migration required (cancelled stored as string in existing status column)
 
 ## executeTask Pooled Key Fallback — SHIPPED (0edc12d, 260420)
 Session: [GL | COMMAND | executeTask Pooled Key Fix | 260420]
