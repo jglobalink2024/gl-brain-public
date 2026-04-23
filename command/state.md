@@ -1,6 +1,33 @@
 # COMMAND — Current State
 Last updated: 260423
 
+## 260423 — Session Close: Dev Dashboard + Golden Path Scaffold
+
+**Shipped:**
+- /dev dashboard hardened (commits 022f6d8 + bb979d0)
+- dev_logs migration applied
+- DEV_EMAILS env var set, Vercel redeploy confirmed
+- Parked-bugs doctrine locked
+- Golden Path definition locked (state consistency test)
+
+**In-flight (handed to next thread):**
+- Golden Path Playwright scaffold — discovery done, decisions approved, Opus/Playwright Claude writing now
+- Eric delay message drafts (not sent)
+- First Golden Path run (expected red)
+
+**Methodology pivot locked:**
+- Old loop: multi-fix CC sessions, ~75min cycle
+- New loop: single-fix CC + Golden Path test + Dev Dashboard reset = ~22min cycle
+- Rule: no feature work until Golden Path green 48h
+- Rule: every CC prompt and Claude response opens with CALIBER + model recommendation
+
+**RAP doctrine gap identified:**
+- Not enforced across all Claude instances
+- Fix: every project must load BRAIN_HOW_IT_WORKS.md + POINTER file + GL operator preamble
+- Gap to close in next thread's project setup
+
+---
+
 ## 260423 — /DEV DASHBOARD RAP REVIEW (9 blockers closed)
 
 Session: [GL/COMMAND | DEV DASHBOARD | 4-agent RAP review · 9 blockers fixed · atomic RPCs · durable audit | 260423]
@@ -1075,6 +1102,54 @@ Stripe FM: https://buy.stripe.com/9B68wRgwAcp8dt2dJp9k407
 Stripe Pro: https://buy.stripe.com/bJe00lfsw74O74E5cT9k408
 
 ## Build State
+
+### Golden Path — Locked 260423
+
+**Definition of "works":**
+
+"A user in their workspace dispatches a research task with
+ASSIGN TO = Perplexity-Intel and THEN SEND TO = Claude-Drafting
+pre-configured, Perplexity receives it, completes, Claude
+auto-fires with Perplexity's output as context, Claude completes,
+both agents return to Idle — with zero audit_ledger inconsistency
+flags and State Inspector showing all tasks complete."
+
+**Test:** `command-app/command-app/e2e/golden-path.spec.ts`
+
+**Status:** 🔴 Red (to be confirmed after first run)
+
+**Rule:** No feature work, no Eric invite, no São Paulo announcement
+until this test has been green for 48 consecutive hours.
+
+**Non-Golden-Path bugs:** parked in `command/parked-bugs.md`.
+Reviewed only after 48h green threshold met — one at a time,
+with regression test first, never bundled.
+
+**Architecture decisions locked this session:**
+- Reset via `/api/dev/reset/nuclear` (bypasses triple-confirm UI theater;
+  separate UI theater test to be written later, not for Golden Path)
+- Selectors via unique placeholder text + `.roster-row + hasText`
+  (no data attributes exist on agent sidebar — documented, not added)
+- Output assertion via `/api/dev/state` polling (robust vs DOM scraping)
+- ASSIGN TO + THEN SEND TO set explicitly (not Auto) — router scoring is
+  a separate test, not Golden Path concern
+- Seed guard at test top (self-healing across fresh accounts)
+- Port from `playwright.config.ts` baseURL (no hardcoded :3000 / :3333)
+- Pre-push gate runs `test:golden:smoke` only (~3 min), not full E2E
+
+**Green 48h start date:** [fill when first hit green]
+**Green 48h achieved date:** [fill when 48h elapsed without regression]
+**Eric invite eligible:** Green 48h achieved + 0 intervening pushes to prod
+
+**Related artifacts (this session):**
+- `app/api/health/route.ts` — new endpoint for pre-push probe + uptime monitoring
+- `.husky/pre-push` — smoke-variant gate (requires `npm install --save-dev husky` + `npx husky init`)
+- `package.json` — `test:golden`, `test:golden:smoke`, `test:golden:full` scripts
+- `gl-brain/command/parked-bugs.md` — queue of deferred fixes (empty at init)
+- `gl-brain/command/drafts/eric-delay-softer.md` + `eric-delay-firmer.md` — pick one, send within 48h
+
+---
+
 Phase 1 + 1.5: COMPLETE
 Phase 2: COMPLETE — all 15 sub-phases + all audit
   fixes shipped. Product is audit-clean.
