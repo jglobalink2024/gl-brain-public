@@ -1,6 +1,35 @@
 # COMMAND — Current State
 Last updated: 260423
 
+## 260423 — Task Lifecycle Canonical Architecture Doc (16a12b8)
+
+Session: [GL | COMMAND | Task Lifecycle Architecture · Diagnostic Map | 260423]
+
+### What changed (commit 16a12b8 on gl-brain)
+
+**NEW — `command/architecture/task-lifecycle.md` (432 lines, ~5.5K words)**
+Canonical ground-truth doc for every surface that reads or writes task/agent state. Built from direct reads of 20+ source files + live Supabase schema query (ycxaohezeoiyrvuhlzsk). Created the `command/architecture/` folder.
+
+Covers: (1) state sources with file:line writers/readers for agents.status, agents.current_task, tasks.status, tasks.next_task_id/auto_execute/chain_id, credits, audit_ledger, task_executions, Zustand store; (2) full mermaid state machine with allowed transitions + side effects; (3) credit accounting trace; (4) chain execution end-to-end (3 entrypoints, 2 implementations); (5) router decision tree (keyword 50% + history 30% + semantic 20%-stub); (6) sidebar polling (5/15/30s adaptive, no Realtime on agents); (7) execution_mode enforcement (with note that the column doesn't exist in DB); (8) 9 ranked inconsistencies; (9) 6-batch coordinated fix plan grouped by state surface not symptom.
+
+### Top findings (ranked)
+- **I-1 Chain fratricide** — 3 `triggerAutoHandoff` entrypoints, 2 implementations. `app/api/agents/proxy/route.ts:131` has a private forked copy with different CCF construction. Most likely root cause of "chain fires sometimes, not others."
+- **I-2 `tasks.execution_mode` does not exist in schema** — confirmed via `information_schema.columns`. It's a UI-derived prop only. Explains manual-flow-button-on-auto-task and refresh-loses-mode bugs.
+- **I-4/I-5 Credit lifecycle broken** — deducted once on client dispatch using `routing.estimatedCost` (not actual tokens), never refunded on failure, never charged on chain-fired tasks. `beforeLLMCall/afterLLMCall` in `lib/credit-hooks.ts` are documented TODOs, never wired.
+- **I-3 Sidebar has no Realtime subscription on agents table** — only `audit_ledger` is subscribed (AgentCard.tsx:173-215). Agent status propagates via 5–30s polling, so chain auto-fired tasks leave the sidebar stuck until next poll.
+- **I-6 audit_ledger mid-refactor** — 19293c6 → `.upsert`, 6845bf5 → reverted 7 sites to `.insert`. Inconsistent across writers.
+
+### Recommended fix order (from doc §9)
+Batch A (collapse 3 autoHandoff paths → 1) is highest ROI; unblocks cleanup of I-3 and I-5. Then B (server-side agent status + Realtime), C (persist execution_mode + preconfigured_handoff_agent_id migration), D (credit lifecycle rewrite with idempotency key), E (one ledger writer), F (router semantics — semantic stub).
+
+### Mode
+DIAGNOSTIC ONLY. No code changes to command-app. No state.md update during session (this entry is the session log per closeout protocol). Single artifact: the architecture doc + download copy at `C:\Users\jdavi\Downloads\task-lifecycle.md`.
+
+### What's next
+Next build session should pick Batch A and plan the autoHandoff consolidation against the doc before writing code. Doc is now the prerequisite read for every task/agent fix — if a PR changes a write site, the doc must be updated in the same commit.
+
+---
+
 ## 260423 — CI Failure Fix: Brain Sync Retarget + Symphony Scope Fix
 
 Session: [GL | OPS | CI Failure Fix · Brain Sync Retarget · Symphony Scope | 260423]
