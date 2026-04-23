@@ -1,5 +1,37 @@
 # COMMAND — Decisions Register
-Last updated: 260413-4
+Last updated: 260420
+
+## 260422 — audit_ledger writes use upsert + ignoreDuplicates, not insert
+Decision: All `audit_ledger` inserts in `executeTask.ts` and `autoHandoff.ts`
+  use `.upsert({}, { onConflict: 'id', ignoreDuplicates: true })`.
+Rationale: `executeTask` and `autoHandoff` both write to audit_ledger in the
+  same request cycle. Both do SELECT MAX(entry_seq) then +1 without a
+  transaction, creating a race condition that produces 409 conflicts on the
+  unique id. upsert+ignoreDuplicates silences collisions without losing data.
+Pattern: Any new audit_ledger write must use upsert, not insert.
+  entry_seq is best-effort — do not add a unique constraint on it.
+
+## 260422 — getPooledKey is the canonical fallback for all vendor keys
+Decision: Every route that makes a vendor API call must use BYOK key first,
+  then `getPooledKey(vendor)` as fallback. Never hardcode
+  `process.env.ANTHROPIC_API_KEY` directly in route files.
+Rationale: `refine/route.ts` bypassed `getPooledKey` causing 422s for
+  workspaces without BYOK. `executeTask.ts` already used this pattern.
+  Standardizing across all routes prevents recurrence.
+Pattern: `const apiKey = workspace?.vendor_key?.trim() || getPooledKey('vendor');`
+
+## 260420 — Public mirror sync = blocklist, not allowlist
+Decision: sync-public.yml uses recursive rsync with a single exclude (gl/entities.md)
+  rather than explicit cp-by-file.
+Rationale: Allowlist silently drops new subdirectories (symphony/**) and any new
+  top-level files — public mirror got stuck 14+ files behind private, blocking
+  agent-5 and all multi-instance Claude workflows from reading current state.
+Pattern: "sync everything under command/ and gl/, exclude only gl/entities.md."
+  Any future private-only file must also be added to the exclude list explicitly.
+Safety invariant: gl/entities.md is the ONLY private file. Re-verify before adding
+  any new gl/ content that might contain prospect/pipeline data.
+
+
 
 ## 260413 — Ops-watchdog run logs committed to git (not local-only)
 Decision: Write run logs to docs/ops/ inside the repo, committed after every run.

@@ -1,5 +1,5 @@
 # COMMAND — Killed Items Register
-Last updated: 260413
+Last updated: 260420
 
 ## Browser Extension for Context Injection — DEAD
 Killed: Security assessment
@@ -52,3 +52,8 @@ Reason: Maps to 5 existing prior art kills: Cognitive Stigmergy
 Biology language: Retired per SOP v8 Section 13.
 Pain story captured as discovery call ammunition.
 Revive condition: Never
+
+## Banned Language
+
+### 260420 — "circle back"
+Added to banned list after Jason edited "circle back" → "hit you back up" in Grant Carlson follow-up. Corporate verb; peer frame demands casual.

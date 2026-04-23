@@ -4,7 +4,7 @@
 
 This file is load-bearing. Every Claude instance (Chat, Code, Cowork, Chrome)
 must conform to this format on every non-trivial response.
-Fetch URL: https://raw.githubusercontent.com/jglobalink2024/globalink-brain-public/main/gl/format.md
+Fetch URL: https://raw.githubusercontent.com/jglobalink2024/gl-brain-public/main/gl/format.md
 
 ---
 
