@@ -1,6 +1,40 @@
 # COMMAND — Current State
 Last updated: 260423
 
+## 260423 — CI Failure Fix: Brain Sync Retarget + Symphony Scope Fix
+
+Session: [GL | OPS | CI Failure Fix · Brain Sync Retarget · Symphony Scope | 260423]
+
+### What changed
+
+**gl-brain sync-public.yml** (commit 0378b66 on gl-brain)
+- Retargeted public mirror from archived `globalink-brain-public` → active `gl-brain-public` (3 locations)
+- Removed unused `token:` on self-checkout (default GITHUB_TOKEN suffices)
+- Renamed workflow secret `GLOBALINK_BRAIN_TOKEN` → `GL_BRAIN_TOKEN`
+- Jason created new classic PAT (repo + workflow scopes) and added as `GL_BRAIN_TOKEN` secret on gl-brain
+- Next push succeeded — sync now green
+
+**command-app CI** (not yet pushed — pending preflight)
+- `playwright.config.ts` — added `testIgnore: ["**/symphony_v12/**"]` for default runs. Symphony v12 preflight specs hardcode production URL and were sweeping into default CI, causing bill02/credit/agent_state failures on every push. They now only run under `SYMPHONY_V12=1`.
+- `e2e/pressure.spec.ts` — stale `/settings/keys` route (merged into `/settings/integrations` in commit 53fa294) replaced; heading check updated to "Integrations"
+- Empty `app/(app)/settings/keys/` directory deleted
+
+**Root CLAUDE.md** — 13 stale references `globalink-brain` → `gl-brain`
+
+**Memory** — `project_brain_topology.md` updated: gl-brain canonical, globalink-brain + -public archived 260422, secret name `GL_BRAIN_TOKEN`
+
+### Root cause
+Brain rename `globalink-brain` → `gl-brain` (done 260422) left three trailing problems:
+1. Sync workflow still pointed at archived public mirror + referenced secret that wasn't migrated
+2. CLAUDE.md at repos root still pointed at the old path
+3. Unrelated: symphony_v12 preflight specs had been failing CI for weeks, being swept into default runs despite being intended for explicit deploy verification
+
+### Status
+- gl-brain sync: ✅ green
+- command-app CI: ⏳ pending push + CI run to verify symphony_v12 exclusion fixes the failures
+
+---
+
 ## 260423 — Batches A + E shipped (78b078d)
 
 Session: [GL | COMMAND | autoHandoff Collapse · audit_ledger Single Writer | 260423]
