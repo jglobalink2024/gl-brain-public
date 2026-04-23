@@ -608,3 +608,40 @@ These are different, though v12 used them interchangeably.
 - PARTIAL on C3 → product defect, must fix before ship
 - Both require the same immediate response (fix the gap), but the
   root cause and remediation path differ
+
+---
+
+## FM ($99 Founding Member) Placement — HARD RULE (LOCKED 260423)
+
+The $99 Founding Member Pro CTA has a strict placement boundary. This
+rule has been violated and caught repeatedly in Symphony QA
+(J17 260410, J29 260410, JC-05 audit). Codifying here so violations
+are caught at build time, not discovery time.
+
+**ALLOWED surfaces (FM $99 may appear):**
+- Public landing: `command.globalinkservices.io` and sub-pages
+- Sales syllabus / one-pagers (`public/sales/*.html`)
+- Outbound outreach sequences (FM close-push emails)
+- Checkout link: `buy.stripe.com/9B68wRgwAcp8dt2dJp9k407`
+
+**FORBIDDEN surfaces (FM $99 must NOT appear):**
+- Authenticated app: `app.command.globalinkservices.io/**`
+- `/pricing` page inside the app (shows Standard Pro $149 only)
+- `/settings/billing` page (shows 4 standard tiers)
+- Any in-product upgrade CTA
+
+**In-app pricing grid (canonical):**
+- Solo — $49/mo
+- Pro — $149/mo  ← "MOST POPULAR" badge
+- Studio — $349/mo
+- Agency — $799/mo
+
+**Detection:** Preflight must grep the `app/` tree for `$99`, `FM`,
+and `Founding Member` strings; any match inside `app/` (except
+`app/components/marketing/` allowlist) is a P0 hard-rule violation.
+
+**Rationale:** FM is a pilot cohort offer (25 seats, time-boxed).
+Surfacing it in-app tells existing paid users their rate was wrong
+and tells free-tier users they can sidestep Pro. Lateral pricing
+leakage destroys the cohort scarcity mechanic and poisons future
+self-serve upgrade conversion.
