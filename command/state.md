@@ -3,6 +3,8 @@ Last updated: 260423
 
 ## 260423 — Session Close: Dev Dashboard + Golden Path Scaffold
 
+Session: [GL/COMMAND | SESSION CLOSE | session delta · closeout chat-name enforcement | 260423]
+
 **Shipped:**
 - /dev dashboard hardened (commits 022f6d8 + bb979d0)
 - dev_logs migration applied
