@@ -1,6 +1,41 @@
 # COMMAND — Current State
 Last updated: 260423
 
+## 260423 — FIX 1/2/3: entry_seq trigger + strict auto exec gate + Anthropic timeout hardening (60eeec0)
+
+Session: [GL/COMMAND | PIPELINE | audit_ledger entry_seq 23505 · auto exec UI gate · Anthropic 90s | 260423]
+
+### What changed (commit 60eeec0)
+
+**FIX 1 — audit_ledger 23505 race: trigger + retry hardening**
+- Root cause: two concurrent writes both compute MAX(entry_seq)+1 from the same snapshot → 23505 unique_violation.
+- `writeLedgerEntry` retry: maxRetries 3→10, exponential backoff 50ms–2000ms (was: immediate retry).
+- New migration: `20260423100000_audit_ledger_entry_seq_trigger.sql` — BEFORE INSERT trigger with `pg_advisory_xact_lock(hashtext(workspace_id))` serializes concurrent inserts. Trigger fires only when entry_seq IS NULL (safety net for code paths that omit it). Existing code provides entry_seq; retry loop handles the rare conflict.
+- `lib/types.ts`: added `vendor_timeout_retry` to LedgerEventType union.
+
+**FIX 2 — TaskBriefCard: strict isAutoExecuting gate**
+- Old gate: `!autoExecActive && brief.executionMode !== 'auto'` — broke on page refresh (executionMode lost in memory) and during TaskOutputPanel state delay.
+- New gate: `isAutoExecuting = brief.executionMode === 'auto' || autoExecActive || task.status === 'active' || task.status === 'complete'` — reads live status from Zustand store by taskId.
+- All manual flow elements (Copy Task Brief, "Open and paste", Mark In Progress, Mark Complete) hidden when isAutoExecuting. Ref: §1.4, §7, I-2.
+
+**FIX 3 — Anthropic 30s→90s timeout + retry-once + verbose logging**
+- VENDOR_TIMEOUT_MS: 30000→90000.
+- Verbose logging added: `[anthropic] request: { model, keyPrefix, messagesCount, systemLength, isRetry }` and `[anthropic] response: { status, elapsed }`.
+- Retry-once on AbortError: writes `vendor_timeout_retry` audit event, waits 2s, fires second attempt with fresh AbortController. If second also times out, falls through to standard failure path.
+- Error message updated: "30 seconds" → "90 seconds".
+- TaskOutputPanel elapsed display: now shows `(limit 90s)` alongside running timer.
+
+### Architecture status
+- I-6 (audit_ledger 23505 race): HARDENED — 10 retries + advisory lock trigger
+- I-2 (execution_mode not persisted): CLOSED — isAutoExecuting gate reads store task status as fallback
+- Vendor timeout: 90s limit, retry-once before fail, full audit trail
+
+### Pending migrations
+- `20260423100000_audit_ledger_entry_seq_trigger.sql` (new this session)
+- `20260423_user_intent_execution_mode.sql` (prior session, still open)
+
+---
+
 ## 260423 — FIX 1/2/3: audit_ledger 0A000 + user_intent + execution_mode (e9e1f02)
 
 Session: [GL/COMMAND | PIPELINE | audit_ledger 0A000 · user_intent · execution_mode | 260423]
