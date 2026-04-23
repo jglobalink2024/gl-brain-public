@@ -1,6 +1,36 @@
 # COMMAND — Current State
 Last updated: 260423
 
+## 260423 — FIX 1/2/3: audit_ledger 0A000 + user_intent + execution_mode (e9e1f02)
+
+Session: [GL/COMMAND | PIPELINE | audit_ledger 0A000 · user_intent · execution_mode | 260423]
+
+### What changed (commit e9e1f02)
+
+**FIX 1 — lib/ledger.ts: upsert → insert (resolves Postgres 0A000)**
+- Root cause: `audit_ledger` has `audit_no_update` Postgres RULE (migration 001 line 137) which blocks any UPDATE rewrite — including `ON CONFLICT DO UPDATE` used by `.upsert()`.
+- Fix: switched `_attemptLedgerWrite` from `.upsert()` to `.insert()`. Existing 23505 retry loop handles entry_seq race conditions.
+- I-6 residual cause identified and closed.
+
+**FIX 2 — tasks.user_intent + UI field**
+- Added "What does success look like?" textarea (below task description, above filter grid). Highlights amber when THEN SEND TO populated.
+- Written to `tasks.user_intent` via client UPDATE within 4s override window.
+- executeTask.ts reads user_intent and injects as `## User's Stated End Goal` in system prompt.
+- Shown on TaskBrief card as italic "Goal: [text]".
+
+**FIX 3 — tasks.execution_mode persistence**
+- Column `tasks.execution_mode TEXT DEFAULT 'manual'` added (same migration).
+- executeTask.ts writes it at execution entry. Router page writes it on dispatch.
+- Addresses I-2 — execution_mode survives page refresh.
+
+**Migration pending:** `20260423_user_intent_execution_mode.sql` in PENDING_ACTIONS.md.
+
+### Architecture status
+- I-2 (execution_mode not persisted): CLOSED pending migration apply
+- I-6 (audit_ledger 0A000 root cause): CLOSED
+
+---
+
 ## 260423 — Post-Batch-E Hot Fixes: onConflict + router + vendor timeout (40c31fd)
 
 Session: [GL/COMMAND | PIPELINE | ledger onConflict · router weights · vendor timeout | 260423]
