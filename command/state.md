@@ -1,6 +1,40 @@
 # COMMAND — Current State
 Last updated: 260423
 
+## 260423 — FIX 1/2/3: chain auto-dispatch + router research keywords + audit_ledger trigger (6236bcf)
+
+Session: [GL/COMMAND | PIPELINE | chain dispatch race · router research · audit_ledger entry_seq | 260423]
+
+### What changed (commit 6236bcf)
+
+**FIX 1 — Chain not auto-firing (next_task_id=NULL race)**
+- Root cause: `/api/tasks/chain` never called at dispatch time → `task_A.next_task_id` always NULL → `autoHandoff` exits immediately at guard check.
+- `app/router/page.tsx handleAutoExecute`: after `dispatchTask` returns `taskId`, if `handoffTo` set → create task_B (queued placeholder) + POST `/api/tasks/chain` AWAITED before `routeAndExecute` fires.
+- `app/router/page.tsx handleDispatch`: same chain setup for the manual dispatch path, before `setDispatchBrief`.
+- `lib/pipeline/autoHandoff.ts`: verbose logging at every exit path — `[autoHandoff] ENTER / task fetch / guard check / plan gate / dispatching` — structured objects for log filtering.
+
+**FIX 2 — Router routes research tasks to wrong agent**
+- `lib/task-router-engine.ts inferTaskTypeFromDescription`: expanded research regex → adds `identify and analyze`, `comparative`, `highest-rated`, `market research`, `competitive analysis`, `most widely adopted`, `best for`, `\btop \d`.
+- `lib/pipeline/semanticMatcher.ts inferTaskType`: same regex expansion (mirrors engine).
+- `semanticMatcher.ts computeKeywordScore`: type-match base score 80→100, no-match 30→20.
+- Added `[router] task_type / agent scores / selected` console logs after scoring sort.
+
+**FIX 3 — audit_ledger 409 with trigger present**
+- Trigger `audit_ledger_entry_seq_trigger` confirmed applied (pg_trigger query).
+- Root cause: trigger fires only when `entry_seq IS NULL` — code was passing `entry_seq: sequence` (non-null) so trigger never ran → race still occurred.
+- Fix: `lib/ledger.ts _attemptLedgerWrite` now passes `entry_seq: null as any` → trigger fires, advisory lock serializes concurrent inserts → no more 23505.
+- Both 260423 migrations confirmed applied and marked complete in PENDING_ACTIONS.md.
+
+### Architecture status
+- I-6 (audit_ledger entry_seq race): CLOSED — trigger + advisory lock now active
+- I-7 (router picks wrong agent): IMPROVED — research regex expanded, type-match weight 100, mismatch cap 20
+- Chain auto-dispatch: ROOT CAUSE FIXED — chain API wired at dispatch time before executeTask
+
+### Pending migrations
+- None (both 260423 migrations confirmed applied)
+
+---
+
 ## 260423 — FIX 1/2/3: entry_seq trigger + strict auto exec gate + Anthropic timeout hardening (60eeec0)
 
 Session: [GL/COMMAND | PIPELINE | audit_ledger entry_seq 23505 · auto exec UI gate · Anthropic 90s | 260423]
