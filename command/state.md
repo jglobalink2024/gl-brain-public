@@ -1,6 +1,43 @@
 # COMMAND — Current State
 Last updated: 260423
 
+## 260423 — Post-Batch-E Hot Fixes: onConflict + router + vendor timeout (40c31fd)
+
+Session: [GL/COMMAND | PIPELINE | ledger onConflict · router weights · vendor timeout | 260423]
+
+### What changed (commit 40c31fd)
+
+**FIX 1 — lib/ledger.ts: `onConflict` corrected to `workspace_id,entry_seq`**
+- Root cause of residual 400s after Batch E: canonical writer `_attemptLedgerWrite` was using `onConflict: "id"` + `ignoreDuplicates: true`. Since `id` is always a fresh `evt_${Date.now()}_${random}`, the clause never fired on the real constraint. Concurrent writes colliding on `(workspace_id, entry_seq)` returned 400 instead of triggering the 23505 retry.
+- Fix: `onConflict: "workspace_id,entry_seq"` (no `ignoreDuplicates`). On seq collision, `DO UPDATE` last-writer-wins — hash chain stays valid. Added `console.error` logging on upsert error with `.message` and `.code` for future diagnostics.
+- I-6 is now fully closed.
+
+**FIX 2 — lib/pipeline/semanticMatcher.ts: weight redistribution + type-match boost**
+- Weight rebalance: `keyword 50% + history 30% + semantic 20%` → `keyword 60% + history 40%`. Dead 20% semantic stub removed from formula.
+- Type-match base score: `60 → 80` (mismatch cap stays 30). Prevents history-loaded wrong-type agents from outscoring clear keyword matches.
+- Effect: research task with "research" keyword routes to `agent_type='research'` agent even when opponent has historyScore=100.
+- Updated header comment and `combinedScore` field JSDoc.
+
+**FIX 3 — lib/pipeline/executeTask.ts: vendor_timeout audit event + task/agent status fix**
+- Prior AbortError handler returned early, leaving task in `active` and agent in `active` permanently (no status update, no audit trail).
+- Fix: AbortError now sets `isVendorTimeout = true` + `executionError = '...'` and falls through to the shared failure path (task→failed, agent→idle).
+- Added `vendor_timeout` audit_ledger event after `task_executed` event when timeout occurred: includes `vendor`, `model`, `elapsed_ms` for next-session diagnostics.
+- Added `"vendor_timeout"` to `LedgerEventType` union in `lib/types.ts`.
+
+**FIX 3.1 — Model audit (STEP 3.1)**
+- Grepped entire codebase for `claude-3-5-sonnet`, `claude-3-sonnet`, `claude-3-opus`, `claude-3-haiku` in all `.ts` and `.tsx` files. Zero hits in runtime code. References in `docs/` and `tests/personas/` are documentation artifacts only.
+- `executeTask.ts:556` already uses `claude-sonnet-4-5` — no change needed.
+
+### Architecture status
+- I-6 (audit_ledger): CLOSED
+- I-7 (router picks wrong agent): MITIGATED — keyword weight 60%, type-match base 80. Full fix requires Phase 3 embeddings.
+- Vendor timeout: task/agent status updates now guaranteed on AbortError; audit event emitted.
+
+### What's next
+Batch A (collapse 3 autoHandoff paths → I-1), Batch B (Realtime agent status), Batch C (execution_mode column migration)
+
+---
+
 ## 260423 — Batch E Complete: All audit_ledger writes via writeLedgerEntry (6ee63bf)
 
 Session: [GL | COMMAND | Batch E Complete · audit_ledger Single Writer | 260423]
