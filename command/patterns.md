@@ -105,33 +105,31 @@ New routes not in baseline = uncovered monitoring gap → queue for self-patch.
 Removed routes still in baseline = dead checks → flag and remove.
 Always compare local vs production commit SHA — catches silent deploy failures.
 
-## Chat/Thread Naming Convention (LOCKED 260413, UPDATED 260416)
-Name every Claude.ai chat based on the ENTIRETY of the
-conversation — not just the opening topic.
+## Chat/Thread Naming Convention (LOCKED 260413, UPDATED 260423)
 
-CANONICAL FORMAT: [GL | WORKSTREAM | Topic · Topic | YYMMDD]
+**Canonical source:** `shared/chat-naming.md` (mirrored across all 3 brains).
 
-HARD RULES:
-1. Leading namespace is always "GL" — never "COMMAND" or any project name
-2. Separator between topics is middle-dot "·" (U+00B7) — never "-" or ","
-3. Date = START date of the chat (when it was created/opened — NOT last activity)
-   If uncertain about start date, Claude asks Jason before naming
-4. Brackets [ ] are required
-5. Pipe with spaces " | " separates all sections
+FORMAT: `[ENTITY/SUBPROJECT | WORKSTREAM | Topic · Topic | YYMMDD]`
+
+Key changes in 260423 revision:
+- Entity now takes a `/SUBPROJECT` suffix when work is product-specific
+  (e.g. `GL/COMMAND`, `GL/TRAVERSE`, `HEARTH/ORACLE`). Indexing-friendly.
+- `GL` alone is only valid for cross-product work (brand, finance, legal).
+- `COMMAND` as a standalone namespace is **retired** — use `GL/COMMAND`.
 
 VALID EXAMPLES:
-✅ [GL | QA | F01-F02 OAuth Fix · Dependabot #8 | 260416]
-✅ [GL | OPS | File Lifecycle Policy · Cleanup Agent · Chat Naming Fix | 260416]
+✅ `[GL/COMMAND | QA | F01-F02 OAuth Fix · Dependabot #8 | 260416]`
+✅ `[GL/TRAVERSE | TECH | Itinerary Engine · Schema | 260425]`
+✅ `[HEARTH/ORACLE | OPS | Dashboard Bootstrap | 260421]`
+✅ `[GL | MKT | Cross-Product Voice Audit | 260418]`
 
 INVALID EXAMPLES:
-❌ COMMAND | QA | F01-F02 OAuth Fix + Dependabot #8 | 260416  (missing brackets, wrong namespace, wrong separator)
-❌ [GL | QA | F01-F02 | 260417]  (wrong date if chat opened 260416)
-❌ [GL | COMMAND | Phase 2 Sprint · Audit · Brain Init · 260413]  (wrong namespace)
+❌ `COMMAND | QA | ...`  (missing brackets, retired namespace)
+❌ `[GL | QA | F01-F02 | 260417]`  (wrong date if chat opened 260416)
+❌ `[GL | COMMAND | Phase 2 | 260413]`  (COMMAND in workstream slot, not entity slot)
 
-Never name a chat based only on the opening question.
-Never use the current date if the chat started on a different day — always use start date.
-Review the full conversation before naming.
-Always suggest a thread name when the session is closing out.
+Full spec (entities, subprojects, workstream codes, deprecated codes):
+see `shared/chat-naming.md`.
 
 ## Pending Actions Tracking (LOCKED 260416)
 Never bury manual Jason-action deliverables in prose. Always write to
