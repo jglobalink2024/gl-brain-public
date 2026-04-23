@@ -1,6 +1,101 @@
 # COMMAND — Current State
 Last updated: 260423
 
+## 260423 — /DEV DASHBOARD RAP REVIEW (9 blockers closed)
+
+Session: [GL/COMMAND | DEV DASHBOARD | 4-agent RAP review · 9 blockers fixed · atomic RPCs · durable audit | 260423]
+
+### What changed
+4-agent Rapid Assessment Protocol review of the just-shipped /dev dashboard. Agents: Security Engineer + Code Reviewer + Database Optimizer + Frontend Developer (parallel review), then Senior Developer + Frontend Developer (parallel fix), then Project Shepherd (chief-of-staff synthesis). 9 ship-blockers closed in one pass.
+
+**Blockers fixed**
+- Sec-H1 — nuclear reset not atomic → new RPC `dev_nuclear_reset(text)` + `dev_clear_tasks(text)`, SECURITY DEFINER, REVOKE PUBLIC / GRANT service_role. Route calls via `adminClient.rpc()`.
+- Sec-H2 — destructive dev actions left no durable trail (dev_logs auto-purges 48h) → `writeDevActionAudit()` writes `event_type='dev_action'` to `audit_ledger` BEFORE each destructive op. clearAudit24h + nuclear RPC exclude dev_action rows so they survive forever.
+- Sec-H3 — smoke test had no rate-limit → module-level `activeSmoke` Map (120s TTL) + DB check for existing DEV_SMOKE_TEST tasks in queued/active/executing/in_progress/running; returns 429.
+- Code-B1 — smoke route missing `.eq("workspace_id", wid)` on tasks.result + agents reads → added.
+- Code-M1 — clear-tasks cascade order had task_chains before tasks → fixed inside RPC: task_executions → agent_handoffs → context_checkpoints → tasks → task_chains.
+- DB-H1 — logs route `.order('id', …)` didn't use `(workspace_id, created_at DESC)` index → changed to `.order('created_at', …)`.
+- FE-1 — SmokeTest SSE reader leaked on unmount → AbortController + mountedRef + runningRef; reader.cancel on unmount/retrigger; AbortError swallowed silently.
+- FE-2 — nuclear `n`-key fired 3× in <200ms → 500ms cooldown via `lastAdvanceAtRef`; strict-mode dedupe via `lastSeenTriggerRef`.
+- FE-3 — CONFIRM buttons + nuclear stage held indefinitely → 5s idle auto-reset via dedicated effects with clearTimeout.
+
+**Migrations applied 260423**
+- `20260424_dev_logs.sql` (v2 — blessed by DB Optimizer: workspace_id TEXT, rate-limited purge, EXISTS RLS, size CHECKs)
+- `20260424b_dev_admin_rpcs.sql` (atomic destructive RPCs)
+
+**Vercel:** `DEV_EMAILS=jcameron5206@proton.me` set (Production + Preview).
+
+### Verification
+- `npx tsc --noEmit` → exit 0 (post-fix)
+- `npx eslint . --quiet` → exit 0 (post-fix)
+- `.\preflight.ps1` → PASSED (post-fix, by Senior Dev agent)
+- Chief-of-staff verification: all 9 fixes confirmed present on disk, no drift.
+
+### Deferred to next session (MAJOR tier, not blockers)
+- 429 response renders as raw `STREAM ERR: HTTP 429` in SmokeTestCard — add friendly banner (10-min polish)
+- No Playwright coverage on /dev — spec covering gate redirect, smoke happy path, 429 rate-limit, nuclear triple-confirm
+- Shared types file for AgentRow/TaskRow/AuditRow (drift risk)
+- `copy()` fallback for non-HTTPS contexts
+- `:focus-visible` outline on inline btn() styles
+- `aria-expanded` on collapsible sections
+- `as any` cleanup in pipeline files (executeTask taskQuery, autoHandoff execution_error) once dev_logs types regenerated
+
+### Process note (RAP enforcement)
+Jason flagged that RAP was skipped on the initial dev dashboard build. Fix: saved `feedback_rap_enforcement.md` as standing preference. Every non-trivial task in every Claude surface (Code, Chat, Chrome, Cursor) now requires stating `RAP: Activated [Agent] — [reason]` before the first non-lookup tool call. This review was the first demonstration of the doctrine — 4 agents caught 9 issues the solo build missed.
+
+---
+
+## 260423 — DEV DASHBOARD SHIPPED (/dev debugging control room)
+
+Session: [GL/COMMAND | DEV DASHBOARD | /dev gated panel · smoke test · log stream · reset tools | 260423]
+
+### What shipped
+Complete `/dev` dashboard — Jason's hourly-use debugging control room and foundation for future user-facing queue management.
+
+**Files created**
+- `supabase/migrations/20260424_dev_logs.sql` — dev_logs table, idx, `purge_old_dev_logs()` SECURITY DEFINER func, AFTER INSERT FOR EACH STATEMENT trigger (48h auto-purge, O(1) writer cost), RLS owner-only SELECT/DELETE safety net
+- `lib/dev-logger.ts` — `devLog(workspaceId, namespace, level, message, metadata?)` fire-and-forget to adminClient, swallows errors, truncates msg at 2k chars
+- `lib/dev-gate.ts` — `requireDevAccess()` returns `{ok, userId, email, workspaceId, workspaceName}` or `{ok:false, status, reason}`. Enforces email ∈ `DEV_EMAILS` + workspace ownership via adminClient.
+- `app/api/dev/gate/route.ts` — simple GET wrapper around `requireDevAccess`
+- `app/api/dev/state/route.ts` — single round-trip: agents, tasks(20), audit(20), workspace. Server computes `flag: 'active_no_task' | 'stale'` for inspector highlighting.
+- `app/api/dev/reset/[action]/route.ts` — 5 actions: clear-tasks (cascade 5 tables), reset-agents, clear-failed, clear-audit (24h), nuclear (all + starter_credits_used=0). Returns per-table row counts.
+- `app/api/dev/logs/route.ts` — GET last N + DELETE clear; tolerates missing table (returns rows:[] with warning header)
+- `app/api/dev/smoke/route.ts` — SSE runner; 9-step checklist streamed as `event: step` frames. Invokes `executeTask` server-side on a fresh Claude-agent task titled "DEV_SMOKE_TEST", then verifies ledger/agent-idle/output and cleans up.
+- `app/dev/page.tsx` — server gate, silent redirect to `/dashboard` on denial
+- `app/dev/DevDashboard.tsx` — client shell, 2-col grid + full-width state + log stream, global `r`/`n` shortcuts
+- `app/dev/components/devStyles.ts` — shared COLORS/MONO/card/btn + copy/short/agoShort helpers
+- `app/dev/components/ResetToolsCard.tsx` — 4 confirm-once + nuclear triple-confirm; live row counts polled 5s
+- `app/dev/components/StateInspectorCard.tsx` — 2s polling, AbortController chains, 4 collapsible tables, red-flag row highlight, click-to-copy IDs
+- `app/dev/components/SmokeTestCard.tsx` — SSE reader, 9-step inline checklist, click-to-copy on fail detail, `r` shortcut
+- `app/dev/components/LogStreamCard.tsx` — 3s polling, 8 namespace checkboxes, level dropdown, click-row-to-copy metadata
+
+**Files modified (devLog wired alongside existing console.log)**
+- `lib/pipeline/autoHandoff.ts` — ENTER / task-fetch-FAIL / EXIT no-next / EXIT no-auto / dispatching
+- `lib/pipeline/executeTask.ts` — ENTER / anthropic request+response / TASK COMPLETE
+- `lib/ledger.ts` — audit_ledger upsert error
+
+**Gating**
+- Email check: `DEV_EMAILS` comma-separated env var (server-side enforced on every route)
+- No nav link from user-facing UI
+- `localStorage.COMMAND_DEV` is UI-only; server always requires email
+
+### Verification
+- `npx tsc --noEmit` → exit 0
+- `npx eslint app/dev lib/dev-* app/api/dev lib/pipeline/autoHandoff.ts lib/pipeline/executeTask.ts lib/ledger.ts --quiet` → exit 0
+
+### Jason actions required (PENDING_ACTIONS.md updated)
+1. Apply `20260424_dev_logs.sql` via Supabase SQL Editor (ycxaohezeoiyrvuhlzsk)
+2. Add Vercel env var `DEV_EMAILS=jcameron5206@proton.me`
+3. Post-deploy: sign in, visit `/dev`, press `r` → expect 7/9 green (context_checkpoint + handoff_triggered skipped for single-task smoke)
+
+### Notes
+- `dev_logs` not yet in generated `Database` types → dev-logger.ts + /api/dev/logs route cast through `any` for `.from("dev_logs")`. Regenerate types after migration applies to remove casts.
+- Reset routes use `.delete({ count: "exact" }).eq("workspace_id", wid)` for accurate row counts
+- Smoke test steps 6 (context_checkpoint) and 7 (handoff) marked `skip` by design — single-task smoke has no chain
+- All /dev polling pauses on `document.hidden`; initial poll scheduled via `setTimeout(0)` to satisfy react-hooks/set-state-in-effect
+
+---
+
 ## 260423 — FIX 1/2/3: chain auto-dispatch + router research keywords + audit_ledger trigger (6236bcf)
 
 Session: [GL/COMMAND | PIPELINE | chain dispatch race · router research · audit_ledger entry_seq | 260423]
