@@ -1,6 +1,42 @@
 # COMMAND — Current State
 Last updated: 260423
 
+## 260423 — Batch E Complete: All audit_ledger writes via writeLedgerEntry (6ee63bf)
+
+Session: [GL | COMMAND | Batch E Complete · audit_ledger Single Writer | 260423]
+
+### What changed (commit 6ee63bf)
+
+**Batch E residual — converted remaining 18 direct audit_ledger writes (17 originally identified + 1 missed `canvas/step/[id]`)**
+
+Files converted:
+- `app/api/agent-events/route.ts` — `webhook_event` site
+- `app/api/agent-poll/route.ts` — `agent_poll` site
+- `app/api/agents/register/route.ts` — `agent_created` site
+- `app/api/canvas/execute-step/route.ts` — `canvas_workflow_complete` site
+- `app/api/canvas/step/[id]/route.ts` — `writeAuditEntry` helper fully rewritten (missed file, discovered by grep)
+- `app/api/integrations/google/callback/route.ts` — `google_connected` site
+- `app/api/integrations/hubspot/callback/route.ts` — `hubspot_connected` site
+- `app/api/mcp/register/route.ts` — `mcp_registration` site
+- `app/api/route-task/route.ts` — `task_routed` site (was using wrong onConflict)
+- `app/api/skills/override/route.ts` — `skill_override` site
+- `app/api/webhooks/stripe/route.ts` — deleted `getNextAuditSeq` helper + rewrote `writeBillingAuditEvent` as typed wrapper + converted inline `unknown_price_id` direct write
+- `lib/mcp/updateAgentStatus.ts` — deleted `getNextAuditSeq` helper + converted `mcp_status_update` site + converted `ccf_checkpoint_created` site (dropped raw `checksum` column write; CCF checksum now in `outputTokenHash`)
+- `lib/skills/enforcer.ts` — deleted `nextAuditSeq` helper + converted all 4 sites (`skill_advisory_check`, `skill_violation_blocked` × 3)
+
+**`lib/types.ts` — extended `LedgerEventType` with 19 new event type strings:**
+`webhook_event`, `agent_poll`, `agent_created`, `google_connected`, `hubspot_connected`, `mcp_registration`, `mcp_status_update`, `ccf_checkpoint_created`, `task_routed`, `skill_override`, `skill_advisory_check`, `skill_violation_blocked`, `unknown_price_id`, `subscription_started`, `payment_failed`, `subscription_cancelled`, `subscription_updated`, `canvas_step_complete`
+
+**Verification:** `grep -r "from('audit_ledger').(upsert|insert)"` returns only `lib/ledger.ts:108` (the canonical writer). Zero direct writes outside it. `tsc --noEmit` exits 0.
+
+### Architecture status
+I-6 (audit_ledger mid-refactor inconsistency) is now **CLOSED**. All writes go through `writeLedgerEntry` with entry_seq sequencing, SHA-256 hash-chain, and 23505 retry. Batches A + E complete.
+
+### What's next
+Batch B (Realtime agent status subscriptions), Batch C (execution_mode schema + persist preconfigured_handoff_agent_id), Batch D (credit lifecycle rewrite with idempotency keys)
+
+---
+
 ## 260423 — Task Lifecycle Canonical Architecture Doc (16a12b8)
 
 Session: [GL | COMMAND | Task Lifecycle Architecture · Diagnostic Map | 260423]
