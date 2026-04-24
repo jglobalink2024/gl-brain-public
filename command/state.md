@@ -1,5 +1,28 @@
 # COMMAND — Current State
-Last updated: 260423
+Last updated: 260424
+
+## 260424 — Golden Path Smoke 3× GREEN — Gate Opens
+
+Session: [GL/COMMAND | BUILD | Golden Path Smoke · 3× Green | 260424]
+
+**Shipped:** commit `267135d`
+- `playwright.config.ts` — `dotenv.config({ override: true })` so Claude Code sandbox's pre-set `ANTHROPIC_API_KEY=""` doesn't block env load
+- `lib/pipeline/executeTask.ts` — `??` → `||` on `agent.api_key` so empty-string DB default falls through to pooled key; required comment added
+- `app/api/dev/smoke/route.ts` — step 8 status check `"completed"` → `"complete"` to match enum; debug logs removed
+- `e2e/golden-path.spec.ts` — smoke test rewritten to use `request.post()` (avoids Turbopack SSE crash); full SSE frame parsing; body shown in error on failure
+- `PENDING_ACTIONS.md` — API key rows checked off
+
+**Results:** 3 consecutive GREEN at 11.0s / 9.5s / 17.4s
+
+**Gate revised:** 48-hour hold → 24-hour hold + 1 confirming run tomorrow. Autogap queue (Canvas no-op → autoHandoff collapse → credit hooks) unlocks after that run.
+
+**Root causes closed:**
+1. Claude Code sandbox pre-sets `ANTHROPIC_API_KEY=""` — `dotenv.config()` without `override:true` skips it
+2. Seed agents have `api_key=""` in DB — `??` passes empty string, `||` falls through
+3. `executeTask` uses `status:'complete'`, smoke was checking `'completed'`
+4. Browser SSE → Turbopack crash in dev; fixed by `request.post()` in Playwright
+
+---
 
 ## 260423 — Session Close: Dev Dashboard + Golden Path Scaffold
 
