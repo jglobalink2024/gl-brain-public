@@ -24,6 +24,7 @@ Root causes fixed (ordered):
 - Every gap-hour has a dedicated research or activity — no idle
 - Autogap queue CLOSED until gate clears
 - Eric invite + São Paulo announcement STILL gated on same
+- Scheduler: Windows Task Scheduler every 6h + CC on-request + manual pre-decision checks
 
 CHAIN TEST: Structurally blocked — needs mock BYOA webhook layer
 or live external agents. Parked Tier 1.
