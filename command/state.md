@@ -1,6 +1,35 @@
 # COMMAND — Current State
 Last updated: 260424
 
+## 260424 — GOLDEN PATH SMOKE FIRST GREEN + 48H GATE OPEN
+
+Commit: 267135d fix(test): unblock Golden Path smoke
+Preceded by: 3cebd22 amend-forward (B+C recon fixes)
+Scaffold base: 0307ee4 Golden Path Playwright + pre-push gate
+
+3x GREEN runs: 11.0s / 9.5s / 17.4s. Zero retries.
+
+Root causes fixed (ordered):
+1. DEV_EMAILS missing in .env.local (local-only, Vercel had it)
+2. ANTHROPIC_API_KEY="" from Claude Code sandbox pre-load blocked dotenv load
+3. Expired ANTHROPIC_API_KEY — rotated to dedicated test key
+4. api_key resolution used ?? — empty string passed nullish, changed to ||
+5. status enum mismatch "completed" vs "complete"
+6. SSE reader crash in browser path — migrated to request.post
+
+48h GATE ACTIVE:
+- Start: 260424 (smoke 3x green timestamp)
+- Clear: 260426 (same hour)
+- Minimum: 8 runs, 0 flakes
+- Every gap-hour has a dedicated research or activity — no idle
+- Autogap queue CLOSED until gate clears
+- Eric invite + São Paulo announcement STILL gated on same
+
+CHAIN TEST: Structurally blocked — needs mock BYOA webhook layer
+or live external agents. Parked Tier 1.
+
+---
+
 ## 260424 — Golden Path Smoke 3× GREEN — Gate Opens
 
 Session: [GL/COMMAND | BUILD | Golden Path Smoke · 3× Green | 260424]

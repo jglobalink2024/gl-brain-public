@@ -19,9 +19,13 @@ No parallel work. No "while we're in there." Discipline.
 
 ---
 
-## Parked — Tier 1 (next after Golden Path stable)
+## Parked — Tier 1 (post-48h-gate-clear)
 
-(empty on initialization — add rows as bugs surface)
+- A: /api/health — add Supabase SELECT 1 ping for real DB health
+- D: Golden Path assertions upgrade — SSE parse + audit_ledger
+     zero-errors check + DB agent status=idle verification
+- Mock BYOA webhook layer — test-mode endpoint simulating external
+  agent receive + callback for chain test deterministic CI runs
 
 ### Template
 ### BUG-P1-XXX — [Title]
@@ -33,9 +37,24 @@ No parallel work. No "while we're in there." Discipline.
 
 ---
 
-## Parked — Tier 2 (nice to have, low impact)
+## Parked — Tier 2 (opportunistic)
 
-(empty on initialization)
+- 429 UX banner in SmokeTestCard
+- Playwright spec covering /dev routes end-to-end
+- Shared types file — kill as any in pipeline files
+- copy() fallback when clipboard API unavailable
+- :focus-visible styling
+- aria-expanded on collapsible cards
+- Test user teardown cascade — accumulated test users in Supabase
+  with FK constraints blocking delete; growing row count per run
+- Rotate production ANTHROPIC_API_KEY if any debug reuse happened
+
+---
+
+## Deferred Infra
+
+- Private → public brain sync Action repair (workflow broke on
+  repo rename globalink-brain → gl-brain)
 
 ---
 

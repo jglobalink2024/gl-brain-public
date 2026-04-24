@@ -643,3 +643,67 @@ Surfacing it in-app tells existing paid users their rate was wrong
 and tells free-tier users they can sidestep Pro. Lateral pricing
 leakage destroys the cohort scarcity mechanic and poisons future
 self-serve upgrade conversion.
+
+## Dotenv Override In Sandbox Environments (260424)
+Claude Code and similar runtimes pre-populate some env vars as empty
+strings. dotenv.config() without override:true respects the empty
+value and skips loading from .env file. Always use
+dotenv.config({ override: true }) for test configs.
+
+## API Key Resolution Uses || Not ?? (260424)
+const apiKey = dbKey || envKey || workspaceKey
+(NOT: dbKey ?? envKey ?? workspaceKey)
+Empty string is semantically equivalent to null for API keys. ??
+nullish check passes empty string through, causing confusing
+"key set but not working" failures. Use || to treat "" as falsy.
+
+## Dedicated Test API Keys Separate From Production (260424)
+Test keys and production keys get separate Anthropic console entries.
+Reasons: billing attribution, rate limit isolation, revocation safety,
+audit trail. Name convention: COMMAND-<surface>-test-<YYMMDD>.
+
+## Pre-Flight Gate: 48h + N Runs + 0 Flakes (260424)
+Stability gates measure environmental coverage, not attention. Time
+window catches external drift (API rate limits, cold starts, state
+accumulation). Minimum run count provides statistical confidence.
+N=8 for 48h window = roughly one every 6 hours.
+Gap-hours get dedicated forward-motion work — never idle hold.
+
+## Multi-Agent RAP + Project Shepherd Synthesis Pattern (260424)
+For builds touching 10+ files across concerns: 4 parallel specialists
+(Security Engineer, Code Reviewer, Database Optimizer, Frontend
+Developer) → blockers surfaced → 2 parallel fixers (Senior Developer,
+Frontend Developer) → 1 verifier (Project Shepherd as chief of staff)
+→ clean commit split by concern. Proven effective on /dev dashboard
+build (9 blockers closed, no drift).
+
+## Pre-Scaffold Grep Recon Never Skip (260424)
+Before writing e2e/integration tests: grep actual route paths, DOM
+selectors, seed shapes, auth patterns, env vars. 15 min of recon
+prevents wasted first run. Validated twice: 7 mismatches resolved
+pre-commit on first scaffold; "Meridian workspace" phantom fix
+avoided on amend-forward.
+
+## Run First Upgrade Assertions Second (260424)
+For test scaffold changes that strengthen signal: baseline the
+current test first, then upgrade. Stacking assertion upgrades
+before first RED makes diagnosis ambiguous.
+
+## 3 Consecutive Green Before Stability Clock (260424)
+Single green run could be coincidence. Three consecutive clean
+runs establishes baseline stability before committing to a longer
+observation window.
+
+## Workspaces.id Is TEXT Not UUID (260424)
+Universal tenant isolation key is TEXT in COMMAND schema. All FKs
+to workspaces.id must be TEXT. Never assume UUID.
+
+## SECURITY DEFINER RPC For Destructive Admin Ops (260424)
+Pattern: CREATE OR REPLACE FUNCTION ... SECURITY DEFINER SET
+search_path = public; REVOKE ALL FROM PUBLIC; GRANT EXECUTE TO
+service_role; BEGIN/COMMIT wrapper; jsonb return via GET DIAGNOSTICS.
+
+## Rate-Limited Purge Trigger Via Singleton State Table (260424)
+For statement-level AFTER INSERT triggers that could cause write
+amplification: throttle via singleton state table with last_run
+timestamp + 60s check.
