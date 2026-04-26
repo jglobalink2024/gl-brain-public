@@ -271,3 +271,70 @@ This is the right post-gate first build (260426 + unlock day).
 ---
 
 *Authored via CC read-only recon 260425. No code changed. Ready for build post-gate-clear.*
+
+---
+
+## 5b. Jason's Answers — 260426
+
+*Captured from [GL | GATE | 48h Smoke · Autogap Prep | 260424] thread.*
+
+**Q1 — Mock output content → B: Realistic fixture (CRM comparison table matching test task description)**
+Placeholder defeats the purpose. `truncateAtSentence` and `extractOpenQuestions` need real prose to operate
+meaningfully — if Claude-Drafting receives `"[MOCK] research complete"` it has nothing to carry forward.
+Fixture proves handoff is functional, not just structural.
+- Store fixture in a separate file: `e2e/fixtures/perplexity-intel-mock-output.md` — editable without touching
+  the test or route; easier to swap content shapes later
+- Cap: 2000 words max. Big enough to exercise truncation logic, small enough to commit without git bloat.
+
+**Q2 — Race condition handling → A: Poll for `status === 'failed'` first, then mock-complete**
+Determinism beats idempotency in test code. When the chain test eventually flakes, you want to know the
+exact system state — idempotent route logic is clever but harder to debug. Polling is already the Playwright
+pattern everywhere else in the suite (`expect.poll`, `waitForResponse`).
+- Tweak: poll with explicit 30s max timeout. If executeTask hasn't marked failed by then, something else is
+  wrong — surface a clean test failure, not a hang.
+
+**Q3 — Chain test file location → Move to dedicated `e2e/chain.spec.ts`**
+`--grep chain` is fragile — rename one test and the filter silently breaks, smoke run accidentally includes
+chain. File-based exclusion is robust. The smoke vs chain distinction is a meaningful architectural boundary
+(code-stability gate vs infrastructure-stability validation); file separation makes it visible.
+Cost: ~5 min during the build. Do it now while the surface is open.
+
+**Q4 — Chain test in scheduler → Out of scheduler, confirming CC recommendation**
+Scheduler is the code-stability gate. Chain test is infrastructure-stability validation. Different purposes,
+different SLAs.
+- 7–8 min/run × 8 runs = ~60 min of compute + real Anthropic token spend per gate window. Wrong SLA.
+- **When chain test SHOULD run:**
+  1. Manually before any deploy touching `lib/pipeline/`, `app/api/agents/proxy/`, or chain-related files
+  2. Once weekly as a "chain still working" sanity check
+  3. After any Slot 1+2 finding gets fixed and the fix is deployed
+
+**Q5 — security posture → Yes, workspace_id must match authenticated user's workspace**
+Every other `/api/dev/*` route enforces workspace ownership. Pattern consistency matters — unprincipled
+exceptions become the source of future bugs. DEV_EMAILS gate being small (2 emails) doesn't change the
+principle.
+- Reuse the established helper used by `/api/dev/state` and `/api/dev/reset` — do NOT write a new check.
+
+---
+
+## 6. Naming Clarification (Locked 260426)
+
+**"Slot 2" in this thread = mock BYOA webhook layer (chain test blockage).**
+autoHandoff collapse (commit 78b078d) is SHIPPED — that is a separate autogap queue item. The chain test
+blockage is the outstanding work this doc addresses. Future sessions: do not conflate these two items.
+
+---
+
+## 7. Sunday 260426 Track Plan (Updated)
+
+| Track | Work | Est. Time | Sequenced When |
+|-------|------|-----------|----------------|
+| 1 | Slots 1+2 manual verification (button click → DB confirm) | 90 min | After Run 8 GREEN |
+| 2 | Slot 3 credit hooks (token-based) | 3–5 hrs | After Track 1 |
+| 3 | F5 rewrite (J2 against current /send-task UI) | 60 min | Parallel CC during Track 2 |
+| **3.5** | **Option A build: `/api/dev/mock-agent-complete` + chain test** | **~90 min** | **Sequential after Track 2** |
+| 4 | Brain hygiene + sync Action repair | 30 min | End of Sunday |
+
+Track 3.5 inserted per Q&A lockdown. If Sunday runs long, Track 3.5 slips to Monday — Q&A is captured
+regardless. Chain test verified-working target: 260427 morning (pre-Eric invite).
+
+*Q&A appended 260426. Build-ready for Track 3.5.*
