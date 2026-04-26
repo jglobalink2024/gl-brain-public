@@ -202,4 +202,50 @@ Option B is overkill for the autogap queue. Defer to Phase 4 (Canvas Full Execut
 
 ---
 
-*Authored via CC read-only recon 260425. No code changed. Ready for build decision.*
+## 5b. Jason's Answers — 260425
+
+*Captured from [GL | GATE | 48h Smoke · Autogap Prep | 260424] thread.*
+
+**Q1 — Trigger model → B: Confirm button on "Mission Complete" screen**
+Auto-dispatch creates trust problems if a step produced garbage — Sandra is human-in-the-loop.
+Button text must interpolate agent name: **"Send result to [Agent Name]"** — specificity prevents accidental clicks.
+
+**Q2 — What goes to the downstream agent → Structured CCF-style summary**
+Format:
+```
+Workflow: [title]
+Outcome: [user's original canvas request]
+Steps:
+  1. [step title] → [step output]
+  2. [step title] → [step output]
+  ...
+```
+Not concat (loses structure) and not last-step-only (throws away upstream work).
+Cap: 8000 tokens. Over cap → warning + truncate/summarize option.
+
+**Q3 — Auto-execute or queued → Auto-execute (default), with "Hold for review" toggle**
+Sandra's confirm click IS the review. Default = auto-execute.
+Confirm modal gets an "Advanced" toggle: *"Hold in queue instead of executing immediately"*.
+Pre-check: if target agent has no api_key, confirm button is disabled with tooltip + settings link.
+
+**Q4 — Full CCF or simple task create → Full `triggerAutoHandoff` pipeline**
+Audit trail consistency. Canvas dispatches that skip CCF break the analytics data model for credit accounting (Slot 3). Future `agent_handoffs` rows must be uniform.
+Caveat: `context_checkpoints` row will have no `source_agent` (only `source_workflow`) — acceptable schema stretch.
+
+**Q5 — Credit gate behavior → "Mission Complete" shows; dispatch warns and queues**
+1. Canvas completes → "Mission Complete" renders normally
+2. Sandra clicks confirm → `checkPlanGate` runs pre-dispatch
+3. If allowed → dispatches, redirects to Router active task
+4. If denied → banner: *"Token cap reached. This task is queued — upgrade to dispatch."* + upgrade CTA + "Save as draft"
+5. Workflow stays `complete` in DB regardless — the canvas succeeded; only dispatch was blocked
+Rationale: Sandra can retry dispatch post-upgrade without re-running canvas. Work isn't lost.
+
+**Q6 — Ship timing → Phase 3 (post-Eric invite, post-revenue)**
+Sunday Track plan is already full (Slots 1+2 verification + credit hooks + F5 rewrite + brain hygiene). Adding Option A migration on top = overload risk.
+Eric's first session won't exercise canvas→Router dispatch — he's a single-task tester, not a Sandra-style power user.
+Phase 3 trigger: first paying customer + explicit ask for canvas-to-router chaining.
+Runner-up: Option C (store-only, no migration) could ship if Sunday tracks land fast. Honest call: skip it, revisit when needed.
+
+---
+
+*Authored via CC read-only recon 260425. Q&A appended 260425. No code changed. Build-ready for Phase 3.*
