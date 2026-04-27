@@ -63,7 +63,9 @@ PENDING_ACTIONS row added: Jason must set valid Anthropic key on Claude-1 via ap
 
 Session: [HEARTH/ORACLE | AI | Skills Reference v2.1 Surgical Fix · Doctrine Refresh | 260427]
 
-Step 3 RESOLVED: Interaction line was orphaned outside Design System code block in v2.1 initial draft. Surgically appended inside block — exact wording: `Interaction: Command bar + FAB + Cmd+K · Toast → Drawer → Intel Log`. Confirmed clean superset of v2.0. v2.1 now canonical. Changelog note added to file. Doctrine refresh (ORACLE-SKILLS-REFERENCE v2.1) deploying to all 12 project knowledge bases via browser API.
+Step 3 RESOLVED: Interaction line was orphaned outside Design System code block in v2.1 initial draft. Surgically appended inside block — exact wording: `Interaction: Command bar + FAB + Cmd+K · Toast → Drawer → Intel Log`. Confirmed clean superset of v2.0. v2.1 now canonical. Changelog note added to file.
+
+Doctrine refresh COMPLETE: ORACLE-SKILLS-REFERENCE-v2.1.md deployed to all 15 current Claude.ai projects (15/15 × HTTP 201). Note: project roster has grown since bootstrap run — 3 new CMD variants (GL-CMD-AOC, GL-CMD-GlobaLink), new PL-AZIMUTH, new GL-TRV, new BRAZ. All 15 received the v2.1 skills reference. Bootstrap kit (ORACLE-KB-SPEC + session-closeout + PROJECT-IDENTITY) coverage on the 5+ new projects (IDs 019d…) not verified — those projects postdate the bootstrap run and may need kit install.
 
 ---
 
