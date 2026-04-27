@@ -1,6 +1,48 @@
 # COMMAND — Current State
 Last updated: 260427
 
+## 260427 — BYOA api_key Persistence Bug Fixed [via: CC]
+
+Session: [CMD/COMMAND | TECH | BYOA api_key Save Bug · vendor-disconnect Route | 260427]
+
+**Root cause confirmed:** `/api/integrations/api-key` route did 0-row Supabase `.update()` with no row-count check. Supabase silently returns no error when 0 rows match — route returned `{ success: true }` and UI showed "Connected" while `agents.api_key` stayed NULL.
+
+**Secondary bug confirmed:** `handleVendorDisconnect` in `settings/integrations/page.tsx` wrote `api_key: null` directly from browser using anon Supabase client — bypassed server-route authorization pattern.
+
+**Fixes shipped (2 files changed, 1 file created):**
+1. `app/api/integrations/api-key/route.ts` — added `.select("id")` after `.update()`; if `updatedAgents.length === 0` returns 404 with "No agents found for this vendor" instead of silent success.
+2. `app/(app)/settings/integrations/page.tsx` — replaced direct browser Supabase write in `handleVendorDisconnect` with server fetch to new route.
+3. `app/api/integrations/vendor-disconnect/route.ts` — **new** — server-side disconnect route with workspace ownership verification.
+
+**TypeScript:** exit 0 ✓
+
+**Not yet verified end-to-end** (pending Vercel deploy). VERIFY row added to PENDING_ACTIONS.md.
+
+**Architecture note:** Proxy route (`/api/agents/proxy`) reads `workspaces.anthropic_api_key` with pooled-key fallback (f2010ee) — task execution unaffected. Agent-poll route reads ONLY `agents.api_key` — this is what was broken for BYOA polling.
+
+---
+
+## 260427 — ORACLE-KB Drive Filing: MISC Cleanup + ORACLE-SKILLS-REF v2.1 Restore [via: Cowork]
+
+Session: [GL/ORACLE | DRIVE-OPS | MISC Filing · ORACLE-SKILLS-REF v2.1 Restore | 260427]
+
+**Drive filing completed (3 steps):**
+- T2_MISC_claude_variant_reference_260427_v01 → moved from My Drive root → MISC folder
+  (Drive ID: 1_clTiFCEZSYegVSBkSyzB-oU7UCjE4H-Ug8W9O9hM6w)
+- Stub placeholder "T2_MISC....[SEE ROOT DOC]" → trashed (empty, real doc now in MISC)
+- ORACLE-SKILLS-REFERENCE-v2.1 → diff'd against v2.0 spec; v2.1 declared **canonical**
+  (strict superset: adds CALIBER gate + 6-step PRE-FLIGHT ORDER not in v2.0)
+  Missing line restored: "Interaction: Command bar + FAB + Cmd+K · Toast → Drawer → Intel Log"
+  inserted into ORACLE Dashboard Design System section. Doc saved, tab closed.
+
+**Open flag — needs own CC session:**
+- CMD | TECH | Supabase API Key Persistence Bug | 260427
+  api_key IS NULL on ALL Claude-1 agents after Jason's UI save (ws-1775661397344,
+  ws_2daeec4e, ws-1775620271312). PATCH route in Settings → Integrations silently failing.
+  Investigate before BYOA is customer-facing. Non-blocking: pooled key (f2010ee) covers it.
+
+---
+
 ## 260427 — Superhuman Go Comp Intel + Discovery Call Line [via: CC]
 
 Session: [GL/COMMAND | GTM | Superhuman Go Comp Intel · Discovery Call Line | 260427]
