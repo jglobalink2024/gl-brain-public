@@ -1,3 +1,12 @@
+⛔ DEAD DRAFT — WILL NEVER BE SENT
+Decision: 260427 — Pure Path A. No beta invites until cockpit is real.
+Eric will receive an invite when criteria 1–6 in cockpit-done-definition.md are met.
+No interim delay note, no holding message. Silence until the product is real.
+If Eric follows up, respond honestly: "Still building. Will reach out when it's ready."
+
+---
+ORIGINAL DRAFT (archived, do not send):
+
 Subject: COMMAND beta window — pushing it
 
 Eric —
