@@ -1,6 +1,33 @@
 # COMMAND — Current State
 Last updated: 260427
 
+## 260427 (cont.) — Track 7: Bug C1 Fix + Slot 1 Retest Diagnosis + Brain Updates [via: CC]
+
+Session: [GL/COMMAND | BUILD | Bug C1 Fix · Slot 1 Retest · Credit Hooks Confirm | 260427]
+
+**Credit hooks status confirmed: SHIPPED (prior session)**
+Commits b25afc9 + 59a0d1e (260427 earlier session) shipped the full credit hook stack:
+`lib/credit-hooks.ts` (beforeLLMCall + afterLLMCall), `lib/credits.ts` (deductCredits + getCreditsState),
+`lib/costs.ts` (MODEL_COSTS + calculateCost + PLAN_TOKEN_LIMITS), wired into executeTask.ts (section 6b.5)
+and pitch/route.ts. audit_ledger cost field now populated with structured cost object. Slot 3 CLEARED.
+
+**Bug C1 FIXED (commit eefa3a1):**
+`app/api/canvas/templates/use/route.ts:84-96` — removed 3 non-existent columns from INSERT:
+`template_category`, `template_description`, `template_icon`. Schema confirmed via information_schema
+query — migration 20260413600000_canvas_templates.sql was never applied to production DB.
+Templates now return 200 instead of 500. TS exit 0 | ESLint exit 0 | Preflight PASSED.
+
+**Slot 1 retest: BLOCKED (api_key required)**
+Claude-1 (agent-anthropic-1776139354187-0, ws-1776139325700) has `api_key=NULL`.
+canvasExecution.ts:65 hard-requires agent.api_key — no pooled-key fallback in canvas path.
+Button→API wire was confirmed LIVE in prior session (HTTP 200). Full chain blocked only by test setup.
+PENDING_ACTIONS row added: Jason must set valid Anthropic key on Claude-1 via app UI before 60-sec retest.
+
+**Active Fixes:**
+- eefa3a1 — fix(canvas): templates/use 500 (Bug C1) — shipped 260427
+
+---
+
 ## 260427 (cont.) — Track 6: ORACLE-KB v1.1 Full Bootstrap Deployment [via: CC]
 
 Session: [HEARTH/ORACLE | AI | ORACLE-KB v1.1 Full Bootstrap Deploy | 260427]

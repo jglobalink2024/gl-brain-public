@@ -39,6 +39,10 @@ No parallel work. No "while we're in there." Discipline.
 
 ## Parked — Tier 2 (opportunistic)
 
+- UI affordance for chain visibility — Sandra/Eric should see Agent A → Agent B handoff
+  happen, not just the final output. Currently autoHandoff fires server-side with no real-time
+  breadcrumb in the UI. Proposed: emit a Supabase Realtime event on agent_handoffs insert
+  and display "→ Handing off to [Agent B]..." in the task card. (Added 260427)
 - 429 UX banner in SmokeTestCard
 - Playwright spec covering /dev routes end-to-end
 - Shared types file — kill as any in pipeline files

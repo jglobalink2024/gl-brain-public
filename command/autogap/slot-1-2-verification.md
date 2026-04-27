@@ -145,7 +145,11 @@ These must be done before marking autogap Slots 1-2 as VERIFIED:
       — DONE 260427. Result: Playwright 2/2 PASS but C3 BLOCKED (architectural constraint,
       not a bug). Pooled-key workspaces run Agent A+B server-side; browser can't capture chain.
       Slot 2 VERIFIED via real production DB evidence (6 agent_handoffs, Apr 22-23 runs).
-- [ ] SLOT 1: Assign agent WITH api_key to test step → click "Run in [Agent]" → verify
-      execution_status='complete' in canvas_steps. Use Claude-1 (Anthropic key configured).
+- [ ] SLOT 1: Set valid Anthropic api_key on Claude-1 (agent-anthropic-1776139354187-0,
+      ws-1776139325700) via app UI Settings → Integrations. ALL agents currently show NO_KEY
+      (confirmed via DB query 260427). canvasExecution.ts:65 hard-requires agent.api_key — no
+      pooled fallback on the canvas execution path. Once key is set: open canvas, assign Claude-1
+      to a step, click "Run in Claude-1", verify execution_status='complete' in canvas_steps.
+      Bug C1 (templates 500) is FIXED (commit eefa3a1) — template flow no longer blocks testing.
 - [ ] BUG C1: Remove template_category/template_description/template_icon from
       app/api/canvas/templates/use/route.ts:84-96 INSERT (columns don't exist in schema).

@@ -257,6 +257,36 @@ first conversion attempt.
 C3 (handoff) is weighted 2x. Context handoff failure is product-thesis
 failure — no other score can compensate.
 
+## Test Specs Must Hit the Code Path Features Actually Use (260427)
+
+Specs that exercise a UI surface (e.g. "Auto-select agent") may route through
+a different internal code path than the feature being claimed (e.g. client-side
+routeAndExecute vs server-side /api/tasks/execute). Before writing a spec, trace
+the actual HTTP call chain from the UI action to the verified server-side endpoint.
+A spec that never hits the HTTP endpoint it claims to test is not evidence.
+
+## Token-Based Credit Gating for Pooled Keys (260427)
+
+When COMMAND provides the API key (pooled/starter-credits), credit gates must operate
+on tokens consumed (via calculateCost), NOT on task count. Task count is a proxy;
+tokens are the real cost driver. Architecture: beforeLLMCall → check starter_credits_used;
+afterLLMCall → deductCredits via atomic RPC (try_deduct_credits acquires FOR UPDATE lock).
+BYOK agents bypass the credit system entirely — check agent.api_key before gating.
+
+## Production Data > Synthetic Test Data for Verifying Live Features (260427)
+
+When a feature is claimed to work in production, check production DB rows (audit_ledger,
+agent_handoffs, task_executions) before declaring it verified. Synthetic test data and
+spec-created entities often exercise different code paths. Real production rows from real
+user sessions are the strongest verification signal — stronger than any Playwright run.
+
+## Multi-Track Parallel CC Work Requires Explicit Chat-Routing Per Track (260427)
+
+When running parallel CC build sessions (e.g. Track 2 credit hooks + Track 5 Slot 1 retest),
+assign each track to a named chat from session open. Brain writes from concurrent sessions
+must be appended in order at session close — never silently overwrite state.md with one track's
+view. The autogap Slot verification doc is a shared resource: write addenda, not replacements.
+
 ---
 
 ## File locations
