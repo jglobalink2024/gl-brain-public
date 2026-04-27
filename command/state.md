@@ -1,6 +1,24 @@
 # COMMAND — Current State
 Last updated: 260427
 
+## 260427 — ORACLE-KB Bootstrap Kit v1.2 Full Deployment [via: CC]
+
+Session: [HEARTH/ORACLE | AI | Bootstrap Kit v1.2 Deploy Complete | 260427]
+
+**ORACLE-KB v1.2 bootstrap kit deployed to all 12 claude.ai projects:**
+- ORACLE-KB-SPEC-v1.2.md → 12/12 projects ✓
+- session-closeout-SKILL.md → 12/12 (completed prior sessions) ✓
+- PROJECT-IDENTITY.md → 12/12 ✓ (8 prior sessions + 4 this session: RECON, SHOTO BATCH, SHOTO TRAIN, PERS)
+
+**Bug fixed:**
+- ORACLE-KB-SPEC-v1.2.md had 3 null bytes at byte position 9308 (folder tree ASCII art)
+- Created clean copy: `C:\Users\jdavi\Downloads\ORACLE-KB-SPEC-v1.2-clean.md`
+- Null-stripped version uploaded; original file in Downloads still has nulls
+
+**Delivery mechanism:** CC + CfC (`javascript_tool` authenticated fetch to `/api/organizations/{org}/projects/{pid}/docs`)
+
+---
+
 ## 260427 (cont.) — Pure Path A: Full Alignment Sweep + Waalaxy Brief [via: Cowork]
 
 Session: [GL/COMMAND | STRATEGY | Pure Path A · Full Sweep · Eric Dead · Waalaxy Brief | 260427]
