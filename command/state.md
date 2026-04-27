@@ -28,6 +28,14 @@ PENDING_ACTIONS row added: Jason must set valid Anthropic key on Claude-1 via ap
 
 ---
 
+## 260427 (cont.) — Track 8: ORACLE-SKILLS-REFERENCE v2.1 Surgical Fix + Doctrine Refresh [via: CC]
+
+Session: [HEARTH/ORACLE | AI | Skills Reference v2.1 Surgical Fix · Doctrine Refresh | 260427]
+
+Step 3 RESOLVED: Interaction line was orphaned outside Design System code block in v2.1 initial draft. Surgically appended inside block — exact wording: `Interaction: Command bar + FAB + Cmd+K · Toast → Drawer → Intel Log`. Confirmed clean superset of v2.0. v2.1 now canonical. Changelog note added to file. Doctrine refresh (ORACLE-SKILLS-REFERENCE v2.1) deploying to all 12 project knowledge bases via browser API.
+
+---
+
 ## 260427 (cont.) — Track 6: ORACLE-KB v1.1 Full Bootstrap Deployment [via: CC]
 
 Session: [HEARTH/ORACLE | AI | ORACLE-KB v1.1 Full Bootstrap Deploy | 260427]
