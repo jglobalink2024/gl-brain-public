@@ -1,6 +1,51 @@
 # COMMAND — Current State
 Last updated: 260427
 
+## 260427 (cont.) — Track 2: Slot 3 Credit Hooks COMPLETE + 5-Agent Protocol Established
+
+Session: [GL/COMMAND | BUILD | Credit Hooks · Multi-Agent Protocol | 260427]
+
+**Commits shipped:**
+- `b25afc9` feat(billing): wire credit lifecycle hooks — Slot 3 complete
+- `59a0d1e` fix(billing): 5-agent review findings — TOCTOU + error logging + model ID
+
+**Slot 3 — Credit Lifecycle Hooks: VERIFIED IMPLEMENTED**
+
+Files modified:
+- `lib/costs.ts` — added claude-sonnet-4-5 + haiku-4-5 model IDs; console.warn for unknown model
+- `lib/pipeline/executeTask.ts`:
+  - `usingPooledKey` detection (agent.api_key trim guard)
+  - Credit exhaustion gate before LLM call (`starter_credits_exhausted` errorCode)
+  - Split inputTokens/outputTokens for Anthropic (exact); 70/30 estimate for Perplexity; OpenAI uses prompt_tokens/completion_tokens directly
+  - Section 6b.5: compute costUsd, call `try_deduct_credits` on pooled calls (atomic, FOR UPDATE)
+  - Ledger cost field: structured `{ model, modelLabel, inputTokens, outputTokens, totalTokens, costUSD, provider, keyId }` replaces `cost: null`
+  - Zero-token warning; deduction failure logged for reconciliation
+- `app/api/pitch/route.ts`:
+  - Workspace lookup, message_start/message_delta token capture
+  - `await deductCredits` in finally (not void — keeps function alive)
+- `lib/credits.ts` — switched from `increment_starter_credits_used` → `try_deduct_credits` (atomic check+deduct, eliminates TOCTOU)
+- `lib/model-router.ts` — fix SONNET_MODEL to claude-sonnet-4-5
+
+**5-Agent Review (all agents ran in parallel):**
+- Code Reviewer: 2 HIGH (exhaustion gate, token split) + 5 MEDIUM — all fixed
+- Security Engineer: TOCTOU + negative cost + silent failure — all fixed
+- Database Optimizer: switch to try_deduct_credits + owner_id index confirmed present
+- Backend Architect: dual rate table risk + model ID mismatch — fixed model ID; dual table documented as tech debt
+- SRE: TOCTOU (fixed via RPC) + Vercel waitUntil (not installed — Node.js runtime OK with await; deferred to Pro tier)
+
+**Deferred (post-launch hardening):**
+- Dual rate tables (model-router.ts per-million vs costs.ts per-1000) — consolidate before paid tiers
+- credit-hooks.ts beforeLLMCall/afterLLMCall still unused — decide canonical path post-launch
+- `@vercel/functions waitUntil` — add when moving to Vercel Pro
+- Integer microdollar cost math — before paid tier accumulations matter
+
+**Multi-Agent Protocol established and committed to gl-brain/command/patterns.md:**
+- Standard tasks: top 3 agents + skills in parallel
+- Critical tasks (financial, auth, security): top 5 agents + skills in parallel
+- Work done without review must be rechecked before merge
+
+---
+
 ## 260427 — Autogap Slots 1-2-3 Verification + Smoke Gate Running
 
 Session: [GL/COMMAND | QA | Smoke Gate · Autogap Slots 1-2-3 Verification | 260424]

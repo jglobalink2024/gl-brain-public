@@ -1,5 +1,44 @@
 # COMMAND — Build Patterns
-Last updated: 260422
+Last updated: 260427
+
+## Multi-Agent Review Protocol (MANDATORY — LOCKED 260427)
+
+**Every non-trivial task requires a pre-execution agent triage (RAP) AND a post-execution expert review.**
+
+### Minimums:
+| Task type | Agents | Skills |
+|---|---|---|
+| Standard (UI, copy, docs) | Top 3 in parallel | Top 3 in parallel |
+| Critical (financial, auth, DB, security, architecture) | Top 5 in parallel | Top 5 in parallel |
+
+Critical = anything touching: payments, auth, RLS, migrations, API keys, audit logs, architecture decisions.
+
+### Agent selection for COMMAND engineering tasks:
+| Task | Required agents |
+|---|---|
+| Backend / financial logic | Code Reviewer, Security Engineer, Database Optimizer, Backend Architect, SRE |
+| Frontend feature | Code Reviewer, Accessibility Auditor, UX Researcher, Frontend Developer, Evidence Collector |
+| SQL migration | Database Optimizer, Backend Architect, Code Reviewer |
+| Auth / security | Security Engineer, Compliance Auditor, Code Reviewer |
+| Architecture decision | Backend Architect, Software Architect, Senior Developer |
+| API route | Code Reviewer, Security Engineer, API Tester |
+
+### Execution rules:
+- All agents run in parallel (single Agent tool call block with multiple invocations)
+- If work was completed WITHOUT agent review → it must be rechecked before merging
+- If a needed agent exists in a reputable repo but not in ~/.claude/agents/ → install it first
+- Findings: all HIGH/CRITICAL findings fixed before commit; MEDIUM fixed same session; LOW documented in brain
+
+### Adding missing agents:
+1. Check if agent exists in the Agent tool subagent_type list (224 available)
+2. If not available as subagent, check ~/.claude/agents/ for local definitions
+3. If needed agent doesn't exist anywhere → create it and commit to .claude/agents/ in the repo
+4. Document new agents in this patterns.md entry
+
+### Not a replacement for RAP:
+RAP (Rapid Assessment Protocol) runs BEFORE execution (5 seconds).
+Multi-agent review runs AFTER execution (parallel, typically 30-120 seconds).
+Both are required. Neither replaces the other.
 
 ## Concurrent CC Sessions
 Safe when file surfaces confirmed non-overlapping.
