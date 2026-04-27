@@ -1,6 +1,34 @@
 # COMMAND — Current State
 Last updated: 260427
 
+## 260427 (cont.) — Track 7-A: Canvas Pooled-Key Fallback + Slot 1 api_key Save Bug [via: CC]
+
+Session: [GL/COMMAND | BUILD | Canvas Pooled-Key Fallback · Slot 1 Retest · Watch Kickoff | 260427]
+
+**Task 1 — Slot 1 Retest: BLOCKED (api_key save did not persist)**
+DB query confirms: api_key IS NULL on ALL Claude-1 agents across Jason's workspaces
+(ws-1775661397344, ws_2daeec4e, ws-1775620271312, ws-1776139325700). Jason set the key
+via app UI (260427) but the save did not land in Supabase. Likely bug in Settings →
+Integrations PATCH route. Not blocking Eric demo path — pooled key covers it (see Task 2).
+
+**Task 2 — 🥇 Canvas Pooled-Key Fallback: SHIPPED (commit f2010ee)**
+`lib/pipeline/canvasExecution.ts` — replaced hard `if (!agent.api_key)` gate with the
+same `||` resolution pattern from executeTask.ts:
+- Added `import { getPooledKey } from "@/lib/utils/keys"`
+- Agent select now includes `vendor` field
+- `resolvedKey = (agent.api_key || getPooledKey(vendor))` — BYOK takes priority, GL pooled key fallback
+- Gate only fires if NEITHER is available
+Eric can use canvas day-one with no BYOA setup. TS exit 0 | ESLint exit 0 | Preflight PASSED.
+
+**Task 3 — 24-Hour Eric-Readiness Watch: IN PROGRESS**
+Watch begins 260427. No code changes during watch period. Smoke run initiated.
+Manual full-chain verify still needed: assign agent → click "Run in [Agent]" → confirm execution_status=complete.
+
+**Active Fixes:**
+- f2010ee — feat(canvas): pooled-key fallback for canvasExecution — shipped 260427
+
+---
+
 ## 260427 (cont.) — Track 7: Bug C1 Fix + Slot 1 Retest Diagnosis + Brain Updates [via: CC]
 
 Session: [GL/COMMAND | BUILD | Bug C1 Fix · Slot 1 Retest · Credit Hooks Confirm | 260427]
