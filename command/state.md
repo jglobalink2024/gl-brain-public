@@ -1,6 +1,21 @@
 # COMMAND — Current State
 Last updated: 260427
 
+## 260427 (cont.) — Track 6: ORACLE-KB v1.1 Full Bootstrap Deployment [via: CC]
+
+Session: [HEARTH/ORACLE | AI | ORACLE-KB v1.1 Full Bootstrap Deploy | 260427]
+
+ORACLE-KB v1.1 bootstrap kit deployed to all 12 active Claude.ai projects with zero Jason involvement. Used browser-injected JS API calls (POST /api/organizations/{org_id}/projects/{project_id}/docs) via Claude in Chrome. 36 uploads, 36× HTTP 201, 100% success rate.
+
+- Projects deployed: IPCTD, BRAZ, MISC, PL, CMD, TRV, PNT, DEBT, RECON, SHOTO(BATCH), SHOTO(TRAIN), PERS
+- Each project received: ORACLE-KB-SPEC-v1.1.md + session-closeout-SKILL.md + PROJECT-IDENTITY.md
+- Technical pattern: window globals (`window._SPEC`, `window._SKILL`) to split 33K+ chars of base64 across 3 sequential JS calls — avoids Read tool token limit
+- API skill documented: `C:\Users\jdavi\Downloads\claude-ai-project-knowledge-upload-SKILL.md` (T2, file to Drive)
+- Drive filed: session log + PROJECT-ROSTER-260427.md (all 12 marked v1.1/v1.0/260427) + MASTER-INDEX-v3.md
+- Smoke test pending: open IPCTD project, say "close out this session", verify IPCTD code fires
+
+---
+
 ## 260427 (cont.) — Track 5: F5 Spec Run + Slots 1+2 Manual Verification [via: CC]
 
 Session: [GL/COMMAND | QA | J2 Spec Run · Slot 1 Canvas Button · Slot 2 autoHandoff | 260427]
