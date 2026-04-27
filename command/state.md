@@ -1,6 +1,37 @@
 # COMMAND — Current State
 Last updated: 260427
 
+## 260427 (cont.) — Track 3: J2_handoff_deep v12.2 SHIPPED (F5 resolved)
+
+Session: [GL/COMMAND | BUILD | Credit Hooks · Multi-Agent Protocol | 260427]
+
+**Commit shipped:**
+- `49ff1a0` fix(qa): J2_handoff_deep v12.2 — resolve INCONCLUSIVE root cause (3 bugs)
+
+**Root Cause of INCONCLUSIVE (v12.1) — 3 Bugs Fixed:**
+
+1. **Wrong URL filter**: `isAgentVendorCall` checked `api.anthropic.com` etc. — these are server-side only for pooled-key workspaces. New `isAgentExecutionCall` adds `/api/tasks/execute` (always browser-visible).
+
+2. **Wrong UI surface**: "Auto-select agent" routes through `routeAndExecute` (client-side `executeTask`) which does NOT call `triggerAutoHandoff` — Agent B never ran. v12.2 uses "▶ Send Task" → TaskBriefCard → "▶ Run with {agent}" → `POST /api/tasks/execute` (HTTP endpoint that calls `triggerAutoHandoff` server-side).
+
+3. **Wrong completion signals**: Polled for "handoff from" / "chained" DOM text that never appears. v12.2 uses `page.waitForResponse` on `/api/tasks/execute` — response returns AFTER both agents complete server-side.
+
+**Architecture insight discovered during rewrite:**
+- `routeAndExecute` (router page auto-execute) calls `executeTask` directly client-side — does NOT trigger handoff
+- Only `POST /api/tasks/execute` (HTTP endpoint) triggers `triggerAutoHandoff`
+- Entire Agent A + Agent B chain runs within ONE server-side request
+- `next_task_id` in response body = handoff triggered (directly observable)
+- Entity carry-through to Agent B: BLOCKED from browser (server-side, not observable)
+
+**C3 verdict logic (v12.2):**
+- HTTP path: PASS = `next_task_id` non-null + `vendor_response` non-empty
+- Vendor-direct path (BYOA): PASS = 2+ vendor calls + shared substring ≥20 + ≥2 entities
+- `c3_entity_carry_through` = BLOCKED (HTTP path always) — architectural, not harness failure
+
+**TypeScript**: exit 0 | **ESLint**: clean
+
+---
+
 ## 260427 (cont.) — Track 2: Slot 3 Credit Hooks COMPLETE + 5-Agent Protocol Established
 
 Session: [GL/COMMAND | BUILD | Credit Hooks · Multi-Agent Protocol | 260427]

@@ -92,26 +92,23 @@ into Agent B input). The spec uses:
 - Shared-substring check (>=20 chars of Agent A output in Agent B input)
 - Entity-carry check (>=2 Agent A entities appear in Agent B output)
 
-**Symphony v12 verdict on J2:** INCONCLUSIVE on both P2 Eric and P3 Danielle.
-Reason (per PENDING_ACTIONS.md F5): "current v12.1 spec built against older
-source-tree UI; /send-task UI uses Best-match + triangle Send Task pattern
-that the spec didn't navigate correctly."
+**Symphony v12 verdict on J2:** INCONCLUSIVE on both P2 Eric and P3 Danielle (v12.1).
+Root cause fully diagnosed and fixed in v12.2 (commit 49ff1a0, 260427):
 
-The spec tested the right behavior but hit the wrong UI surface. Behavioral
-equivalence of the collapsed implementation vs prior dual implementation is
-UNCONFIRMED by test evidence.
+**3 bugs found:**
+1. Wrong URL filter — `isAgentVendorCall` checked vendor URLs (server-side for pooled keys). Fixed to `isAgentExecutionCall` matching `/api/tasks/execute` (always browser-visible).
+2. Wrong UI surface — "Auto-select agent" went through `routeAndExecute` (client-side) which does NOT call `triggerAutoHandoff`. Fixed to "▶ Send Task" → TaskBriefCard → "▶ Run with" → HTTP endpoint (triggers Agent B server-side).
+3. Wrong completion signals — polled for "handoff from"/"chained" text. Fixed to `page.waitForResponse` on `/api/tasks/execute`.
 
-**Verdict: SHIPPED BUT UNVERIFIED**
-Collapse is structurally complete. J2 INCONCLUSIVE means no test has yet
-confirmed the chain fires correctly end-to-end in the live UI. The F5
-rewrite (J2_handoff_deep.spec.ts against current /send-task UI pattern)
-is still open in PENDING_ACTIONS.md.
+**Architecture insight:** `next_task_id` in the execute response = proof handoff triggered. Entity carry-through is BLOCKED (always server-side), correctly marked BLOCKED not INCONCLUSIVE.
 
-**Manual test needed (or F5 rewrite):**
+**Verdict: SPEC FIXED — v12.2 SHIPPED (commit 49ff1a0)**
+The spec will now correctly exercise the chain and produce PASS or FAIL (not INCONCLUSIVE). Run `npx playwright test e2e/symphony_v12/journeys/J2_handoff_deep.spec.ts` to confirm live verdict.
+
+**Manual test still recommended:**
 1. Route a task with handoffTo agent selected
-2. Execute Agent A (auto or manual)
-3. Confirm Agent B receives Agent A output in its context
-4. Confirm agent_handoffs row written with correct from/to and CCF payload
+2. Execute Agent A via "▶ Run with {agent}" 
+3. Confirm `next_task_id` in response + `agent_handoffs` row written with correct CCF payload
 
 ---
 
@@ -120,7 +117,7 @@ is still open in PENDING_ACTIONS.md.
 | Slot | Code Status | Test Evidence | Verdict |
 |------|-------------|--------------|---------|
 | 1 -- Canvas "Run in Agent" button | WIRED (StepDetailSidebar:568, execute-step/route.ts) | NONE -- canvas.spec.ts covers decomp only | SHIPPED BUT UNVERIFIED |
-| 2 -- autoHandoff collapse | SHIPPED (78b078d, single canonical implementation) | INCONCLUSIVE (J2 v12.1 hit wrong UI surface) | SHIPPED BUT UNVERIFIED |
+| 2 -- autoHandoff collapse | SHIPPED (78b078d, single canonical implementation) | J2 v12.2 spec fixed (49ff1a0) — run to confirm live verdict | SPEC FIXED, RUN PENDING |
 | 3 -- Credit lifecycle hooks | PARTIAL (task-count gate exists; credit module missing) | credit_balance_check.spec.ts checks Anthropic balance, not hooks | NOT IMPLEMENTED |
 
 ---
@@ -133,5 +130,7 @@ These must be done before marking autogap Slots 1-2 as VERIFIED:
       verify output appears in sidebar + DB execution_status = "complete"
 - [ ] HANDOFF: Route a task with handoffTo set -> execute -> confirm Agent B
       receives Agent A context (check agent_handoffs row + task execution)
-- [ ] HANDOFF: Rewrite J2_handoff_deep.spec.ts against current /send-task
-      UI (Best-match + triangle Execute button) and run full Symphony v12.2
+- [x] HANDOFF: J2_handoff_deep.spec.ts v12.2 rewritten (49ff1a0, 260427). 3 root-cause
+      bugs fixed. Run the spec to get live PASS/FAIL verdict.
+- [ ] HANDOFF: Run `npx playwright test e2e/symphony_v12/journeys/J2_handoff_deep.spec.ts`
+      and confirm PASS (not INCONCLUSIVE) before marking Slot 2 VERIFIED
