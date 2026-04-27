@@ -48,4 +48,10 @@ Pipeline unfreezes when cockpit-done-definition.md criteria 1–6 are met.
 - **Status:** Invite ready to send
 
 ## ICP Outreach List
-Full list of 38 T1 prosp
+Full list of 38 T1 prospects is tracked in:
+`C:\Users\jdavi\OneDrive\Desktop\GlobalInk Repos\command-gl\docs\gtm\COMMAND_ICP_Outreach_List_v1.md`
+DM sequences tracked in:
+`C:\Users\jdavi\OneDrive\Desktop\GlobalInk Repos\command-gl\docs\gtm\COMMAND_LinkedIn_DM_Sequence_v2.md`
+
+**Why:** Pipeline tracking lives here until a CRM is added. Grant and Eric are the two live gate items — Grant on 7-day timer, Eric invite ready to fire.
+**How to apply:** Before any outreach suggestion, check this table for current status and active follow-up rules.
