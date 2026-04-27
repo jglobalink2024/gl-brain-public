@@ -1,6 +1,40 @@
 # COMMAND — Current State
 Last updated: 260427
 
+## 260427 — F3 Skeleton Loaders + F5 J2 Spec Rewrite [via: CC]
+
+Session: [GL/COMMAND | QA+UX | F3 Skeleton Loaders · F5 J2 Spec Rewrite | 260427]
+
+**F3 SHIPPED (commit 0134c18):** Added shimmer skeleton loaders for silent-slow-load areas —
+- `ROIPanel.tsx` — replaced "Calculating…" text with 4-block animated shimmer matching hero + 2×2 grid
+- `AppLayout.tsx` — added `workspaceRemoteHydrated` from store; when false + no agents, shows 2 skeleton rows in sidebar AGENTS section
+- `dashboard/page.tsx` — Workspace Overview grid shows shimmer cells instead of 0s while `!workspaceRemoteHydrated`
+
+All three use a simple opacity-pulse keyframe animation. Token-compliant (#1C2333 background). TypeScript clean.
+
+**F5 SHIPPED (commit 0134c18):** Rewrote `J2_handoff_deep.spec.ts` from scratch.
+- Old v12.1 spec was INCONCLUSIVE because it targeted `/send-task` route (doesn't exist)
+- New spec targets `/router` (nav: "Send a Task") + `/bridge` (nav: "Pass Context")
+- J2-P1: fill task + "Auto-select agent" → Recommended Agent panel visible
+- J2-P2: click "▶ Route to [Agent]" → task in TASK QUEUE
+- J2-P3: navigate to /bridge → fill 4 CCF fields (placeholder-matched per context-bridge.spec.ts)
+- J2-P4: "▶ Initiate Transfer" → GENERATED HANDOFF PROMPT + HANDOFF LOG entry visible
+- Serial suite, `ensureLoggedIn` via Supabase admin token injection (same pattern as task-router + context-bridge specs)
+
+**Also completed this session:** SQL migrations via Supabase MCP — workspaces_plan_check and agents_protocol_check constraints aligned with documented schema. COMMAND-smoke-gated Task Scheduler task confirmed already absent. Symphony v12 verdict confirmed: SHIP WITH FIXES (F1 already shipped). migration-log.md backfilled.
+
+**PENDING_ACTIONS still OPEN (Jason-only):**
+- VERIFY: BYOA api_key save fix (post-deploy)
+- VERIFY: Slot 1 Canvas "Run in Claude-1" retest
+- VERIFY: /dev 9-check walkthrough
+- VERIFY: BILL-02 billing page
+- GITHUB: Close Dependabot PR #5 (private repo — needs jglobalink2024 auth)
+- GCP: Delete stray command-globalink project
+- DECISION: F4 router threshold (AUTO_EXECUTE_THRESHOLD=70 gates confidence_score=68)
+- FM cohort tracker / credentials audit (Notion data / password manager — Jason only)
+
+---
+
 ## 260427 — BYOA api_key Persistence Bug Fixed [via: CC]
 
 Session: [CMD/COMMAND | TECH | BYOA api_key Save Bug · vendor-disconnect Route | 260427]
