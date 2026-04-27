@@ -1,7 +1,56 @@
 # Slot 1 + 2 Manual Verification
-# [PERSISTENT] — gl-brain/command/autogap/manual-verification-260427.md
+# [EVIDENCE] — gl-brain/command/autogap/manual-verification-260427.md
 # GlobaLink LLC | COMMAND Platform
 # Authored: 260427 via CC browser + Supabase MCP recon (command-app, no code changes)
+# Updated: 260427 (continued session) — Move 1 spec run + Slot 1 live browser confirmation
+
+---
+
+## ADDENDUM — Continued Session 260427 (Move 1 + Slot 1 Live Browser Test)
+
+### Move 1 — J2_handoff_deep v12.2 Spec Run
+
+**Command:** `SYMPHONY_V12=1 npx playwright test e2e/symphony_v12/journeys/J2_handoff_deep.spec.ts --reporter=list`
+
+**Playwright result:** 2/2 PASS (exit 0, ~6.5 min). WARNING: soft assertion design means Playwright always exits 0 — `expect(attempted).toBeGreaterThan(0)` passes since 4 assertions are always created. Playwright PASS ≠ C3 PASS.
+
+**Artifacts (v122_run):**
+- P2 ERIC: `cell_verdict=BLOCKED`, `assertions_blocked=4`, `c3_verdict=INCONCLUSIVE`
+- P3 DANIELLE: same pattern
+
+**C3 BLOCKED root cause:** Spec uses "Auto-select agent" → `routeAndExecute` (client-side) → no `/api/tasks/execute` call → tasks remain `queued`. TaskBriefCard never appears. Agent B never runs. Network log shows ZERO `/api/tasks/execute` calls. Tasks `task-1777269612349` and `task_a87af238` both `status=queued` post-run. This is the architecture constraint documented in slot-1-2-verification.md (Track 3 root-cause diagnosis). The spec is correctly written — the BLOCKED verdict accurately reflects that HTTP endpoint path is needed but the BYOA spec flow routes through client-side instead.
+
+**Next step for Move 1:** Spec needs an updated flow that drives "▶ Send Task" → TaskBriefCard → "▶ Run with {agent}" to trigger the HTTP path. OR: accept that C3 entity-carry is BLOCKED by architecture (server-side) and close the verification as ARCHITECTURAL BLOCK (not a bug).
+
+---
+
+### Slot 1 — Live Browser Button Test (260427 continued session)
+
+**Browser:** reclaim (tabId 994461495), authenticated as jcameron5286@proton.me, ws-1776139325700
+
+**Test setup:** Canvas workflow `cwf_slot1_test_260427` (direct SQL insert, bypassed template API — see Bug C1 below). Steps: `cst_slot1_s1` (Perplexity-1) + `cst_slot1_s2` (Claude-1).
+
+**Action:** StepDetailSidebar opened for Step 1 → "Run in Perplexity-1 ↗" clicked.
+
+**Network evidence:** `POST /api/canvas/execute-step` → HTTP 200 ✓ (Request #98 in tab network log). **Button IS wired. API was called.**
+
+**DB evidence post-click:**
+```
+cst_slot1_s1: execution_status='pending', execution_output=null
+Perplexity-1: api_key=null
+```
+
+**UI evidence:** "no_api_key" badge rendered below button — correct guard condition rendering.
+
+**Finding:** Wire is live (button → API → 200 confirmed). Full chain (→ executeCanvasStep → task insert → executeTask → complete) is BLOCKED by api_key guard when agent has no API key. Step stays `pending`. This is a test setup limitation: the test agent lacks an API key. Not a wiring failure.
+
+**Updated Slot 1 verdict:** WIRE LIVE (was: BLOCKED). Chain unverifiable until an agent with a configured API key is used.
+
+**Bug C1 found (out-of-scope):** `app/api/canvas/templates/use/route.ts:84-96` inserts `template_category`, `template_description`, `template_icon` into `canvas_workflows` — columns that don't exist in schema. Returns 500 "Failed to create workflow" on all template clicks. Fix: remove the 3 non-existent column refs from the INSERT.
+
+**Required to clear Slot 1:**
+1. Assign an agent WITH a configured API key to the test step (Claude-1 has Anthropic key)
+2. Click "Run in [Agent]" → verify `execution_status='complete'` + `execution_output` populated
 
 ---
 

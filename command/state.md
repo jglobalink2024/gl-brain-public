@@ -1,6 +1,38 @@
 # COMMAND — Current State
 Last updated: 260427
 
+## 260427 (cont.) — Track 5: F5 Spec Run + Slots 1+2 Manual Verification [via: CC]
+
+Session: [GL/COMMAND | QA | J2 Spec Run · Slot 1 Canvas Button · Slot 2 autoHandoff | 260427]
+
+**Move 1 — J2_handoff_deep v12.2 spec run:**
+- Playwright: 2/2 PASS (exit 0, soft assertions — expected behavior)
+- C3 verdict: BLOCKED for P2_ERIC + P3_DANIELLE (both `cell_verdict=BLOCKED`)
+- Root cause confirmed: "Auto-select agent" routes through client-side `routeAndExecute` — does NOT call `/api/tasks/execute` HTTP endpoint — Agent B never runs — no execution calls captured in browser
+- Tasks `task-1777269612349` + `task_a87af238` remain `queued` in DB post-run
+- Architectural block: pooled-key workspaces run Agent A+B server-side; C3 entity-carry unobservable from browser. Not a spec bug — accurately reported as BLOCKED.
+- Slot 2 separately VERIFIED via production DB (6 agent_handoffs, real content in decisions_made, Apr 22-23 runs). autoHandoff IS working in production.
+
+**Slot 1 — Canvas "Run in Agent" live browser test:**
+- Workflow `cwf_slot1_test_260427` created (direct SQL insert — template API has Bug C1)
+- Clicked "Run in Perplexity-1 ↗" in StepDetailSidebar
+- Network: `POST /api/canvas/execute-step` → HTTP 200 ✓ — wire is live
+- DB: `execution_status` stays `pending`, `api_key=null` on Perplexity-1
+- UI: "no_api_key" badge renders correctly below button
+- Finding: Button → API wire CONFIRMED. Full chain blocked by api_key guard (test setup issue, not code failure). Need agent with configured API key to verify full chain.
+
+**Bugs found (all out-of-scope):**
+- Bug C1: `app/api/canvas/templates/use/route.ts:84-96` inserts 3 non-existent columns → 500 on all template clicks. Fix: remove column refs.
+- Bug B1: `generated_prompt=null` on all `agent_handoffs` rows (audit gap, not blocking)
+- Bug B2: Agent B "→ Follow-up" tasks have `description=null` (affects new spec-created tasks; real production tasks from Apr 22-23 DID complete)
+
+**Brain files updated:**
+- `command/autogap/manual-verification-260427.md` — addendum added with full evidence
+- `command/autogap/slot-1-2-verification.md` — summary table + checklist updated
+- `command/state.md` — this entry
+
+---
+
 ## 260427 (cont.) — Track 4: Ops-Watchdog Autonomy + Chronic Issue Sweep [via: CC]
 
 Session: [GL/COMMAND | OPS | Ops-Watchdog Autonomy · Vuln Remediation · Secret Rotation | 260427]
