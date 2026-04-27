@@ -1,5 +1,32 @@
 # COMMAND — Current State
-Last updated: 260424
+Last updated: 260427
+
+## 260427 — Autogap Slots 1-2-3 Verification + Smoke Gate Running
+
+Session: [GL/COMMAND | QA | Smoke Gate · Autogap Slots 1-2-3 Verification | 260424]
+
+**Shipped:**
+- `scripts/smoke-gated.ps1` — PowerShell smoke wrapper; writes timestamped GREEN/RED entries to `scripts/smoke-log/gate-status.md`, RED-ALERT files on failure. ASCII-only (em-dash encoding bug fixed).
+- `scripts/smoke-log/README.md` — gate dashboard (check status, see logs, trigger manual run, disable task).
+- `.gitignore` — specific file-pattern ignores for `*.log`, `*.txt`, `gate-status.md` inside smoke-log; README.md stays tracked.
+- `PENDING_ACTIONS.md` — scheduler cleanup + optional elevation rows added.
+- Windows Task Scheduler task `COMMAND-smoke-gated` registered — every 6h, `RunLevel Limited`, Interactive, WakeToRun.
+
+**Gate status (260425 09:18):** 4 consecutive GREEN — commits 460788f, 65a9769, 65a9769, 69d1f5d. Gate clears 260426.
+
+**Brain deliverables committed (297365c):**
+- `command/autogap/credit-hooks-status.md` — Slot 3 verdict: PARTIALLY IMPLEMENTED. Task-count gate exists (planGate.ts, free:10/trial:50/mo → HTTP 403). `starter_credits_used` column exists in DB but NEVER incremented. `lib/credit-hooks.ts` does NOT exist. Audit ledger `cost` always null. Paid plans have zero usage tracking (risk: GL absorbs all API cost for pooled-key users).
+- `command/autogap/slot-1-2-verification.md` — Slot 1: SHIPPED BUT UNVERIFIED (button wired at StepDetailSidebar:568, zero Playwright coverage of execute-step path). Slot 2: SHIPPED BUT UNVERIFIED (autoHandoff collapsed in 78b078d, J2_handoff_deep.spec.ts INCONCLUSIVE on v12.1 due to UI surface mismatch). Post-gate manual test queue documented.
+
+**Autogap staleness finding:** The 260423 diagnosis called Slot 1 a dead no-op. Code review confirmed it was already wired before the autogap scan ran — the COMMAND_CanvasExecution_v1.md persona audit (260413) captured the C1 state accurately, but the fix landed between 260413 and 260423. Diagnosis arrived stale.
+
+**Open post-gate actions:**
+- Slot 1: Manual test — click "Run in [Agent]" in Canvas sidebar, verify output + DB execution_status = "complete"
+- Slot 2: Manual test — route task with handoffTo set, confirm Agent B gets Agent A context + agent_handoffs row written
+- Slot 2: Rewrite J2_handoff_deep.spec.ts against current /send-task UI (Best-match + triangle Execute) — F5 item still open
+- Slot 3: Define credit unit → create lib/credit-hooks.ts → wire into executeTask.ts + pitch/route.ts → populate ledger cost field
+
+---
 
 ## 260424 — GOLDEN PATH SMOKE FIRST GREEN + 48H GATE OPEN
 
