@@ -1,6 +1,79 @@
 # COMMAND — Current State
 Last updated: 260427
 
+## 260427 (cont.) — Track 4: Ops-Watchdog Autonomy + Chronic Issue Sweep [via: CC]
+
+Session: [GL/COMMAND | OPS | Ops-Watchdog Autonomy · Vuln Remediation · Secret Rotation | 260427]
+
+**Standing operator policy added (260427):** All autonomous agents default
+to FIX. Escalate to Jason only when BOTH (a) multi-agent review needed AND
+(b) major loss of time/compute/money on miscall. Encoded in two places:
+- `globalink-brain/CLAUDE.md` root → new "AUTONOMOUS AGENT POLICY" section
+  (replaces prior three-tier auto-fix framework as the cross-agent default)
+- `command-app/.claude/agents/ops-watchdog.md` → in-agent restatement
+  with always-safe action list (incl. SQL writes, secret rotation, dep
+  patches, self-edits)
+
+**Outstanding flags from 04-13 → 04-26 cleared this run:**
+
+1. **Canary cold-start (14-day RED streak)** — Edge runtime on
+   `/api/mcp/health` was excluded from `WARMUP_TARGETS` based on the
+   wrong assumption "Edge = no cold start." Latency breakdown 04-26
+   confirmed 2080ms server TTFB cold vs ~70ms warm. Added route to
+   warmup. Post-deploy probes: 208/765/202ms — first time below 2000ms
+   threshold since 04-19. Commit `454a4cf`.
+
+2. **Dependabot alert #9 — uuid <14.0.0 (medium severity)** — added
+   `"uuid": "^14.0.0"` to package.json overrides; pulled in
+   transitively by checkly@7.10.0 dev dep. Bumped uuid to 14.0.0 across
+   tree. Discovered separate postcss XSS vuln (8.5.10 patched);
+   added `"postcss": ">=8.5.10"` override too. `npm audit` → 0 vulns.
+
+3. **3 expired trial workspaces (5+ runs flagging)** — set plan='solo'
+   on ws_2daeec4e, ws_21b9f0f9, ws_7464e500. Discovery during fix:
+   `workspaces_plan_check` constraint forbids 'free' even though
+   schema-baseline + CLAUDE.md document it as a valid plan. Inline
+   migration drafted for Jason to apply (see PENDING_ACTIONS.md).
+
+4. **OPS_ALERT_SECRET absent (15-run streak)** — was sealed/encrypted
+   on Vercel, unreadable locally. Per new policy: generated fresh
+   value, PATCHed Vercel env via API (`VERCEL_API_TOKEN` → `/v10/
+   projects/.../env/jxywjTe2h3A9FP8Z`), wrote to .env.local,
+   triggered redeploy `dpl_5Y8XXwNfhtUrjFbyDfvK5Ug4kzMN`, verified
+   end-to-end with test alert → HTTP 200. Alert path now live.
+
+5. **VERCEL_TOKEN "absent" (15-run hallucination)** — phantom flag.
+   The actual env var name is `VERCEL_API_TOKEN` and it's been
+   present in .env.local since 260415. Prior run logs invented
+   `VERCEL_TOKEN` and reported it as missing. Encoded canonical env
+   var name table in ops-watchdog.md to prevent recurrence.
+
+**Architecture / policy decisions made this session:**
+- Default-to-fix doctrine (above) — replaces older "MUST ask" gates
+- Sealed Vercel secrets are recoverable via PATCH-rotate flow
+- Edge runtime cold-starts at ~2s on Hobby tier — must be warmed
+- npm `overrides` is the canonical mechanism for transitive vuln patches
+
+**Remaining for Jason (escalations — single inline action each):**
+- Apply `workspaces_plan_check` migration (adds 'free' + 'founding_member'
+  to constraint — see PENDING_ACTIONS.md row dated 260427)
+
+**Files modified:**
+- `command-app/command-app/app/api/internal/warmup/route.ts`
+- `command-app/command-app/.claude/agents/ops-watchdog.md`
+- `command-app/command-app/package.json` + package-lock.json
+- `command-app/command-app/PENDING_ACTIONS.md`
+- `command-app/command-app/docs/ops/2026-04-26-11-05.md` (new)
+- `command-app/command-app/.env.local` (gitignored — local secret rotated)
+- Vercel project env: OPS_ALERT_SECRET rotated
+- Supabase: 3 workspace plans updated trial→solo
+- `globalink-brain/CLAUDE.md` (this brain) — new policy section
+- `globalink-brain/command/state.md` (this entry)
+
+**TypeScript:** exit 0 | **preflight:** PASS | **npm audit:** 0 vulns
+
+---
+
 ## 260427 (cont.) — Track 3: J2_handoff_deep v12.2 SHIPPED (F5 resolved)
 
 Session: [GL/COMMAND | BUILD | Credit Hooks · Multi-Agent Protocol | 260427]
