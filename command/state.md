@@ -1,6 +1,26 @@
 # COMMAND — Current State
 Last updated: 260427
 
+## 260427 — Superhuman Go Comp Intel + Discovery Call Line [via: CC]
+
+Session: [GL/COMMAND | GTM | Superhuman Go Comp Intel · Discovery Call Line | 260427]
+
+**Competitive intel logged (research.md):**
+- Superhuman Go = Grammarly full rebrand (~$825M acquisition of Superhuman Mail, Oct 2025)
+- Stack: Grammarly writing + Superhuman Mail + Coda docs + Go AI — walled garden, enterprise/high-volume target
+- NOT in boutique segment (1–15 person shops) — COMMAND's beachhead is safe
+- Watch window: 12–18 months before they work down-market toward boutique firms
+- Monitor: Coda integration depth (async multi-agent coordination = their next frontier)
+- Anthropic Coordinator Mode (~May 2026 GA) compounds same window pressure
+
+**Discovery call line locked (state.md GTM section):**
+- "Grammarly bet their entire brand on this problem. I built the boutique version — no migration, no lock-in, works with what you already run."
+- Active for: Grant Carlson, Richard Squires, Jon Smith
+
+**Brain commits:** `a3ff24c` — command/research.md + command/state.md → pushed gl-brain main ✓
+
+---
+
 ## 260427 — ORACLE-KB Bootstrap Kit v1.2 Full Deployment [via: CC]
 
 Session: [HEARTH/ORACLE | AI | Bootstrap Kit v1.2 Deploy Complete | 260427]
