@@ -1,5 +1,19 @@
 # COMMAND — Decisions Register
-Last updated: 260420
+Last updated: 260427
+
+## 260427 — Pure Path A: Cockpit only. No notebook. June 1 is not a product deadline.
+Decision: COMMAND builds one product — the cross-vendor AI coordination cockpit.
+  The notebook idea (standalone AI session notes) is permanently killed.
+  June 1 is the relocation date to São Paulo, not a shipping deadline.
+  No beta invites until the cockpit delivers what the pitch says, sentence for sentence.
+Rationale: Solo founder + two products + international move breaks something, and the
+  founder doesn't get to pick what breaks. The cockpit is the thesis. The notebook was
+  a hedge. The hedge costs more than the risk it was covering.
+  "Done" is defined in gl-brain/command/cockpit-done-definition.md. Don't move the goalposts
+  without a brain commit explaining why.
+Pattern: Any new feature proposal must pass this gate: "Does this make the cockpit real
+  faster, or does it expand scope?" If scope expansion → kill or park.
+  Design partners (not customers) get early access. No pitching a product that isn't real.
 
 ## 260422 — audit_ledger writes use upsert + ignoreDuplicates, not insert
 Decision: All `audit_ledger` inserts in `executeTask.ts` and `autoHandoff.ts`
@@ -105,26 +119,4 @@ Rationale: Jason completes "week-long" items in hours.
 ## 260413 — Stripe price ID canonical names locked (UPDATED v9.5)
 Decision: One env var name per price ID. No aliases. All follow STRIPE_{TIER}_PRICE_ID.
   STRIPE_FM_PRICE_ID, STRIPE_PRO_PRICE_ID,
-  STRIPE_SOLO_PRICE_ID, STRIPE_STUDIO_PRICE_ID,
-  STRIPE_AGENCY_PRICE_ID
-Rationale: Legacy aliases removed in c30ad1a. STRIPE_PRICE_STUDIO
-  and STRIPE_PRICE_AGENCY renamed to match convention in 8635e83.
-  ACTION: Update Vercel env vars to match new names.
-
-## 260413 — FM cap race condition: Option B
-Decision: Document known race, manual check after purchase.
-Rationale: 25-seat cap makes simultaneous purchase
-  probability near-zero. Redis lock is over-engineering
-  for this volume. Review if cohort fills fast.
-
-## 260413 — system_prompt redacted from DB
-Decision: Store hash + length, not full prompt.
-Rationale: Workspace DNA + API patterns in plaintext
-  in task_executions was a security gap. Hash preserves
-  auditability without storing sensitive content.
-
-## 260413 — Gemini vendor status: pending not null
-Decision: Gemini/cursor/custom vendors return pending
-  status rather than null. UI shows "coming soon."
-Rationale: Returning null silently made Sandra think
-  her Gemini agent was working when it wasn't.
+  STRIPE_SOLO

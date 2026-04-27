@@ -42,3 +42,14 @@ Author: CC
 
 Brain-commit pipeline test entry. Verifies brain-committer append + stage + commit + push sequence.
 ---
+
+## 260427 — Superhuman Go Competitive Intel
+- Superhuman Go = Grammarly full rebrand (Oct 29 2025, ~$825M acquisition of Superhuman Mail)
+- Stack: Grammarly writing + Superhuman Mail + Coda docs + Go AI assistant
+- Walled garden — ecosystem-locked, migration required, enterprise/high-volume email target
+- NOT in boutique segment (1-15 person shops) — that is COMMAND's beachhead
+- COMMAND differentiator: BYOA vendor-neutral, zero migration, works on existing stack
+- Ad messaging (SXSW 2026): "AI is just a blinking cursor without you" / "All you" — human-first empowerment frame
+- Watch: 12-18 month window before they work down-market toward boutique firms
+- Monitor: Coda integration depth (async multi-agent coordination is their next frontier)
+- Anthropic Coordinator Mode (~May 2026 GA) compounds same window pressure

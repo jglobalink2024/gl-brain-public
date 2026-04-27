@@ -1,6 +1,62 @@
 # COMMAND — Current State
 Last updated: 260427
 
+## 260427 (cont.) — Pure Path A: Full Alignment Sweep + Waalaxy Brief [via: Cowork]
+
+Session: [GL/COMMAND | STRATEGY | Pure Path A · Full Sweep · Eric Dead · Waalaxy Brief | 260427]
+
+**Eric delay drafts — DEAD:**
+- eric-delay-firmer.md + eric-delay-softer.md marked ⛔ WILL NEVER BE SENT
+- Eric protocol: silence until cockpit-done-definition.md criteria 1–6 are met
+- If Eric reaches out: "Still building. Will reach out when it's ready."
+
+**Sales pipeline updated:**
+- sales-pipeline.md: pipeline freeze in effect, Eric to HOLD status, Danny/Amy/Cody to COLD HOLD
+- warm-network-reset.md updated: Eric removed from target list
+
+**Public pages cleaned up:**
+- vercel.json: /pricing, /beta-syllabus, /one-pager → redirect 302 to /
+- /sales-hub stays (internal, API-key gated), /demo stays, /privacy stays
+- command-gl commits: 7fa2b09 (landing) + 0953df8 (routing) — both pending push via closeout
+
+**Waalaxy:**
+- CfC prompt written: brain/command/drafts/CFC-PROMPT-waalaxy-pause-billing.md
+- Run CfC, paste prompt, surface billing date, pause all campaigns
+- Cancellation: monthly → cancel before next renewal. Annual → set calendar reminder 5 days prior.
+- Do not cancel mid-cycle without checking refund window
+
+---
+
+## 260427 — Pure Path A: Strategic Reset + Coming-Soon Page + Warm Network Drafts [via: Cowork]
+
+Session: [GL/COMMAND | STRATEGY | Pure Path A · Cockpit Only · Landing Page Reset | 260427]
+
+**Pure Path A decision committed:**
+- decisions.md entry written: cockpit only, no notebook, June 1 not a product deadline
+- cockpit-done-definition.md created and locked — 6 criteria, goalposts cannot move without brain commit
+
+**Landing page replaced:**
+- command-gl/public/index.html → replaced full 731-line marketing pitch with honest coming-soon page
+- Old page archived at: command-gl/public/index_marketing_v1_260422.html
+- New page: 3-sentence thesis, status strip (building Phase 1), email CTA, no pricing, no ROI calculator
+- Vercel will auto-deploy on push
+
+**Drafts created:**
+- brain/command/drafts/warm-network-reset.md — per-recipient template for Grant, Jon, Richard, Blaz
+  (Eric: separate drafts eric-delay-firmer.md + eric-delay-softer.md — status of those TBD/confirm if sent)
+- brain/command/drafts/build-in-public-post-1.md — LinkedIn + X versions, honest tone, no theater
+
+**What still needs Jason action (Waalaxy + sends):**
+- Pause or convert Waalaxy campaigns to "building in public" mode (no MCP for this)
+- Send warm-network notes (confirm Eric delay note sent first)
+- Post the BIP post when ready
+- Confirm Eric delay email was actually sent
+
+**Active Fixes:**
+- None (pure strategy + content session)
+
+---
+
 ## 260427 (cont.) — Track 7-A: Canvas Pooled-Key Fallback + Slot 1 api_key Save Bug [via: CC]
 
 Session: [GL/COMMAND | BUILD | Canvas Pooled-Key Fallback · Slot 1 Retest · Watch Kickoff | 260427]
@@ -2024,6 +2080,11 @@ Public mirror: patterns.md synced ✓; new files 404 as of commit time (sync lag
   - Status: AWAITING REPLY
   - Next action: branch on Grant's response (A=feedback, B=no bandwidth, C=referral, D=silence day 7)
   - Open data gaps: firm size, function, AI stack
+
+### Discovery Call Line — Locked 260427
+"Grammarly bet their entire brand on this problem. I built the boutique version —
+no migration, no lock-in, works with what you already run."
+Active for: Grant Carlson, Richard Squires, Jon Smith
 
 ## Next Session Priorities (updated 260420)
 ### Immediate — Symphony v12 preconditions (Jason manual, no CC needed)

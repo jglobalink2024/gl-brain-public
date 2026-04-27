@@ -7,17 +7,22 @@ type: project
 ## Source document
 `C:\Users\jdavi\OneDrive\Desktop\GlobalInk Repos\globalink-brain\gl\entities.md`
 
-## Active prospects (T1) — as of 260413
+## Active prospects (T1) — updated 260427 (Pure Path A)
+
+⛔ PIPELINE FREEZE IN EFFECT — Pure Path A decision 260427.
+No beta invites, no pitch outreach, no "coming soon" sequences.
+All outreach is "honest reset" only — see command/drafts/warm-network-reset.md.
+Pipeline unfreezes when cockpit-done-definition.md criteria 1–6 are met.
 
 | Name | Company | Tier | Status | Next Action |
 |------|---------|------|--------|-------------|
-| Grant Carlson | Global Entry Hub | T1 HOT | Call done, beta one-pager sent | 7-day follow-up from call date — do not reach out before window passes |
-| Eric | — | P1 Beta | Beta invite ready to send | Send now — Phase 2 complete, gate met |
-| Jon Smith | Veteran Horizons | T1 WARM | Outreach pending | Touch 1 |
-| Richard | — | T1 WARM | Blaz Marolt referral, active | Touch 1 |
-| Danny Suk Brown | — | T1 HOT | ICP scan | LinkedIn DM |
-| Amy Peck | AI consulting | T1 HOT | ICP scan | LinkedIn DM |
-| Cody Brasel | AI consulting | T1 HOT | ICP scan | LinkedIn DM |
+| Grant Carlson | Global Entry Hub | T1 HOT | Call done, beta one-pager sent | Warm-network reset note — after confirming 7-day window cleared |
+| Eric | — | HOLD — DO NOT CONTACT | No delay note sent, no invite pending | Silence until cockpit is real. If he reaches out: "Still building." |
+| Jon Smith | Veteran Horizons | T1 WARM | Outreach pending | Warm-network reset note — Touch 1 |
+| Richard | — | T1 WARM | Blaz Marolt referral, active | Warm-network reset note — Touch 1 |
+| Danny Suk Brown | — | COLD HOLD | ICP scan — no prior contact | Hold until product is real |
+| Amy Peck | AI consulting | COLD HOLD | ICP scan — no prior contact | Hold until product is real |
+| Cody Brasel | AI consulting | COLD HOLD | ICP scan — no prior contact | Hold until product is real |
 
 ## Blaz Marolt — Prime Momentum
 
@@ -43,10 +48,4 @@ type: project
 - **Status:** Invite ready to send
 
 ## ICP Outreach List
-Full list of 38 T1 prospects is tracked in:
-`C:\Users\jdavi\OneDrive\Desktop\GlobalInk Repos\command-gl\docs\gtm\COMMAND_ICP_Outreach_List_v1.md`
-DM sequences tracked in:
-`C:\Users\jdavi\OneDrive\Desktop\GlobalInk Repos\command-gl\docs\gtm\COMMAND_LinkedIn_DM_Sequence_v2.md`
-
-**Why:** Pipeline tracking lives here until a CRM is added. Grant and Eric are the two live gate items — Grant on 7-day timer, Eric invite ready to fire.
-**How to apply:** Before any outreach suggestion, check this table for current status and active follow-up rules.
+Full list of 38 T1 prosp
