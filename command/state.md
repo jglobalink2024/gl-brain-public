@@ -1,6 +1,33 @@
 # COMMAND — Current State
 Last updated: 260427
 
+## 260427 — PENDING_ACTIONS Full Reconciliation [via: CC]
+
+Session: [GL/COMMAND | OPS | PENDING_ACTIONS Reconciliation | 260427]
+
+**9 items closed this pass (CC-verifiable):**
+- `workspaces_plan_check` — CONFIRMED via Supabase MCP: includes free, solo, pro, studio, agency, trial, founding_member
+- `agents_protocol_check` — CONFIRMED via Supabase MCP: includes manual, webhook, api_poll, mcp, custom, api_proxy
+- Task Scheduler COMMAND-smoke-gated delete — CONFIRMED absent (already clean)
+- Task Scheduler elevate privileges — N/A (task never existed)
+- Dependabot PR #5 — CONFIRMED already closed prior to session
+- BILL-02 billing page — CONFIRMED via Symphony v12 F6 evidence (4 tiers, no $349 phantom, glossary PASS)
+- F01/F02 Google + HubSpot hrefs — CONFIRMED via Claude-in-Chrome: both hrefs include `?workspace_id=ws-1776139325700`
+- Symphony v12 Matrix + Findings reviewed — SHIP WITH FIXES; F1 done (BILL-03), F2 done (J2 spec rewrite)
+- migration-log.md backfilled (prior pass)
+
+**PENDING_ACTIONS remaining OPEN (Jason-only):**
+- `[ ]` VERIFY — BYOA api_key save: navigate /settings/integrations, enter valid key, confirm `agents.api_key` non-null
+- `[ ]` VERIFY — Slot 1 retest: set api_key on Claude-1, run canvas workflow, confirm execution_status='complete'
+- `[ ]` VERIFY — /dev 9-check walkthrough (includes nuclear reset — destructive, must be Jason)
+- `[ ]` GCP — Delete stray `command-globalink` project under jdavis5206@gmail.com
+- `[ ]` DECISION — Symphony v12: confirm SHIP WITH FIXES or override
+- `[ ]` DECISION — F4: router AUTO_EXECUTE_THRESHOLD=70 vs. type-match auto-execute rule
+- `[ ]` OTHER — fm-cohort-tracker.md: fill FM member rows from Notion Beta Users DB
+- `[ ]` OTHER — credentials-audit.md: confirm Documenso creds in password manager
+
+---
+
 ## 260427 — F3 Skeleton Loaders + F5 J2 Spec Rewrite [via: CC]
 
 Session: [GL/COMMAND | QA+UX | F3 Skeleton Loaders · F5 J2 Spec Rewrite | 260427]
