@@ -20,9 +20,12 @@ same `||` resolution pattern from executeTask.ts:
 - Gate only fires if NEITHER is available
 Eric can use canvas day-one with no BYOA setup. TS exit 0 | ESLint exit 0 | Preflight PASSED.
 
-**Task 3 — 24-Hour Eric-Readiness Watch: IN PROGRESS**
-Watch begins 260427. No code changes during watch period. Smoke run initiated.
-Manual full-chain verify still needed: assign agent → click "Run in [Agent]" → confirm execution_status=complete.
+**Task 3 — 24-Hour Eric-Readiness Watch: IN PROGRESS (smoke GREEN)**
+Watch begins 260427 ~03:30 UTC. No code changes during watch period.
+Smoke run result: exit 0 — backend CONFIRMED (log: "smoke test completed" task_a215d4f8,
+executeTask ENTER → COMPLETE via Anthropic 200). Playwright spec flaky on retry1
+(cookie consent dialog at capture — not a regression from canvas change, server-side only).
+Known flaky, not a platform regression. Manual full-chain canvas verify still needed.
 
 **Active Fixes:**
 - f2010ee — feat(canvas): pooled-key fallback for canvasExecution — shipped 260427
