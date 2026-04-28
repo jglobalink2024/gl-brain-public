@@ -1,7 +1,7 @@
 # COMMAND — Current State
-Last updated: 260427
+Last updated: 260428
 
-## 260428 — PENDING_ACTIONS Reconciliation Round 2 [via: CC]
+## 260428 — PENDING_ACTIONS Reconciliation Round 2 + Full Close [via: CC]
 
 Session: [GL/COMMAND | OPS | PENDING_ACTIONS Reconciliation | 260427]
 
@@ -10,16 +10,17 @@ Session: [GL/COMMAND | OPS | PENDING_ACTIONS Reconciliation | 260427]
 - Slot 1 Canvas Retest (row 22) — CONFIRMED: execute-step returned success:true with real Claude output; FOUND+FIXED canvasExecution.ts `updated_at` bug (5 occurrences, column doesn't exist → status writes silently failing; fixed to started_at/completed_at)
 - Symphony v12 SHIP WITH FIXES verdict (rows 56–64) — ALL CLOSED: F1 (BILL-03), F2 (J2 spec), F3 (skeletons), F4 (threshold 70), F5 (J2 spec rewrite); Jason confirmed SHIP WITH FIXES
 - /dev walkthrough 9 checks (row 38) — VERIFIED 260428: all 9 checks confirmed via CfC + Supabase MCP + code inspection
+- GCP `command-globalink` delete (row 44) — CONFIRMED DELETED 260428 by Jason
+- credentials-audit.md Documenso (row 47) — CONFIRMED 260428: Documenso auth = GitHub OAuth via jglobalink2024 (no password to manage); credentials-audit.md updated
 
 **Fixes shipped this session:**
 - `canvasExecution.ts`: 5 `updated_at` → `started_at`/`completed_at` fixes (column didn't exist; all canvas step status writes were silently failing)
 - `routerExecution.ts`: AUTO_EXECUTE_THRESHOLD 75→70 (type+active base score=74, permanently blocked auto-fire at threshold 75)
-- Commits: fbc7a90, 9cbefa4, 30de6a4
+- Commits: fbc7a90, 9cbefa4, 30de6a4, de5ab08
 
-**PENDING_ACTIONS still OPEN (requires Jason or gate condition):**
-- `[ ]` GCP — Delete stray `command-globalink` project (jdavis5206@gmail.com) — requires passkey biometric; CC cannot authenticate
-- `[ ]` VERIFY — fm-cohort-tracker.md: gate-blocked on first FM signup; table currently empty (0 of 25 seats filled)
-- `[ ]` OTHER — credentials-audit.md: confirm Documenso creds in password manager — requires Jason to open his password manager
+**PENDING_ACTIONS status:**
+- ALL actionable items CLOSED — PENDING_ACTIONS.md fully reconciled
+- Row 46 (fm-cohort-tracker) reclassified `[~]` standing reminder — not a task until first FM signup
 
 ---
 
