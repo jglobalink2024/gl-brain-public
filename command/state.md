@@ -1,6 +1,33 @@
 # COMMAND — Current State
 Last updated: 260428
 
+## 260428 — ROI Baseline Fix · Defensible Math [via: CC]
+
+Session: [GL/COMMAND | ENGINEERING | ROI Baseline Fix · Defensible Math | 260428]
+
+**P0 fix shipped: ROI tracker baseline math replaced with defensible 2-mode system**
+
+Root cause: Fix 2 (3x adaptive multiplier) was confirmed landed. Remaining gaps:
+- No n≥5 threshold — 1-task workspaces claimed adaptive-quality savings with no basis
+- No per-agent-type breakdown — single average diluted across all task types
+- Header comment still documented stale 15-min hardcoded model
+- No cited source for the multiplier
+
+Fix applied to `lib/analytics/roiCalculator.ts`:
+- n < 5: industry benchmark 8 min/task (McKinsey GI 2023 cited inline)
+- n ≥ 5: per-agent-type adaptive — executions grouped by agent_type, savings computed per bucket, then aggregated. Prevents fast CRM lookups from diluting research task savings.
+- baselineExplanation discloses which mode is active and why (shown in ROIPanel footer)
+- Module-level constants: INDUSTRY_BASELINE_MINUTES, ADAPTIVE_N_THRESHOLD, MANUAL_MULTIPLIER (all cited/documented)
+- Header comment updated from stale 15-min model to current 2-mode model
+
+Math verified: all test scenarios (n=0, n=1, n=3, n=5 mixed types) return 0% delta vs ground truth.
+TypeScript: exit 0 | ESLint: 0 errors | Preflight: PASS
+Committed: cbe033f (already in origin/main — committed via previous session closeout)
+
+**What's next:** ROI tracker P0 closed. Remaining audit items: canvas 5-A (StepDetailSidebar no-op button — has uncommitted changes in working tree from unrelated session activity).
+
+---
+
 ## 260428 — Brain Push · 5-Layer Prevention Architecture · Rule 12/13 Capture [via: CC]
 
 Session: [GL/COMMAND | BRAIN-OPS | 5-Layer Prevention Architecture · Rule 12/13 Capture | 260428]
