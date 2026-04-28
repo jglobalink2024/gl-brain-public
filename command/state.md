@@ -1,6 +1,22 @@
 # COMMAND — Current State
 Last updated: 260428
 
+## 260428 — Brain Push · 5-Layer Prevention Architecture · Rule 12/13 Capture [via: CC]
+
+Session: [GL/COMMAND | BRAIN-OPS | 5-Layer Prevention Architecture · Rule 12/13 Capture | 260428]
+
+**Brain infrastructure fully documented and locked 260428:**
+- 5-layer prevention architecture captured in command/state.md Brain Infrastructure section
+- Open Audit Items (F1/F3/F4/F7) logged with mitigation paths
+- command/decisions.md: 2 entries (prevention architecture + 4 unmitigated gaps accepted)
+- gl/decisions.md: 3 entries (Rule 12 brain-committer routing, Rule 13 delegation contract, globalink-claude-config repo)
+- gl/principles.md: Rule 12 + Rule 13 added, Last updated 260428
+- ENTERPRISE-DOCTRINE-v1.3.md created in Drive (ID: 1D-IYujU6DQIMrNKiFesOdwZWsYDetfpL)
+- All brain writes via brain-committer agent per Rule 12 — commit e7e6c5d
+- D5 note: v1.2 never existed in Drive; Cowork sourced from v1.1, jumped to v1.3 directly (gap accepted)
+
+---
+
 ## 260428 — Daily Ops Diagnostic · SP Execution [via: CC]
 
 Session: [GL/COMMAND | OPS | Daily Diagnostic · SP Execution | 260428]
