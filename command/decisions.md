@@ -1,5 +1,28 @@
 # COMMAND — Decisions Register
-Last updated: 260427
+Last updated: 260428
+
+## 260428 — Brain prevention architecture deployed
+Decision: 5-layer architecture covers all originally identified
+  failure modes (A/B/C/D/E). Bonus SessionStart hook for CC.
+Rationale: 15-day blind drift in Apr 13–28 cycle exposed total
+  absence of monitoring. Detection + alerting + recovery now
+  layered, no single point of failure for brain freshness.
+Layers: L1 Freshness Gate, L2A Brevo failure alert, L2B daily
+  heartbeat 9am BRT, L3a Rule 12 brain-committer routing,
+  L3b auto-catchup synthesis, L3.5 config version control.
+Components: globalink-brain repo, globalink-brain-public mirror,
+  POINTER_COMMAND.md v3 in project knowledge, sync-public.yml +
+  brain-heartbeat.yml workflows, brain-committer agent,
+  globalink-claude-config repo.
+
+## 260428 — 4 unmitigated failure modes accepted as known gaps
+Decision: F1 (catchup corruption), F3 (hot memory drift),
+  F4 (POINTER drift), F7 (architecture rot) identified in
+  post-L3.5 audit. Top 3 mitigations queued for next session.
+Rationale: shipping 5 layers + audit in one session was the
+  right call. Hardening F-series modes is post-MVP work.
+Revisit: pre-São Paulo (May 1) — POINTER version field + parity,
+  monthly fire drill cron, per-file diffs in catchup approval.
 
 ## 260427 — Pure Path A: Cockpit only. No notebook. June 1 is not a product deadline.
 Decision: COMMAND builds one product — the cross-vendor AI coordination cockpit.

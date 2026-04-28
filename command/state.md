@@ -2093,24 +2093,16 @@ Produced and committed 4 foundational brain artifacts:
    identified: Schema Migration Log, FM Cohort Tracker, Credentials Audit Log,
    Onboarding Runbook, Feature Flag Registry. 5 artifacts deferred to Phase 4.
 
-## RESPONSE_RULES.md — Brain Infrastructure (260416)
-Session: GL | OPS | Brain Infrastructure · Response Rules | 260416
-
-Centralized universal response formatting rules into a single brain file.
-
-What shipped:
-- globalink-brain/RESPONSE_RULES.md (new) — universal format source of truth for all Claude instances
-  Covers: output structure order, formatting rules, Output Dock schema, self-execution doctrine,
-  git commit rule, no-fishing rule, thread naming, brain pruning gate
-- globalink-brain/POINTER_COMMAND.md — added RESPONSE_RULES.md fetch URL + "Response format" section
-- command-app/command-app/CLAUDE.md — appended "Response format" section pointing to brain URL
-  (no inline duplication — single source of truth enforced)
-
-Commits:
-- f2e1da0 brain: add RESPONSE_RULES.md — universal format source of truth
-- 273cd78 brain: POINTER_COMMAND now fetches RESPONSE_RULES.md
-- 65e10ce chore: CLAUDE.md sources response rules from brain repo (command-app)
-All pushed to main. Brain rebased cleanly against 2 remote commits (CALIBER/KM artifacts from prior session).
+## Brain Infrastructure (LIVE 260428)
+Public mirror archive root cause fixed 260428.
+Five-layer prevention architecture deployed:
+  L1 — Freshness Gate at session start (POINTER cache-bust + age check)
+  L2A — Brevo on-failure email from sync Action
+  L2B — Daily heartbeat cron @ 9am BRT (12:00 UTC)
+  L3a — Rule 12 brain-committer routing enforcement
+  L3b — Auto-catchup synthesis when stale (POINTER v3)
+  L3.5 — globalink-claude-config repo + closeout sync
+Bonus: SessionStart RAP-B hook injects 207-agent inventory in CC.
 
 ## Multi-Task Build Session — SHIPPED (260416, session 2)
 Session: GL · OPS · Multi-task Build | 260416
@@ -2251,6 +2243,23 @@ First monthly review fires May 1 2026.
 Public mirror: patterns.md synced ✓; new files 404 as of commit time (sync lag — not a broken commit).
 
 ---
+
+## Open Audit Items (post-L3.5 audit 260428)
+Unmitigated failure modes — pre-São Paulo priority:
+  F1 — Auto-catchup synthesis corruption (HIGH risk, HIGH impact)
+       Mitigation: per-file diffs in auto-catchup approval flow
+  F3 — Hot memory drift / contradictions (HIGH/HIGH)
+       Mitigation: periodic memory review pass
+  F4 — POINTER drift between brain repo + claude.ai project knowledge
+       (HIGH/MED-HIGH) — Mitigation: POINTER_VERSION field + parity check
+  F7 — Architecture rot from edits over time (HIGH over months / HIGH)
+       Mitigation: quarterly fire drill
+Partially mitigated:
+  F2 — Brevo silent failure — needs monthly fire drill cron
+Top 3 fixes pre-São Paulo (~3hrs total):
+  1. POINTER version field + parity check
+  2. Monthly fire drill cron
+  3. Per-file diffs in auto-catchup approval
 
 ## GTM Pipeline — Active Contacts (260420)
 

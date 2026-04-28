@@ -1,8 +1,43 @@
 # GlobaLink — Decisions Register
-Last updated: 260413
+Last updated: 260428
 
 ## Decisions affecting all entities logged here.
 Project-specific decisions are in their respective decisions.md files.
+
+---
+
+## 260428 — Rule 12 — Brain Write Routing (Doctrine v1.3)
+Decision: Writes to globalink-brain/command/ or gl/ MUST route
+  through brain-committer agent. Direct writes are violations.
+Per-file mode defaults:
+  state.md, gl/principles.md → FULL-REPLACE
+  decisions.md, killed.md, research.md → APPEND
+  patterns.md → APPEND with in-place edits flagged
+  gl/entities.md → NEVER write via agent or directly
+  POINTER_*.md at brain repo root → FULL-REPLACE
+Exception: .github/workflows/ outside agent scope.
+Implementation: CLAUDE.md (command-app) + brain-committer SKILL.md
+  updated 260428 in commit 923540f.
+
+## 260428 — Rule 13 — Complete Delegation Contract (Doctrine v1.3)
+Decision: Every cross-variant delegation prompt must specify
+  CALIBER + EFFORT + REVERSIBILITY + QUALITY BAR. Missing any =
+  executor STOPs and requests before proceeding.
+Rationale: 4 delegations in 260428 brain session lacked CALIBER.
+  CC self-routed all to Sonnet. Layer 3.5 was 16/18 Opus territory
+  (partially-irreversible operations). Operator caught post-execution.
+Pairs with: SessionStart RAP-B pre-scan hook. Hook surfaces what's
+  available; Rule 13 surfaces what's required.
+
+## 260428 — globalink-claude-config repo created
+Decision: ~/.claude/ (agents + hooks + settings) version-controlled
+  at jglobalink2024/globalink-claude-config (private).
+Rationale: Layer 3 doctrine + brain-committer routing live only on
+  Jason's local disk pre-260428. One disk failure = doctrine vanishes.
+  Repo captures 207 agents + hooks + settings.json.
+Sync: ~/bin/claude-config-sync.sh, LOCAL→REPO one-way, auto-runs
+  in closeout. In-repo copy of script for laptop-replacement
+  restore path. Excludes .credentials.json + ephemeral state.
 
 ---
 

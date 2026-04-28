@@ -1,5 +1,5 @@
 # GlobaLink Operating Principles
-Last updated: 260420
+Last updated: 260428
 
 ## Hard Rules (never violate)
 - Entity name: GlobaLink — never "GlobalInk"
@@ -11,6 +11,11 @@ Last updated: 260420
 - Agent codenames (COMMAND-0, FORGE-1, etc.): NEVER USE
 - Downloads: C:\Users\jdavi\Downloads\ — never Desktop
 - FM and Standard Pro Stripe links: never consolidate
+- Rule 12 — Brain writes route through brain-committer agent.
+  Direct writes to globalink-brain/command/ or gl/ are violations.
+  See gl/decisions.md 260428 entry for per-file mode defaults.
+- Rule 13 — Cross-variant delegation prompts MUST specify CALIBER
+  + EFFORT + REVERSIBILITY + QUALITY BAR. Missing any = STOP.
 
 ## Build Doctrine
 - Phase/date rule: frame by phase+function, never calendar
