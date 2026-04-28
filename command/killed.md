@@ -1,5 +1,12 @@
 # COMMAND — Killed Items Register
-Last updated: 260420
+Last updated: 260428
+
+## Drive ENTERPRISE-DOCTRINE-v1.2.md Backfill — DEAD
+Killed: 260428 — operator accepted gap on recommendation
+Reason: v1.3 is authoritative. Drive version history is decorative.
+  Rules 9–11 live in gl-brain/gl/decisions.md (commits pre-260428).
+  15-min task with zero return value.
+Revive condition: Never
 
 ## Browser Extension for Context Injection — DEAD
 Killed: Security assessment
