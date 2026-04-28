@@ -1,6 +1,39 @@
 # COMMAND — Current State
 Last updated: 260428
 
+## 260428 — Canvas P0 Fix · Run-in-Agent Button Always Renders [via: CC]
+
+[PERSISTENT]
+Author: CC
+
+Session: [GL/COMMAND | CANVAS | Run-in-Agent P0 Fix · Button Rendering | 260428]
+
+**P0 BUG FIXED: "Run in Agent" button in canvas StepDetailSidebar.tsx was dead for new users.**
+
+Root cause: Conditional rendering gate at line 555 (`{!step.agent_id ? ... : <button>}`) hid the button entirely when `step.agent_id` was null. New users with no agents registered always got null from `matchAgent()` in the decompose route — button NEVER rendered — showed static "Assign an agent to this step to run it." message with no clickable path forward.
+
+Fix (committed 0ca485d via closeout, verified in ba87910 test spec):
+- Removed conditional rendering gate
+- Button ALWAYS renders with label "Run in {step.agent_name}"
+- onClick handles no-agent case explicitly: shows amber error "No configured agent found for '[name]'. Add an agent in Settings → Integrations, then re-run decomposition." (not a silent dead end)
+- System prompt order in executeTask.ts verified against LOCKED pattern in patterns.md — PASS
+
+Playwright verification:
+- Auth: jcameron5206@proton.me (Eric, beta target)
+- Button renders ✅
+- Clicking with no agents shows actionable amber error ✅
+- 2/2 tests passed (auth 8.9s + P0 spec 1.9m)
+
+Patterns.md compliance:
+- Agent fuzzy match tier 4: "null (show warning, do not silently fail)" — old code violated this
+- executeTask system prompt LOCKED order: verified correct (DNA → agent → skills → applied skill → user intent → prior context → context brief)
+
+Files changed:
+- `components/canvas/StepDetailSidebar.tsx` — fix committed 0ca485d
+- `e2e/run-in-agent-p0.spec.ts` — new P0 verification spec committed ba87910
+
+---
+
 ## 260428 — ROI Baseline Fix · Defensible Math [via: CC]
 
 Session: [GL/COMMAND | ENGINEERING | ROI Baseline Fix · Defensible Math | 260428]
