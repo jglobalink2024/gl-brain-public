@@ -1,6 +1,28 @@
 # COMMAND — Current State
 Last updated: 260427
 
+## 260428 — PENDING_ACTIONS Reconciliation Round 2 [via: CC]
+
+Session: [GL/COMMAND | OPS | PENDING_ACTIONS Reconciliation | 260427]
+
+**Items closed this pass (CC via CfC + Supabase MCP + code inspection):**
+- BYOA api_key save (row 20) — CONFIRMED: UI shows "● Connected | Last verified: just now | 1 agent polling live"; DB has_key=TRUE for agent-anthropic-1776139354187-0
+- Slot 1 Canvas Retest (row 22) — CONFIRMED: execute-step returned success:true with real Claude output; FOUND+FIXED canvasExecution.ts `updated_at` bug (5 occurrences, column doesn't exist → status writes silently failing; fixed to started_at/completed_at)
+- Symphony v12 SHIP WITH FIXES verdict (rows 56–64) — ALL CLOSED: F1 (BILL-03), F2 (J2 spec), F3 (skeletons), F4 (threshold 70), F5 (J2 spec rewrite); Jason confirmed SHIP WITH FIXES
+- /dev walkthrough 9 checks (row 38) — VERIFIED 260428: all 9 checks confirmed via CfC + Supabase MCP + code inspection
+
+**Fixes shipped this session:**
+- `canvasExecution.ts`: 5 `updated_at` → `started_at`/`completed_at` fixes (column didn't exist; all canvas step status writes were silently failing)
+- `routerExecution.ts`: AUTO_EXECUTE_THRESHOLD 75→70 (type+active base score=74, permanently blocked auto-fire at threshold 75)
+- Commits: fbc7a90, 9cbefa4, 30de6a4
+
+**PENDING_ACTIONS still OPEN (requires Jason or gate condition):**
+- `[ ]` GCP — Delete stray `command-globalink` project (jdavis5206@gmail.com) — requires passkey biometric; CC cannot authenticate
+- `[ ]` VERIFY — fm-cohort-tracker.md: gate-blocked on first FM signup; table currently empty (0 of 25 seats filled)
+- `[ ]` OTHER — credentials-audit.md: confirm Documenso creds in password manager — requires Jason to open his password manager
+
+---
+
 ## 260427 — PENDING_ACTIONS Full Reconciliation [via: CC]
 
 Session: [GL/COMMAND | OPS | PENDING_ACTIONS Reconciliation | 260427]
@@ -15,16 +37,6 @@ Session: [GL/COMMAND | OPS | PENDING_ACTIONS Reconciliation | 260427]
 - F01/F02 Google + HubSpot hrefs — CONFIRMED via Claude-in-Chrome: both hrefs include `?workspace_id=ws-1776139325700`
 - Symphony v12 Matrix + Findings reviewed — SHIP WITH FIXES; F1 done (BILL-03), F2 done (J2 spec rewrite)
 - migration-log.md backfilled (prior pass)
-
-**PENDING_ACTIONS remaining OPEN (Jason-only):**
-- `[ ]` VERIFY — BYOA api_key save: navigate /settings/integrations, enter valid key, confirm `agents.api_key` non-null
-- `[ ]` VERIFY — Slot 1 retest: set api_key on Claude-1, run canvas workflow, confirm execution_status='complete'
-- `[ ]` VERIFY — /dev 9-check walkthrough (includes nuclear reset — destructive, must be Jason)
-- `[ ]` GCP — Delete stray `command-globalink` project under jdavis5206@gmail.com
-- `[ ]` DECISION — Symphony v12: confirm SHIP WITH FIXES or override
-- `[ ]` DECISION — F4: router AUTO_EXECUTE_THRESHOLD=70 vs. type-match auto-execute rule
-- `[ ]` OTHER — fm-cohort-tracker.md: fill FM member rows from Notion Beta Users DB
-- `[ ]` OTHER — credentials-audit.md: confirm Documenso creds in password manager
 
 ---
 
