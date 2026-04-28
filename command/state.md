@@ -1,6 +1,33 @@
 # COMMAND — Current State
 Last updated: 260428
 
+## 260428 — Daily Ops Diagnostic · SP Execution [via: CC]
+
+Session: [GL/COMMAND | OPS | Daily Diagnostic · SP Execution | 260428]
+
+**Ops run completed: YELLOW (run 16 of 16 in history)**
+- Warm canary GREEN: 203ms / 139ms avg (new methodology from April 27 confirmed working)
+- Cold-start primer: 3142ms — measurement artifact, not a health signal
+- DB: 31.44 MB (+2.85 MB from agent_poll 1986 events — BYOA polling, normal)
+- Tables: 25/25 ✅ | Routes: 66 (baseline updated) | Vendors: all operational
+- Plan gates: 0 expired trials, 0 credit issues | Auth: 401 confirmed correct
+
+**3 SPs applied autonomously (per policy 460788f + Jason confirmation):**
+- SP-260428-01: `agent_poll` added to audit_event_types in schema-baseline.json
+- SP-260428-02: `dev_action` added to audit_event_types in schema-baseline.json
+- SP-260428-03: `/api/integrations/vendor-disconnect` added to api_routes (65→66)
+
+**Run log:** docs/ops/2026-04-28-11-05.md (commit c3acbbd)
+
+**Errata:** Session initially created erroneous docs/ops/2026-04-20-11-05.md (commit d3e8dab)
+due to stale local git state (was at 3aaf17b, 8 days behind main). Data was coincidentally
+accurate for April 20 but SP context was wrong. File left in history; canonical April 20
+data preserved in April 21-27 trend tables.
+
+**VERCEL_API_TOKEN:** authenticated fine April 27, not this run — may need context check.
+
+---
+
 ## 260428 — PENDING_ACTIONS Reconciliation Round 2 + Full Close [via: CC]
 
 Session: [GL/COMMAND | OPS | PENDING_ACTIONS Reconciliation | 260427]

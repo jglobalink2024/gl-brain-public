@@ -1,5 +1,40 @@
 # COMMAND — Build Patterns
-Last updated: 260427
+Last updated: 260428
+
+## Ops Watchdog — Canary Methodology (LOCKED 260427)
+
+**DO NOT use single cold-start probe to determine canary health.**
+Cold probe always reads 2500–3300ms (V8 isolate boot) — that's a measurement artifact, not a
+production health signal. Users never see cold starts in practice.
+
+**Correct methodology (per SP-260427-01):**
+1. Send a primer/warmup GET to `/api/mcp/health` — discard this latency
+2. Send 2 steady-state measurement probes — these drive health classification
+3. Thresholds: <1000ms = GREEN, 1000–2000ms = WARNING, >2000ms or non-200 = CRITICAL
+
+**Warm latency baseline:** ~140–200ms (established April 27–28 runs)
+
+## Ops Watchdog — find Command in Route Drift Check (260428)
+
+`find app/api -name "route.ts" -o -name "route.tsx"` is unreliable — the `-o` flag can
+produce unexpected output depending on shell/find version.
+
+**Use this instead:**
+```bash
+find app/api -name "route.ts" -type f | wc -l
+find app/api -name "route.ts" -type f | sort
+```
+This finds all `.ts` routes cleanly. The `.tsx` variant is not used in COMMAND API routes.
+
+## Ops Watchdog — Autonomous SP Policy (active since 260424, commit 460788f)
+
+Audit event type additions and new route additions to schema-baseline.json are
+**autonomously applicable** without Jason confirmation, provided:
+- The new event/route is explained by a committed code change (not mystery drift)
+- The change is additive (no removals or counter-decrements without confirmation)
+- The autonomous patch note is logged in schema-baseline.json `_meta.note`
+
+All table additions still require confirmation (schema migration risk).
 
 ## Multi-Agent Review Protocol (MANDATORY — LOCKED 260427)
 
