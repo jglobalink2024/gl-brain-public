@@ -33,7 +33,7 @@ Last updated: 260416
 | **HubSpot** | Redirect URI (`HUBSPOT_REDIRECT_URI`) | Jason | N/A | N/A | `https://app.command.globalinkservices.io/api/integrations/hubspot/callback` | Not a secret |
 | **Vercel** | API Token (`VERCEL_API_TOKEN`) | Jason | 365 days | 260415 | Ops watchdog runtime error visibility — scoped to command-ops-watchdog token, No Expiration | Token created 260415; used by ops-watchdog agent |
 | **Microsoft Clarity** | Project ID (`w35dn6egp4`) | Jason | N/A | N/A | Analytics tracking — not a secret; embedded in client bundle | Production-gated: only active when `NEXT_PUBLIC_GL_INTERNAL` is absent/false |
-| **Documenso** | Admin Credentials (web login) | Jason | 90 days | 260428 | Self-hosted NDA signing platform — web UI login only, no env var. Confirmed in password manager 260428. | URL: go.command.globalinkservices.io/betaNDA |
+| **Documenso** | GitHub OAuth (jglobalink2024) | Jason | N/A | N/A | Self-hosted NDA signing platform — login via GitHub OAuth, no password to manage. Access = GitHub account access. | URL: go.command.globalinkservices.io/betaNDA |
 | **GitHub** | PAT (jglobalink2024) | Jason | 365 days | See secure store | Used by: brain-writer.yml, sync-public.yml GitHub Actions; Claude Code MCP server for brain repo access | Scopes: repo (full) + read:org OR fine-grained Contents R/W on brain repos |
 
 ---
