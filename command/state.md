@@ -3,6 +3,27 @@ Last updated: 260504
 
 ---
 
+## 260504 — Closeout system bootstrap + pending action sweep [via: CC]
+
+[PERSISTENT]
+Last updated: 260504
+Author: CC
+
+Session: [GL/BRAIN | OPS | Brain Bootstrap · Pending Sweep | 260504]
+
+### What shipped
+- SQL bootstrap DONE: `brain_queue` + `brain_quarantine` tables created on pl-brain (hrmlntvdbvxypversnfv) and hearth-brain (jexhxufepfcdhbpkvjck) via Chrome MCP Monaco injection — both returned Success
+- GitHub ticket #4314332 CHECKED: closed by GitHub Support with generic deflection. New next step documented in PENDING_ACTIONS: Jason must file from jcameron5206@proton.me via support.github.com/contact/cannot_sign_in (no sign-in required)
+- Agent re-auth ws-1776139325700: GPT-4-1 + Perplexity-1 reset stalled→idle via SQL. Root cause: api_key IS NULL on both. Jason must enter OpenAI + Perplexity API keys via COMMAND UI to fully activate
+- PENDING_ACTIONS.md: 4 items marked done (pl-brain SQL, hearth-brain SQL, re-auth partial), GitHub ticket updated, new API key entry item added — committed a49dea7
+
+### What's next
+- Jason: enter OpenAI API key for GPT-4-1 + Perplexity API key for Perplexity-1 via COMMAND UI
+- Jason: file new GitHub support request from jcameron5206@proton.me (cannot_sign_in form)
+- GP-1 stabilization continues — Pure Path A discipline holds
+
+---
+
 ## 260504 — gl-brain Step 5 verified + globalink-brain merged + closeout path fixed [via: CC]
 
 [PERSISTENT]
