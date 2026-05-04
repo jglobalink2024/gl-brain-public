@@ -71,6 +71,37 @@ Session: [GL/BRAIN | OPS | gl-brain off-OneDrive move | 260504]
 
 ---
 
+## 260504 — Documenso NDA Template Fields + Test Send [from globalink-brain]
+
+[PERSISTENT]
+Last updated: 260504
+Author: CC
+Session: [GL/COMMAND | OPS | Documenso NDA Template Fields · Test Send | 260504]
+- Added 5 fields to Documenso template 12572 (COMMAND Beta NDA v2.0), page 4, Participant right column
+- Fields: SIGNATURE(id:10520397,y:12.5), NAME(id:10520396,y:15.8,required:true), TEXT Company/Org(id:10520398,y:18.6,required:true), TEXT Title/Role(id:10520399,y:21.4), DATE(id:10520400,y:24.2)
+- All mapped to recipient 2114590 (recipient.1@documenso.com, SIGNER)
+- Discovery: tRPC proc=field.setFieldsForTemplate; auth header x-team-id:178745; envelopeItemId=envelope_item_lfevxkkomiolhlal (templateDocumentData)
+- Test invite sent: doc 1260791 to jcameron5206@proton.me — signing URL https://app.documenso.com/sign/fKrJUdfR5ieBqkBtcHK4g — Full Name + Signature confirmed visible in signing UI
+- PENDING_ACTIONS.md Documenso row marked [x]
+
+---
+
+## 260504 — P1 #4 MCP SQL Migrations + APPSMOKE-06 Fix [from globalink-brain]
+
+[PERSISTENT]
+Last updated: 260504
+Author: CC
+Session: [GL/COMMAND | BUILD | MCP SQL Migrations · APPSMOKE-06 Fix | 260504]
+- P1 #4 MCP SQL Migrations shipped to production Supabase (ycxaohezeoiyrvuhlzsk)
+- Three columns added: mcp_secret TEXT NOT NULL (entropy default) on workspaces; mcp_endpoint_url TEXT nullable and capabilities JSONB nullable on agents
+- JSONB column type change required DROP + recreate of agents_safe view
+- lib/supabase/types.ts regenerated via Supabase MCP
+- tsc: exit 2 → exit 0 after fixing type debt in 5 files (CheckpointRow, Checkpoint interface, command-data.ts, ledger.ts entry_seq, dev/reset dynamic table cast)
+- APPSMOKE-06 fixed: /GlobalInk/i case-insensitive flag falsely matched correct footer text "GlobaLink LLC" (both fold to "globalink"). Fix: dropped "i" flag → case-sensitive
+- Committed c7e6de3, pushed to main
+
+---
+
 ## 260504 — Hardening #4: closeout-bot lockout + L1 banner informational [via: CC]
 
 [PERSISTENT]
