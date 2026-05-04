@@ -1,6 +1,21 @@
 # COMMAND — Current State
 Last updated: 260503
 
+## 260503
+
+Session: [GL/COMMAND | INFRA | Closeout Hardening F8a+F8c | 260503]
+
+### Active Fixes
+- 260503 — BRAIN HARDENING #1 deployed: closeout v2 hardened against F8a (silent entry-point failure) and F8c (silent brain-committer miss). New behavior: per-step success/failure tracking, three health checks (brain-committer SKILL.md existence, sync script presence/exec, gl-brain push parity), Brevo failure alert to jason@globalinkservices.io, heartbeat write to ~/.claude/closeout-last-success on clean exit. Exit code now distinguishes "ran clean" (0) from "ran with silent step failures" (1).
+
+### Build State
+- 260503 — `~/bin/closeout` rewritten 129 → 280 lines. Repo copy at `globalink-claude-config/bin/closeout` byte-identical. Both `chmod +x`. `bash -n` passes. `.env.brains` extended with `BREVO_API_KEY` (filled by Jason from Proton Pass), `BREVO_SENDER_EMAIL=ops@globalinkservices.io`, `BREVO_ALERT_TO=jason@globalinkservices.io`. Brain-committer version check is warn-only per spec — SKILL.md has no version tag yet, so it currently warns; non-blocking.
+
+### Pending Verification
+- 260503 — Failure path (move `brain-committer/SKILL.md` aside, run closeout, expect Brevo email + exit 1) requires manual run by Jason now that BREVO_API_KEY is populated.
+
+---
+
 ## 260503 — Brain Hardening #2 · POINTER v3.1 + integrity.md (F4 + F8a Closure) [via: CC]
 
 [PERSISTENT]
