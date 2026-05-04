@@ -3,6 +3,26 @@ Last updated: 260504
 
 ---
 
+## 260504 — Rule 13 v1.4 brain write — CfC in scope, Rule 17 variant table [via: CC]
+
+[PERSISTENT]
+Last updated: 260504
+Author: CC
+
+Session: [GL | BRAIN | Rule-13 v1.4 · Rule-17 Variant Table | 260504]
+
+### What shipped
+- gl/principles.md: Rule 13 upgraded to v1.4. CfC (Claude in Chrome) added as first-class variant. Bullet updated to reference full block. ## RULE 13 section appended with 5-parameter contract, routing decision logic, tiebreakers, required prompt header, brain-committer version-pin requirement.
+- gl/principles.md: ## RULE 17 variant shorthand reference table added immediately after Rule 13 — 6 variants: CC / CCO / CfC / Chat / Excel / PowerPoint.
+- gl/decisions.md: 260504 entry appended documenting Rule 13 v1.4 amendment and propagation surfaces.
+- Commit 69164c6 pushed to gl-brain remote.
+
+### What's next
+- Propagate Rule 13 v1.4 to command-app/command-app/CLAUDE.md
+- Update Drive Enterprise Doctrine doc
+
+---
+
 ## 260504 — Agent re-auth complete — GPT-4-1 + Perplexity-1 keyed [via: CC]
 
 [PERSISTENT]
