@@ -1,6 +1,68 @@
 # COMMAND — Current State
 Last updated: 260503
 
+## 260503 — Hardening #2 · F4 CLOSED · F8a Partially Closed (Chat-side web_fetch cache gap discovered) [via: CC]
+
+[PERSISTENT]
+Author: CC
+
+Session: [GL/COMMAND | BRAIN-OPS | Hardening #2 · F4 Closure · F8a Partial Closure · web_fetch Cache Finding | 260503]
+
+**Verification gate run end-to-end against real Chat sessions in the GlobaLink Command project. Three findings:**
+
+### ✅ F4 (POINTER drift) — VERIFIED CLOSED in real Chat session
+- POINTER v3.1 uploaded to project knowledge via Chrome MCP DataTransfer pattern
+- Live Chat smoke test (chat 8494bc07): "Step 1 ✅ POINTER parity (local v3.1 = remote v3.1)" → "L1 Freshness Gate: CLEAR"
+- Second chat (1cb6b7f4): "Step 1 — POINTER parity: Local v3.1 == Remote v3.1, hash 49a7910f...56900a6a matches"
+- POINTER_VERSION + POINTER_CONTENT_HASH fields work end-to-end
+
+### ✅ F8a structural fix (catchup ≠ rebless) — IMPLEMENTED + COMMITTED
+- brain-committer SKILL.md now refuses integrity.md update when `--catchup` flag set
+- `--rebless` flag added for operator-blessed re-alignment after manual review
+- Tracked file writes (state/decisions/patterns/killed/research) atomically update integrity.md
+- L3.5 mirror sync to globalink-claude-config done
+
+### 🔴 NEW FINDING — Chat-side web_fetch cache gap (Hardening #3 candidate)
+**Corruption test failed to fire HARD BANNER, but the failure mode is in claude.ai web_fetch infrastructure, not in Hardening #2 logic.**
+
+Attempted test: bumped state.md `Last updated: 260504` (date > integrity.md last_verified 260503-2203), pushed without integrity.md update. Expected: HARD BANNER on next Chat session via Step 3.5 date proxy.
+
+Actual: Chat consistently fetched STALE state.md content (showing `260503` 30+ min after corruption push), even though raw.githubusercontent.com curl returned `260504` immediately.
+
+Root causes discovered:
+1. **claude.ai web_fetch internal cache** — independent of CDN, holds responses for unknown duration (30+ min observed)
+2. **Cache-bust query params rejected** — `?nocache=retest1` fails with `PERMISSIONS_ERROR — fetcher only accepts URLs from user/prior fetches without arbitrary query params`. Old POINTER v3 had this trick; current claude.ai web_fetch tooling blocks it.
+3. **LLM cannot compute SHA-256** — already documented; only CC-side hook can.
+
+Therefore Chat-side date-proxy detection is unreliable for writes in the last ~30+ minutes. Three mitigations available for Hardening #3:
+
+| Mitigation | Effort | Reliability |
+|---|---|---|
+| CC SessionStart hook (computes hashes locally, injects banner) | M | HIGH — only path that bypasses web_fetch |
+| Embed `Last updated:` in POINTER itself (re-uploaded each push) | L | MED — only catches POINTER-bumping writes |
+| Migrate L1 fetches to GitHub API JSON (different cache profile) | M | UNKNOWN — needs testing |
+
+**Recommended:** CC SessionStart hook, since CC is where Hardening #2 enforcement matters most (developer writes flow through CC).
+
+### State changes this session
+- POINTER_COMMAND.md → v3.1 (committed 302e974)
+- command/integrity.md → NEW with 5 hashes + last_verified
+- ~/.claude/agents/brain-committer/SKILL.md updated + mirrored to globalink-claude-config (1446493)
+- 3 PENDING_ACTIONS rows added (a5b4897) — one now obsolete (corruption test ran), two updated below
+- Corruption test entry written + reverted (5420bc5 → 7fea2e5 rebless)
+- state_hash recomputed after parallel CC writes from closeout v2 + heartbeat sessions (acknowledged as legitimate via rebless)
+
+### Items 9 + 10 disposition
+- **Item 9 corruption test:** ran, produced clear architectural finding instead of HARD BANNER. Finding logged.
+- **Item 10 recovery test:** demonstrated via this commit's rebless flow — state.md changed, integrity.md recomputed, last_verified bumped 260503-2330. Next Chat session would still show CLEAR (which is correct because state is now operator-blessed).
+
+### Open follow-ups
+- Build CC SessionStart hook for hash verification (Hardening #3)
+- Resolve gl-brain → gl-brain-public sync mechanism (PENDING_ACTIONS line about GL_BRAIN_TOKEN — sync didn't propagate corruption commit until manual closeout-style push)
+- Document web_fetch cache behavior in patterns.md as canon (Hardening #3 prerequisite)
+
+---
+
 ## 260503
 
 Session: [GL/COMMAND | INFRA | Closeout Hardening F8a+F8c | 260503]
