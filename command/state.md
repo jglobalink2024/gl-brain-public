@@ -3,6 +3,28 @@ Last updated: 260504
 
 ---
 
+## 260504 — brain-committer SKILL v1.2 + Rule 13 v1.4 pin 260504 [via: CC]
+
+[PERSISTENT]
+Last updated: 260504
+Author: CC
+
+Session: [GL | BRAIN | brain-committer SKILL · Rule 13 v1.4 | 260504]
+
+### What changed
+- brain-committer SKILL.md already existed at `~/.claude/agents/brain-committer/SKILL.md` (260 lines, production-grade with F8a integrity gate, POC-1/2 checks)
+- Added version header (`v1.2 | Updated: 260504`) and `## Version Pin (Rule 13 v1.4)` section
+- Version pin line `brain-committer version pin: v1.2` added to RULE 12 in both:
+  - `command-app/command-app/CLAUDE.md` → pushed to main (21ef4ab)
+  - `~/.claude/CLAUDE.md` → local-only (no git repo, correct)
+- agents repo push: `fork add/brain-committer → 4a73b44`
+
+### Status
+Rule 13 v1.4 version-pin self-report: FULLY ENFORCEABLE
+Fork PR: not needed — CC reads from local checkout, file is live on disk
+
+---
+
 ## 260504 — Rule 13 v1.4 brain write — CfC in scope, Rule 17 variant table [via: CC]
 
 [PERSISTENT]
