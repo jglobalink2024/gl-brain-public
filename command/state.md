@@ -3,6 +3,59 @@ Last updated: 260504
 
 ---
 
+## 260504 — GP-1 GREEN — chain + smoke first-pass [via: CC]
+
+[PERSISTENT]
+Last updated: 260504
+Author: CC
+
+Session: [GL/COMMAND | GP-1 | Chain + Smoke GREEN · First Attempt | 260504]
+
+### What shipped (commit 1af2195, main)
+11 files changed this session:
+
+- `app/router/page.tsx` — `setDispatchBrief` moved BEFORE chain wiring (fire-and-forget). Goal text renders immediately after dispatch, within 15s window.
+- `e2e/golden-path.spec.ts` — `page.waitForRequest` intercept captures exact `task_id` at dispatch time. State-inspector poll now matches by `task.id === capturedTaskId` (exact), eliminating stale-task false-positive. Serial mode + Realtime drain poll added to beforeEach.
+- `app/api/agents/proxy/route.ts` — 90s AbortController timeout added to all three vendor API calls (Anthropic, Perplexity, OpenAI).
+- `app/api/dev/reset/[action]/route.ts` — nuclear reset now clears task_chains table.
+- `app/api/tasks/chain/route.ts` — robustness + ledger wiring improvements.
+- `lib/pipeline/executeTask.ts` — credit deduction guard improvements.
+- `lib/seed-workspace-agents.ts` — Claude-Research agent added to seed set.
+- `lib/store.ts` — GP-1 supporting fixes.
+- `lib/dev-gate.ts` — GP-1 supporting fixes.
+- `playwright.config.ts` — GP-1 supporting fixes.
+
+### Test results (first attempt, no retries)
+- Chain test: ok 1.2m
+- Smoke test: ok 20.5s
+
+### GP-1 Gate Status
+- Status: GREEN as of 260504
+- 48h clock starts: 260504
+- Gate to GP-2 (chain dispatch / Autogap queue) opens: 260506
+
+### Active Fixes resolved this session
+- stale-task false-positive in GP-1 e2e test: CLOSED
+- setDispatchBrief timing bug (goal text not rendering in 15s window): CLOSED
+
+---
+
+## 260504 — ONE-USE File Purge (command-app root)
+
+[PERSISTENT]
+Last updated: 260504
+Author: CC
+
+Session: [GL/COMMAND | CLEANUP | ONE-USE File Purge · Root Cleanup | 260504]
+
+### What changed
+Deleted 2 ONE-USE prompt files from command-app/command-app/ root:
+- PROMPT_CCO_drive_rule13_v14.md
+- PROMPT_CC_braincommitter_skill_create.md
+(Two others — CLAUDE_global_updated.md, PROMPT_CC_brain_rule13_v14.md — were already gone.)
+
+---
+
 ## 260504 — brain-committer SKILL v1.2 + Rule 13 v1.4 pin 260504 [via: CC]
 
 [PERSISTENT]
