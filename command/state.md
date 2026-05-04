@@ -1,6 +1,28 @@
 # COMMAND — Current State
 Last updated: 260503
 
+## 260503 — Hardening #3 · F8a CLOSED · Self-Test Verified [via: CC]
+
+[PERSISTENT]
+Author: CC
+
+Session: [GL/COMMAND | BRAIN-OPS | Hardening #3 · CC SessionStart Hash Hook · F8a Full Closure | 260503]
+
+**Three-state self-test completed and verified this session. Previous closeout entry wrote hook existence; this entry confirms test results.**
+
+### Self-test results (node direct invocation — same code path as SessionStart hook)
+- Test A (clean): empty additionalContext ✅
+- Test B (drift — DRIFT_MARKER_TEST appended to state.md): HARD BANNER fires naming command/state.md with hash prefix diff (expected 9e8c46c0… ≠ got ed86766a…) ✅
+- Test C (recovery — typo reverted): banner clears, empty additionalContext ✅
+- Evidence: gl-brain/command/symphony/hardening-3/evidence.md
+
+### Rebless this session
+integrity.md had stale hashes post-Hardening #2 (state/decisions/patterns drifted). Manually reblessed with current hashes. brain-committer then reblessed again via closeout (last_verified: 260503-2355).
+
+### Brain-committer path discrepancy flagged
+brain-committer SKILL.md hardcodes globalink-brain path; active brain is gl-brain. Brain writes done directly this session. SKILL.md needs update.
+
+
 ## 260503 — Hardening #3 SHIPPED + VERIFIED · F8a fully closed via CC SessionStart hash hook [via: CC]
 
 [PERSISTENT]
