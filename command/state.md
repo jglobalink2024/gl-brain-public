@@ -1,6 +1,59 @@
 ﻿# COMMAND â€” Current State
 Last updated: 260503
 
+## 260503 â€” Trio #1 + RESTORE.md Verification CLOSED [via: CC]
+
+[PERSISTENT]
+Last updated: 260503
+Author: CC
+
+Session: [GL/COMMAND | INFRA | Trio #1 · RESTORE.md Verification | 260503]
+
+**Verification contract executed in-session (CC, ~2347 BRT).**
+
+### PART A — Trio #1 (closeout v2.1 pre-push health gate)
+
+Timestamp (UTC): 2026-05-04T03:47-03:53Z
+
+**6/6 Acceptance Criteria: PASS**
+
+| # | Criterion | Result |
+|---|---|---|
+| 1 | Failure-path exit code == 1 | ✅ PASS |
+| 2 | Brevo 'sent' event to jason@globalinkservices.io | ✅ PASS |
+| 3 | Failure stdout names brain-committer SKILL.md as missing | ✅ PASS |
+| 4 | Clean-path exit code == 0 | ✅ PASS |
+| 5 | ~/.claude/closeout-last-success mtime updated | ✅ PASS |
+| 6 | No errant git push to gl-brain during failure path | ✅ PASS |
+
+Brevo event ID: `<202605040347.89053754607@smtp-relay.mailin.fr>` (delivered 2026-05-03T23:47:52-04:00)
+Log artifacts: `/tmp/closeout-fail-260503.log`, `/tmp/closeout-clean-260503.log`
+
+Side flag: `brain-committer-version` WARN fires on clean path (no version tag in SKILL.md, expected v1.0) — warn-only per spec, non-blocking.
+
+**Trio #1 verification CLOSED — closeout v2.1 fires Brevo alert + exit 1 on health-check failure; clean path exits 0 with heartbeat write. Acceptance: 6/6.**
+
+### PART B — RESTORE.md (globalink-claude-config)
+
+**5/5 Acceptance Criteria: PASS**
+
+| # | Criterion | Result |
+|---|---|---|
+| 1 | RESTORE.md exists at globalink-claude-config/RESTORE.md | ✅ PASS |
+| 2 | Length > 30 lines | ✅ PASS (205 lines) |
+| 3 | Semantic content match (restore/recovery doctrine, not stub) | ✅ PASS |
+| 4 | git log shows recent commit (post-260427) | ✅ PASS (27c56de) |
+| 5 | origin/main parity, clean tree | ✅ PASS |
+
+Last commit `27c56de` (“docs: add RESTORE.md for new-machine onboarding”), origin/main HEAD parity confirmed. L3.5 backup doctrine confirmed live.
+
+**RESTORE.md verification CLOSED — file exists at globalink-claude-config/RESTORE.md, 205 lines, last commit 27c56de, origin parity, content match.**
+
+### Blocker resolved pre-execution
+globalink-claude-config had staged but uncommitted `bin/closeout` (carryover from prior session sync). Unstaged before verification runs. Pending: deliberate commit in a future session.
+
+---
+
 ## 260503 â€” brain-committer POC-1 + POC-2 Post-Conditions [via: CC]
 
 [PERSISTENT]
