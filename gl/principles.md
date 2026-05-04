@@ -48,6 +48,19 @@ Last updated: 260428
 - **JCMD** — when Jason personally types and sends
 - **JD** — all automated outreach (Waalaxy, Brevo, templates)
 
+## Rule 14 — Web Fetch Cache Assumption (new 260503)
+
+For any agent reading remote content via web_fetch or equivalent (GitHub raw URLs, API JSON, etc.):
+
+1. Treat content as cache-suspect for ≥30 min past last known write
+2. Use local filesystem reads as ground truth when available
+3. Document cache age in any drift-check output
+4. For critical freshness gates, compute hashes/signatures locally rather than comparing remote fetches
+
+**Why:** claude.ai web_fetch holds responses in internal cache independently of CDN. Cache-bust query params are rejected. This creates a hard ceiling on Chat-side freshness detection. CC-side local reads are the only reliable path to current content.
+
+**When to apply:** Any Session-Start or periodic-check logic that reads shared state across variants. Applies to all agents and all projects.
+
 **Banned phrases:**
 - "in the trenches"
 - "pain points"

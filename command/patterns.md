@@ -811,3 +811,45 @@ service_role; BEGIN/COMMIT wrapper; jsonb return via GET DIAGNOSTICS.
 For statement-level AFTER INSERT triggers that could cause write
 amplification: throttle via singleton state table with last_run
 timestamp + 60s check.
+
+## Brain Freshness Gate (L1) — Architectural Canon
+
+The L1 Freshness Gate detects brain content drift across four dimensions. Verification tested end-to-end against real Chat sessions (260503).
+
+### F4 (POINTER drift) — CLOSED
+
+**Problem:** Chat's L1 Step 1 has no way to detect if the remote POINTER_COMMAND.md is newer than what was injected at session start.
+
+**Solution:** POINTER_COMMAND.md v3.1+ carries two frontmatter fields:
+- `POINTER_VERSION` — semantic version (e.g., "3.1")
+- `POINTER_CONTENT_HASH` — SHA-256 of full POINTER content
+
+**Step 1 logic:** Local POINTER_VERSION must equal remote POINTER_VERSION. If not → HARD BANNER "L1: POINTER DRIFT DETECTED".
+
+**Hash algorithm:** SHA-256 over LF-normalized UTF-8 (replace `\r\n` with `\n`). Field canonicalization rule: Before hashing, replace the `POINTER_CONTENT_HASH:` field value with `__PENDING__` to avoid hash-of-hash circular dependency.
+
+**Verified working:** Real Chat session 260503 confirmed "Step 1 ✅ POINTER parity (local v3.1 = remote v3.1) → L1 Freshness Gate: CLEAR".
+
+### F8a (self-sealing freshness signal) — PARTIALLY CLOSED
+
+**Problem:** Autonomously-generated catchup content can modify brain state without operator review, then self-certify freshness. Silent divergence between operator intent and actual state.
+
+**Structural solution (implemented):**
+- `integrity.md` becomes the trust anchor: contains SHA-256 hashes of all 5 tracked brain files + `last_verified` timestamp
+- L3.5 integrity verification added to POINTER Steps 3–3.5: "If integrity hash mismatch → HARD BANNER"
+- **Hard constraint:** brain-committer refuses to update `integrity.md` when `--catchup` flag is set. Only operator-blessed `--rebless` flag can rewrite integrity.md after manual review.
+- **Result:** Autonomously-generated catchup surfaced as drift on next session start, requiring operator intervention before freshness clears.
+
+**Structural result:** Catchup can no longer self-certify. All unreviewed changes surface as L1 drift on the next session.
+
+### F8a (detection layer) — GAP: Chat-side web_fetch cache
+
+**Problem discovered (Hardening #3):** Chat-side date-proxy detection in Step 3.5 is unreliable.
+
+**Root cause:** claude.ai's web_fetch tool holds responses in an internal cache independent of CDN. Cache duration observed ≥30 min. Cache-bust query params (e.g., `?nocache=token`) rejected with `PERMISSIONS_ERROR`.
+
+**Implication:** A brain write that bumps the `Last updated:` field in state.md without rebessing integrity.md will NOT trigger a L1 HARD BANNER on the next Chat session if that session runs within ~30 min of the push. Chat will fetch stale state.md content.
+
+**Mitigation strategy (Hardening #3):** Chat-side date proxy demoted to soft-signal-only. Primary freshness detection moves to CC-side SessionStart hook, which computes hashes locally, bypassing web_fetch cache entirely.
+
+**Until CC hook ships:** Operators writing to brain must manually run `brain-committer --rebless` if integrity.md is stale, even if content looks fresh via date proxy.

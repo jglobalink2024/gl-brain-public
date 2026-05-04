@@ -1,6 +1,23 @@
 # COMMAND — Decisions Register
 Last updated: 260428
 
+## 260503 — Hardening #2 + #3 canon + CC SessionStart hook plan
+
+Decision: Adopt POINTER_VERSION + POINTER_CONTENT_HASH + integrity.md trust anchor + L1 Freshness Gate as the architectural canon. Demote Chat-side date proxy to soft-signal-only due to unfix-able web_fetch cache behavior. CC SessionStart hash hook is the recommended primary detector for Hardening #3.
+
+Rationale: Two weeks of real-world validation (Apr 13–28, then May 1–3) revealed the 5-layer architecture works but has a single unfixable gap: claude.ai web_fetch caches responses for ≥30 min and rejects cache-bust params. Any operator-initiated brain write that skips rebessing integrity.md will not be detected by Chat within that window. Chat-side detection has bounded utility — CC-side detection must be primary.
+
+Items closed:
+- F4 (POINTER drift): POINTER_VERSION + POINTER_CONTENT_HASH fields verified end-to-end in real Chat session 260503.
+- F8a (self-sealing freshness): catchup-originated writes now surface as drift; brain-committer --catchup refuses integrity.md updates.
+- F8a gap discovery: Chat-side date proxy unreliable for writes within ~30 min. Root cause and mitigations documented in patterns.md.
+
+Items deferred:
+- CC SessionStart hook (Hardening #3): Recommended implementation awaits Jason review. Effort: M.
+- gl-brain ↔ gl-brain-public sync mechanism: Partial propagation delay discovered Apr 28–May 3. Needs investigation.
+
+Pattern: Any future brain-write detection scheme must account for web_fetch cache ≥30 min on claude.ai. Local filesystem reads preferred over remote fetches for ground truth.
+
 ## 260428 — Brain prevention architecture deployed
 Decision: 5-layer architecture covers all originally identified
   failure modes (A/B/C/D/E). Bonus SessionStart hook for CC.
