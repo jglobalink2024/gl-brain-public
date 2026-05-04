@@ -74,3 +74,26 @@ For any agent reading remote content via web_fetch or equivalent (GitHub raw URL
 1. Sales/RevOps consulting (1–15 people, owner-led)
 2. Operations consulting
 3. Executive coaching
+
+## CALIBER Mismatch Stop Protocol (260503)
+
+Format every turn:
+  CALIBER: [X]/18 → [Recommended] (running: [Actual])
+
+If recommended ≠ actual: STOP before generating. State swap
+direction. Wait for operator to switch model in UI and re-send.
+Do not generate the answer on the wrong model tier.
+
+Exceptions (flag but proceed):
+- Mid-thread intentional model persistence
+- Single-line factual answers (trivial cost delta)
+- Sequenced tool-call escalation within one turn
+
+Claude cannot self-swap models. Model selection occurs at the
+API request layer before generation begins. No tool exists to
+change the running model mid-conversation. CC contracts specify
+MODEL: at the top because each contract is a new API request —
+that is the only self-selection mechanism available in the stack.
+
+Running model is identified from system prompt, not from memory.
+Never state a model name without verifying against system context.
