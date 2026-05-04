@@ -1,5 +1,25 @@
-# COMMAND â€” Current State
+# COMMAND — Current State
 Last updated: 260504
+
+## 260504 — brain-committer PR to agency-agents [via: CC]
+
+[PERSISTENT]
+Last updated: 260504
+Author: CC
+
+Session: [GL | STRATEGY | brain-committer POC-1·POC-2 · Drift Fix | 260503]
+
+### Changes
+- Added `emoji: 🧠` and `vibe:` fields to brain-committer SKILL.md frontmatter (CONTRIBUTING.md compliance)
+- Pushed `add/brain-committer` branch to `jglobalink2024/agency-agents` fork (no direct push access to upstream)
+- Opened PR #504: https://github.com/msitarzewski/agency-agents/pull/504
+- PR title: “agent: add brain-committer”
+- gh account switched jcameron52061 → jglobalink2024 for the push
+
+### Note
+- `~/.claude/agents/brain-committer/SKILL.md` and `globalink-claude-config` sync copy both updated with emoji/vibe (not committed to gl-brain — local agent config only)
+
+---
 
 ## 260503 — patterns.md Review + L1 Rebless [via: CC]
 
