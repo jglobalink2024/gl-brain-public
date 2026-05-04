@@ -437,6 +437,7 @@ Therefore Chat-side date-proxy detection is unreliable for writes in the last ~3
 Session: [GL/COMMAND | INFRA | Closeout Hardening F8a+F8c | 260503]
 
 ### Active Fixes
+- 260504 — lib/supabase/types.ts replaced with Supabase MCP auto-generated types (authoritative); TS fixed in: components/ui/ShiftChangeBrief.tsx (parseBullets Json | null), app/api/dev/reset/[action]/route.ts (deleteAll cast), app/api/context/generate/route.ts (JSONB field casts), lib/command-data.ts (null → undefined), lib/ledger.ts (entry_seq guard). TypeScript exit 0 confirmed. types.ts must now be regenerated via Supabase MCP, not hand-edited.
 - 260503 — BILL-02 reverified live (browser): FM $99 / Solo $49 / Standard Pro $149 / Agency $799 all present; Studio $349 removed; Current plan displays "Pilot (free)" correctly; FM button interactive but label "Downgrade to Founding Member Pro" semantically wrong for Pilot user (cosmetic refinement pending). Unblocks FM pilotâ†’paid path testing. No regressions from 260420 baseline.
 - 260503 — BRAIN HARDENING #1 deployed: closeout v2 hardened against F8a (silent entry-point failure) and F8c (silent brain-committer miss). New behavior: per-step success/failure tracking, three health checks (brain-committer SKILL.md existence, sync script presence/exec, gl-brain push parity), Brevo failure alert to jason@globalinkservices.io, heartbeat write to ~/.claude/closeout-last-success on clean exit. Exit code now distinguishes "ran clean" (0) from "ran with silent step failures" (1).
 
