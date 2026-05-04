@@ -3,6 +3,37 @@ Last updated: 260504
 
 ---
 
+## 260504 — Hardening #4: closeout-bot lockout + L1 banner informational [via: CC]
+
+[PERSISTENT]
+Last updated: 260504
+Author: CC
+
+Session: [GL/COMMAND | OPS | Brain Hardening #4 · Bot Lockout | 260504]
+
+### Summary
+- Fixed F8a-class leak: brain-drain bot was writing integrity.md hashes without operator review
+- 9 concurrent-write races (701a73f → ec7f800), all authored by COMMAND Brain identity, had bypassed brain-committer
+- Architecture C chosen: bot may write content; NEVER touches integrity.md
+
+### Changes shipped
+- `~/bin/brain-drain`: added `INTEGRITY_LOCKED_PATHS` blocklist — any queue row with `file_path=command/integrity.md` is blocked, marked committed with sentinel sha `blocked-integrity-locked`, never written to disk
+- `~/bin/brain-drain`: commit message fixed `[via: watchdog←chat]` → `[via: brain-drain]` (audit grep now works)
+- `~/.claude/hooks/brain-integrity-check.js`: L1 banner downgraded from 🔴 hard-block to 🟡 informational drift indicator; added git commit count since last_verified
+- `gl-brain/command/integrity.md`: contract table updated with 2 new rows documenting closeout-bot lockout; drift semantics updated to reflect Architecture C (drift = expected between sessions, brain reads remain safe)
+
+### Commits
+- `68eced3` — brain: Hardening #4 — closeout-bot lockout + L1 banner informational [via: CC]
+- `2a60782` — brain: rebless — recompute all 5 hashes post-Hardening-#4 [via: CC]
+- L1 gate: CLEAN after rebless at session end
+
+### Build State
+- brain-drain: `INTEGRITY_LOCKED_PATHS` blocks all writes to `command/integrity.md`
+- L1 hook: reads CLEAN (no banner) post-rebless
+- `~/bin/` and `~/.claude/hooks/`: filesystem-only (not git repos) — changes persist on disk
+
+---
+
 ## 260504 — Dependabot security audit: 2 moderate alerts confirmed resolved [via: CC]
 
 [PERSISTENT]
