@@ -1,5 +1,46 @@
 # COMMAND — Research Register
-Last updated: 260413
+Last updated: 260504
+
+---
+## globalink-brain Dual-Name Reconciliation — Findings (260504)
+[EVIDENCE]
+Last updated: 260504
+Author: CC
+Session: [GL/BRAIN | OPS | globalink-brain dual-name reconciliation · escalation | 260504]
+
+**Root Cause:**
+The `globalink-brain` GitHub repo (remote: jglobalink2024/globalink-brain.git) and the `gl-brain`
+repo (remote: jglobalink2024/gl-brain.git) are two separate GitHub repos that diverged from a
+common ancestor (commit a4181cd) around 260422. They were never the same renamed repo — they are
+parallel repos that both received commits for ~12 days.
+
+**How the divergence happened:**
+At some point during the 260422 session, a new repo `gl-brain` was created and started receiving
+commits (including all Hardening #2, #3, #4 content and the full session log stack). Meanwhile
+brain-committer still had the OneDrive `globalink-brain` path cached and routed two sessions'
+writes there today (P1-4 MCP migrations, Documenso NDA fields) instead of to gl-brain.
+
+**What was done:**
+1. gl-brain feat/globalink-brain-migration branch: merged globalink-brain content in (commit 9f02044)
+2. Appended missing globalink-brain content to 4 conflicted files (decisions, killed, research, state)
+   using union strategy — commit 5e4d6c7 on gl-brain main
+3. All globalink-brain references updated to gl-brain across:
+   - ~/.claude/hooks/PreToolUse.sh (2 patterns)
+   - ~/.claude/hooks/PostToolUse.sh (1 pattern)
+   - ~/.claude/CLAUDE.md Rule 12 section
+   - gap-flagger/SKILL.md (4 occurrences) — both ~/.claude/agents/ and globalink-claude-config
+   - symphony-journey-architect/SKILL.md (3 occurrences) — both copies
+   - symphony-scorer/SKILL.md (15 occurrences) — both copies
+   - globalink-claude-config committed + pushed: cbe49cb
+
+**Disposition of globalink-brain repo:**
+KEPT as-is (not deleted, not archived). Contains older content and the two today-sessions that
+were accidentally written there. All unique content has been merged into gl-brain main.
+Jason to archive on GitHub when convenient — no active writes should go there going forward.
+
+**Canonical brain:** `C:\dev\gl-brain` / github.com/jglobalink2024/gl-brain.git
+
+---
 
 ## PP Market Intelligence (260413)
 Source: Perplexity Research Mode, 50 sources
