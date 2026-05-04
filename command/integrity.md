@@ -1,5 +1,5 @@
 [PERSISTENT]
-Last updated: 260504
+Last updated: 260504 (Hardening #4)
 Author: CC
 
 # COMMAND Brain Integrity Manifest
@@ -51,16 +51,22 @@ last_verified: 260504-1700
 | brain-committer write (CC, Jason in loop) | YES — recompute hash for file just written |
 | brain-committer write (mode: --catchup) | NO — REFUSE; catchup writes are unverified |
 | `~/bin/brain-drain` chat queue drain | NO — chat-originated content is unverified until reblessed |
+| closeout-bot writes (queue drain, content append) | NO — bot never updates hashes |
+| Bot identity `COMMAND Brain` may commit content | Forbidden from touching `integrity.md` — blocked at `INTEGRITY_LOCKED_PATHS` in brain-drain |
 | Auto-catchup synthesis (L3b) | NO — by design; this is the F8a closure |
 | Operator manual rebless via brain-committer --rebless | YES — operator confirmed brain state is correct |
 
 ## Drift semantics
 
-L1 Freshness Gate triggers HARD BANNER when:
+Architecture C (260504): drift is the **expected** state between operator sessions.
+`brain-drain` queue drains write content but are forbidden from blessing hashes.
+The L1 banner is **informational** — brain reads remain safe during drift.
+
+L1 Freshness Gate triggers informational drift indicator when:
 1. Any brain file's `Last updated:` header is newer than this file's `last_verified:` line, OR
 2. Any brain file's computed SHA-256 does not match the manifest hash (CC-side hook only — Chat uses date-based proxy in (1) since LLMs cannot reliably hash)
 
 Either condition implies brain content was modified by a path other than brain-committer
-(catchup, manual edit, drift) and has not been operator-blessed.
+(queue drain, manual edit) and has not been operator-blessed. Brain reads remain safe.
 
-Recovery: operator reviews diff, runs `brain-committer --rebless` to recompute hashes.
+Recovery: operator reviews diff, runs `brain-committer --rebless` to recompute hashes when convenient.
