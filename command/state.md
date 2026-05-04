@@ -1,5 +1,16 @@
 # COMMAND — Current State
-Last updated: 260503
+Last updated: 260504
+
+## 260504 — CORRUPTION TEST · raw git write bypassing brain-committer (F8a verification)
+
+[ONE-USE]
+Author: TEST
+Note: This entry simulates an auto-catchup or out-of-band write. integrity.md
+is intentionally NOT updated. L1 Step 3.5 (date proxy) should fire HARD BANNER
+on next Chat session because state.md Last updated (260504) > integrity.md
+last_verified (260503-2203). Reverted immediately after verification.
+
+---
 
 ## 260503
 
