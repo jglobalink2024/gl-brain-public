@@ -1,5 +1,67 @@
 # COMMAND — Current State
-Last updated: 260428
+Last updated: 260503
+
+## 260503 — Brain Hardening #2 · POINTER v3.1 + integrity.md (F4 + F8a Closure) [via: CC]
+
+[PERSISTENT]
+Author: CC
+
+Session: [GL/COMMAND | BRAIN-OPS | Brain Hardening #2 · POINTER v3.1 · integrity.md · F4/F8a Closure | 260428]
+
+**Closes Open Audit Items F4 (POINTER drift) and F8a (self-sealing freshness signal).**
+
+### Part A — POINTER version field (F4 closure)
+- `POINTER_COMMAND.md` bumped to v3.1 with `POINTER_VERSION` and `POINTER_CONTENT_HASH` frontmatter fields
+- L1 Freshness Gate Steps 1–5 instantiated for the first time (previously L1/L3b were architectural intent in state.md but never codified in POINTER itself)
+- Step 1: Local-vs-remote `POINTER_VERSION` parity check → HARD BANNER on local-behind-remote
+- POINTER_CONTENT_HASH algorithm self-documented inline (LF-normalized, hash field canonicalized to `__PENDING__` to avoid hash-of-hash chicken/egg). Self-hash verified matching: `49a7910fba6922d5e0235c4740ac02076c0317d15bc998d9a6b46e1e56900a6a`
+
+### Part B — integrity.md trust anchor (F8a closure)
+- Created `command/integrity.md` with SHA-256 hashes of all 5 tracked brain files + `last_verified` timestamp
+- POINTER Step 3.5 added: integrity verification fires HARD BANNER on drift
+- **Structural fix:** auto-catchup (L3b) MUST NOT update integrity.md → catchup-originated content surfaces as drift on next session start → operator must review + manually rebless via `brain-committer --rebless`. Catchup can no longer self-certify.
+
+### brain-committer agent updates (~/.claude/agents/brain-committer/SKILL.md)
+- Description updated: now references integrity.md hash maintenance + F8a closure
+- New Write Mode Flags: `--catchup` (REFUSE integrity.md update) and `--rebless` (force-recompute all 5 hashes after operator review)
+- Default behavior: every write to state/decisions/patterns/killed/research atomically recomputes that file's hash and updates integrity.md in the same commit
+- Hard Rules + Anti-Patterns sections updated with integrity.md / catchup constraints
+- Sync to `globalink-claude-config` (L3.5 backup) — pending this session's closeout
+
+### Initial hashes (LF-normalized SHA-256):
+```
+state:     381f031ca1eade9eb95f39a898a67d90c8a7d7f9e3947042506c4ab42e34b3c5  (pre-this-entry; will update on commit)
+decisions: 149063d72cc1cb5860c459f960c077cd7b96aa9460d8164aba3840e3c6addd39
+patterns:  419765f929b1cbb0cd0f5a43b8573cdc93e5e2dc672eef474319779a977d90b0
+killed:    a6453f843593fae27d418ecbca3e764684ef0fbfc29a332d4f2f61d4c7a41364
+research:  7f02427b065db153e44e2972ed45925c87346b737d4505b491deb382f7857c6b
+last_verified: 260428-0347
+```
+
+### Verification status — INCOMPLETE (operator action required)
+Build side complete and committable. Per the delegation contract gate ("DO NOT declare done unless the corruption test demonstrably fires the hard banner in a real Chat session"), the following is JASON ONLY:
+1. After CC pushes, public mirror auto-syncs (~16s)
+2. Upload `POINTER_COMMAND.md` v3.1 to claude.ai project knowledge (DataTransfer pattern, Chrome MCP)
+3. Open new Chat session → verify L1 fires CLEAR (POINTER versions match, no drift)
+4. Manually corrupt `command/state.md` via direct edit (typo) + push WITHOUT brain-committer
+5. Open new Chat session → verify L1 fires 🔴 HARD BANNER citing state.md drift (Last updated > integrity.md last_verified)
+6. Revert corruption, run `brain-committer --rebless` → integrity.md re-aligns
+7. Open new Chat session → verify L1 clears
+
+Until steps 3–7 pass, this hardening is **architecture-complete but unverified**.
+
+### Open Audit Items now closed
+- F4 — POINTER drift between brain repo + claude.ai project knowledge → CLOSED via Step 1 version parity check
+- F8a — Self-sealing freshness signal → CLOSED via integrity.md trust anchor + catchup non-update rule
+
+### Files changed
+- `gl-brain/POINTER_COMMAND.md` (FULL-REPLACE → v3.1)
+- `gl-brain/command/integrity.md` (NEW)
+- `gl-brain/command/state.md` (this entry)
+- `~/.claude/agents/brain-committer/SKILL.md` (description + flags + hard rules + anti-patterns)
+- `globalink-claude-config/agents/brain-committer/SKILL.md` (mirror sync — pending)
+
+---
 
 ## 260428 — Canvas P0 Fix · Run-in-Agent Button Always Renders [via: CC]
 

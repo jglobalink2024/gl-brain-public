@@ -1,0 +1,66 @@
+[PERSISTENT]
+Last updated: 260503
+Author: CC
+
+# COMMAND Brain Integrity Manifest
+
+Trust anchor for L1 Freshness Gate (POINTER Step 3.5).
+Contains content hashes of the five canonical COMMAND brain files.
+Updated ONLY by brain-committer on verified-good writes.
+Auto-catchup (L3b) MUST NOT update this file — that is the structural fix
+for F8a (self-sealing freshness signal). See POINTER_COMMAND.md Step 5.
+
+## Hash algorithm
+
+```
+SHA-256 of file content, hex-encoded lowercase.
+Line endings normalized to LF before hashing (\r\n → \n).
+No trailing newline trimming. UTF-8 input.
+```
+
+Verification (Node):
+```js
+const fs = require('fs');
+const crypto = require('crypto');
+const raw = fs.readFileSync(path, 'utf8').replace(/\r\n/g, '\n');
+const hash = crypto.createHash('sha256').update(raw, 'utf8').digest('hex');
+```
+
+Verification (PowerShell):
+```ps1
+$raw = (Get-Content -Raw -Encoding UTF8 file.md) -replace "`r`n", "`n"
+$ms = [System.IO.MemoryStream]::new([Text.Encoding]::UTF8.GetBytes($raw))
+(Get-FileHash -Algorithm SHA256 -InputStream $ms).Hash.ToLower()
+```
+
+## Manifest
+
+```
+state_hash: 1e4eeca6f609e5f6284cfdbf3a21669987a4bca9e595c8c5e66b675677300fab
+decisions_hash: 149063d72cc1cb5860c459f960c077cd7b96aa9460d8164aba3840e3c6addd39
+patterns_hash: 419765f929b1cbb0cd0f5a43b8573cdc93e5e2dc672eef474319779a977d90b0
+killed_hash: a6453f843593fae27d418ecbca3e764684ef0fbfc29a332d4f2f61d4c7a41364
+research_hash: 7f02427b065db153e44e2972ed45925c87346b737d4505b491deb382f7857c6b
+last_verified: 260503-2203
+```
+
+## Update contract
+
+| Trigger | Updates integrity.md? |
+|---|---|
+| brain-committer write (CC, Jason in loop) | YES — recompute hash for file just written |
+| brain-committer write (mode: --catchup) | NO — REFUSE; catchup writes are unverified |
+| `~/bin/brain-drain` chat queue drain | NO — chat-originated content is unverified until reblessed |
+| Auto-catchup synthesis (L3b) | NO — by design; this is the F8a closure |
+| Operator manual rebless via brain-committer --rebless | YES — operator confirmed brain state is correct |
+
+## Drift semantics
+
+L1 Freshness Gate triggers HARD BANNER when:
+1. Any brain file's `Last updated:` header is newer than this file's `last_verified:` line, OR
+2. Any brain file's computed SHA-256 does not match the manifest hash (CC-side hook only — Chat uses date-based proxy in (1) since LLMs cannot reliably hash)
+
+Either condition implies brain content was modified by a path other than brain-committer
+(catchup, manual edit, drift) and has not been operator-blessed.
+
+Recovery: operator reviews diff, runs `brain-committer --rebless` to recompute hashes.
