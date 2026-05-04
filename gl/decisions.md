@@ -82,3 +82,17 @@ Sync: ~/bin/claude-config-sync.sh, LOCAL→REPO one-way, auto-runs
 - SECURITY rule formalized: never suggest pasting secrets in chat
 
 **Why:** 177 sessions analyzed — top friction sources were buggy code requiring multi-round fixes, Claude not reading context before acting, and git staging collisions from parallel agent sessions. These rules directly address each friction source.
+
+---
+
+## 260504 — Rule 13 v1.4 Amendment
+
+**Decision:** Rule 13 (Complete Delegation Contract) amended to v1.4.
+**Changes from v1.3:**
+- CfC (Claude in Chrome) added as a full first-class variant — Chrome carve-out removed
+- Variant taxonomy table formalized with 6 rows (CC / CCO / CfC / Chat / Excel / PowerPoint)
+- Rule 17 created as structural reference for variant shorthand (separate from Rule 13 procedural)
+- brain-committer version-pin self-report requirement added
+- Routing decision logic expanded with tiebreakers
+**Propagation surfaces:** Memory (Cowork CLAUDE.md) ✅ | Brain (this commit) ⏳ | command-app CLAUDE.md ⏳ | Drive Enterprise Doctrine ⏳
+**Via:** Chat session → CC brain-committer push
