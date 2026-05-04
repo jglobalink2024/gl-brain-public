@@ -1,6 +1,52 @@
 # COMMAND — Current State
 Last updated: 260504
 
+---
+
+## 260504 — TRACK 1 complete: P0#3 Smart Suggestions fallback fix + P1#4 MCP columns wired + P1#5 Documenso action queued [via: CC]
+
+[PERSISTENT]
+Last updated: 260504
+Author: CC
+
+Session: [GL/COMMAND | TRACK-1 | Smart Suggestions · MCP Columns · Documenso NDA | 260504]
+
+### Changes shipped (commit 411db2e)
+
+**P0 #3 — Smart Suggestions fallback fix** (`lib/pipeline/suggestions.ts`)
+- Removed last-resort `agents[0]` fallback from `getSuggestedHandoff`
+- When no typed agent matches the hint priority chain, function now returns null
+- Prior behavior: picked first available agent regardless of relevance, generating misleading "COMMAND recommends" suggestion
+- Fix: missing suggestion is less harmful than a trust-eroding arbitrary recommendation
+- Audit FLAG 7-B (R3_canvas_suggestions_roi.md) closed
+
+**P1 #4 — MCP columns wired** (`lib/supabase/types.ts` + `app/api/mcp/register/route.ts`)
+- Added `mcp_endpoint_url?: string | null` and `mcp_capabilities?: Json | null` to `AgentsRow` and `AgentsInsert` types
+- Register route now accepts optional `endpoint_url` field, stores in `mcp_endpoint_url`
+- Register route now writes `mcp_capabilities` as native JSONB (in addition to legacy `capabilities` TEXT column)
+- Audit trail (ledger entry) now includes `endpoint_url`
+- DB columns were applied 260413 (migration 20260413220000_mcp_endpoint_url); code was not using them
+- Note: mcp_secret column is UUID type (not text) due to migration order — functionally correct, no regression
+
+**P1 #5 — Documenso NDA participant fields** (`PENDING_ACTIONS.md`)
+- Added OPEN action row for Jason: add Text Field inputs (Full Name, Company, Title, Date) to beta NDA template in Documenso admin
+- Credentials in Proton Pass; requires manual UI access — cannot be automated by CC
+
+### Build state
+- TS: exit 0
+- ESLint: 0 errors/warnings
+- Preflight: PASSED
+- Pushed to main: 411db2e
+
+### TRACK 1 status
+- P0 #3: ✅ SHIPPED
+- P1 #4: ✅ SHIPPED
+- P1 #5: ⏳ PENDING JASON ACTION (Documenso admin)
+
+TRACK 1 code work is complete. Chat handoff to verify cockpit-done criteria 1-4 is ready to run once Jason completes P1 #5 Documenso step. Handoff prompt: `C:\Users\jdavi\Downloads\chat-handoff-cockpit-done-criteria.md`
+
+---
+
 ## 260503
 Session: [GL/COMMAND | HYGIENE | CF-1 · CF-2 · CF-3 Pre-Track-1 | 260503]
 
