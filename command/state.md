@@ -3,6 +3,54 @@ Last updated: 260504
 
 ---
 
+## 260504 — gl-brain off-OneDrive: cloned to C:\dev\gl-brain, 8 path refs updated [via: CC]
+
+[PERSISTENT]
+Last updated: 260504
+Author: CC
+
+Session: [GL/BRAIN | OPS | gl-brain off-OneDrive move | 260504]
+
+### Summary
+- Root cause: OneDrive sync delay caused stale-cache read during 260503–260504 ops session
+  (brain-committer saw mojibake view while disk had clean state); silent data-loss risk if
+  divergence ever flips direction
+- Resolution: cloned gl-brain to C:\dev\gl-brain (short non-OneDrive path); backup already
+  covered by GitHub remote
+
+### Changes shipped
+- `C:\dev\gl-brain` — new canonical brain location, cloned from origin, push-verified
+- `~/bin/closeout` — GL_BRAIN_REPO + REPOS[] entry + chat-name check: all 3 refs updated
+- `~/.claude/agents/brain-committer/SKILL.md` — both cd paths updated
+- `~/.claude/hooks/brain-integrity-check.js` — BRAIN_ROOT constant updated
+- `C:\...\GlobalInk Repos\CLAUDE.md` — gl-brain Local: + brain repo path: both updated
+- `globalink-claude-config\agents\brain-committer\SKILL.md` — synced (2 refs)
+- `globalink-claude-config\hooks\brain-integrity-check.js` — synced (BRAIN_ROOT)
+- `C:\dev\gl-brain\POINTER_COMMAND.md` — brain location line updated
+- `gl-brain-public\POINTER_COMMAND.md` — already upstream
+
+### Artifacts removed
+- `gl-brain\devgl-brain\` — stray nested clone (from failed bash git clone)
+- `gl-brain\C:dev\` — stray empty dir (from failed bash mkdir)
+- Old OneDrive gl-brain README replaced with MOVED stub (local only, not pushed)
+
+### Commits
+- `071a490` — C:\dev\gl-brain: POINTER_COMMAND.md, pushed ✅
+- `2a432bb` — globalink-claude-config: brain-committer + hook, pushed ✅
+- gl-brain-public: already upstream ✅
+
+### Step 5 status
+- L1 hook: CLEAN (verified in-session) ✅
+- closeout script path: VERIFIED in-session ✅
+- brain-committer live write: PENDING — first brain write next session proves it
+- closeout dry-run: PENDING — needs interactive session
+
+### Open items
+- Step 5 final verify: CC_PROMPT_gl-brain-step5-verify_260504.md
+- Dual-name reconciliation (globalink-brain vs gl-brain): CC_PROMPT_globalink-brain-dual-name_260504.md
+
+---
+
 ## 260504 — Hardening #4: closeout-bot lockout + L1 banner informational [via: CC]
 
 [PERSISTENT]
