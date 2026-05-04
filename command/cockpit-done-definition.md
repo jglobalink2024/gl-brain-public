@@ -1,66 +1,58 @@
-# COMMAND Cockpit — "Done" Definition
 [PERSISTENT]
-Last updated: 260427
+Last updated: 260503
+Author: Jason via CC + Chat
+Origin: [GL | STR | Product Reckoning · Pure Path A Decision | 260423]
+Source chat: https://claude.ai/chat/9f1c8333-04a4-401c-8bca-c8e630b8d409
 
-## The Rule
+# COMMAND Cockpit — "Done" Definition
 
-This file defines when the COMMAND cockpit is real enough to show real users.
-Do not move these goalposts without a dated brain commit explaining why.
-If all six criteria below are true, it's real. Until then, it's not for sale.
-
----
+This file is the locked gate for COMMAND cockpit readiness. Criteria
+defined 260423 during Pure Path A reckoning. File created 260503 after
+recovery from missing brain artifact (state.md 260427 entry claimed
+"created and locked" — never actually written).
 
 ## The Six Criteria
 
-1. **Install gate** — A non-technical operator can install the Chrome extension
-   and reach their first task handoff in under 10 minutes, unassisted.
+COMMAND Cockpit is "real" when:
 
-2. **Real handoff** — At least one end-to-end context handoff works across
-   two different vendors (e.g., Claude → ChatGPT, or Perplexity → Claude)
-   without any manual copy-paste from the user.
+1. A non-technical operator can install and start using it in under 10 minutes
+2. One real end-to-end handoff works across at least 2 vendors without copy-paste
+3. Agent status reflects actual use, not webhook theater
+4. Task routing considers availability and load, not just type
+5. 3 people who aren't Jason have used it for 7+ days and returned unprompted
+6. The pitch on the landing page matches what the product does, sentence for sentence
 
-3. **Honest agent status** — Agent status in the cockpit dashboard reflects
-   actual agent availability or activity, not webhook theater or stale pings.
+When those six are true, it's real. Until then, it's not for sale.
 
-4. **Real routing** — Task routing considers actual agent availability and
-   recent load — not just task type match. The router has to know something
-   real about the agents it's sending work to.
+## Lock Conditions
 
-5. **Seven-day retention** — At least three people who are not Jason have
-   used COMMAND for seven or more days and returned to it without being
-   prompted to do so.
+The criteria do not move without:
 
-6. **Pitch-product parity** — Every sentence on the landing page matches
-   something the product actually does. No aspirational claims, no demo-mode
-   features. Walk the homepage with a new user and every sentence should be
-   demonstrable live.
+1. Explicit decisions.md entry stating which criterion is being revised and why
+2. Operator-blessed brain-committer commit (not catchup, not direct edit)
+3. Rationale that does not collapse to "we wanted to make a decision the original criteria would have blocked"
 
----
+If a future session feels pressure to revise these criteria, that pressure is the signal to slow down, not to revise. The whole point of writing this down was to prevent goalpost drift under pressure.
 
-## What "Done" Is Not
+## Tested-Against Record
 
-- "Done" is not when the golden path smoke test passes. That's engineering hygiene.
-- "Done" is not when Eric gets his invite. Eric getting his invite is a milestone,
-  not the finish line.
-- "Done" is not when the dashboard looks good in a screenshot. Visual fidelity is not
-  product fidelity.
-- "Done" is not when the build calendar hits Phase 4. Calendar alignment is a proxy,
-  not the thing.
+Each walk against current state appends below with date and session reference.
 
----
+### 260503 walk (initial after recovery)
+Session: [GL | STRATEGY | Cockpit-Done Recovery · Eric Repurpose | 260503]
+- C1: PARTIAL — pooled-key fallback shipped, no documented run with real non-technical user
+- C2: PARTIAL — autoHandoff code exists, no observable browser-side end-to-end test passing (J2_handoff_deep BLOCKED on entity carry-through, chain test parked Tier 1)
+- C3: IMPROVING — sidebar polling 5–30s, Realtime subscription on agents not shipped (I-3 known)
+- C4: NOT MET — keyword 60% + history 40%, semantic stubbed, load not a factor
+- C5: NOT MET — zero of three. Eric repurposed as discovery user 260503 (decisions.md) — does not advance #5 until 7 unprompted return days observed
+- C6: MET (trivially) — coming-soon page promises nothing
 
-## Who Can Unlock Beta
+Overall: Not yet real by its own definition.
 
-Design partners (3–5 people who watch you use COMMAND on real work and give feedback)
-come before beta users. Beta users who get access before criteria 1–6 are met are
-a liability — they form opinions about a product that doesn't exist yet.
+## Anti-Patterns
 
-Gate sequence:
-  Design partner watch sessions → criteria 1–4 verified →
-  3 people use it for 7 days (criterion 5) → pitch-product audit (criterion 6) →
-  beta invites open
-
----
-
-## Locked: 260427
-Rationale: Pure Path A decision. See gl-brain/command/decisions.md entry 260427.
+- Revising criteria on the day they would block a desired decision
+- Soft-passing a criterion ("close enough")
+- Treating "the code is written" as equivalent to "the criterion is met"
+- Inviting users under "beta" framing while criteria are unmet (use "discovery user" or "early look" — see decisions.md 260503 Eric repurposing for the doctrine)
+- Counting any user who was promised something the product can't deliver toward criterion #5

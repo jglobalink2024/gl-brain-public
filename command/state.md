@@ -1,6 +1,49 @@
 # COMMAND — Current State
 Last updated: 260503
 
+## 260503 — Agent Dev Kit v2 Deploy · GP-1 Smoke Verify [via: CC]
+
+[PERSISTENT]
+Last updated: 260503
+Author: CC
+
+Session: [GL/COMMAND | INFRA | Agent Dev Kit v2 Deploy · GP-1 Smoke Verify | 260503]
+
+### Deployed
+- `~/.claude/CLAUDE.md` replaced with v2 (311 lines): new doctrine (Rules 9-13, Entity Firewall, Agent Teams Pre-Flight Gate 3, Voice/Format), plus retained Council protocol + ORACLE context appended
+- `~/.claude/agent-teams-doctrine.md` — new file, full AT doctrine with cost table, sanctioned patterns, anti-patterns, invocation template
+- `command-app/.claude/CLAUDE.md` — new project doctrine committed (73837e7) and pushed
+- `~/.claude/hooks/PreToolUse.sh` + `PostToolUse.sh` — v2 deployed, chmod +x
+- `~/.claude/settings.json` merged: `env.CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=0` added, hooks block extended with new PreToolUse.sh (matcher .*) and PostToolUse.sh entries, existing tsc+eslint hook + oracle-preflight + rap-b-prescan preserved
+- `jq` 1.8.1 installed via winget, added to `~/.bash_profile`
+- `~/.claude/audit/` directory created — blocked.log confirmed writing on rm -rf test
+
+### GP-1 Verification
+- Fresh smoke run: `npx playwright test e2e/golden-path.spec.ts --grep smoke`
+- Result: **2/2 passed, 6.9 minutes, exit 0** — commit 73837e7
+- Logged: `[260503 22:47] GREEN 414s -- commit 73837e7` appended to `scripts/smoke-log/gate-status.md`
+- Committed and pushed (490dbd2)
+- AT gate condition #1 satisfied: GP-1 GREEN on current code
+
+### Canvas 5-A
+- Working tree confirmed clean — no uncommitted tracked changes
+- State.md reference to "dirty canvas 5-A" was already resolved in a prior session
+- No action required
+
+### Cockpit-Done Criteria Scored (260503)
+- Criterion 1 (install gate): UNKNOWN — extension exists, never tested with non-tech user
+- Criterion 2 (real handoff): PARTIAL — autoHandoff + THEN SEND TO wired, not validated cross-vendor
+- Criterion 3 (honest agent status): PARTIAL — infrastructure exists, real agent callbacks untested
+- Criterion 4 (real routing): LIKELY PASS — idle/active scoring confirmed, workload penalty in code
+- Criterion 5 (7-day retention): NOT STARTED — no non-Jason users yet
+- Criterion 6 (pitch-product parity): UNKNOWN — needs landing page walkthrough
+
+### Deferred
+- Criteria 1-4 verification sessions: PARKED until TRACK 1 complete (P0 #3 Smart Suggestions, P1 #4 MCP migrations, P1 #5 Documenso NDA)
+- Chat handoff prompt written to Downloads for pickup after TRACK 1 done
+
+---
+
 ## 260503 — Cockpit-Done Definition Recovery + Eric Repurposing [via: CC]
 
 Session: [GL | STRATEGY | Cockpit-Done Recovery · Eric Repurpose | 260503]
@@ -202,6 +245,17 @@ Log artifacts: `/tmp/closeout-fail-260503.log`, `/tmp/closeout-clean-260503.log`
 Two bugs flagged (non-blocking):
 - **Bug A (cosmetic):** `fire_brevo_alert` prints `→` (U+2192); Windows charmap fails AFTER HTTP POST succeeds — stderr shows "ALERT failed" as false negative. Fix: `PYTHONUTF8=1` or replace `→` with `->`.
 - **Bug B (architectural):** `check_brain_committer()` runs Step 5, AFTER repo pushes (Step 2). A dirty gl-brain would be pushed before health failure is detected. Test passed only because gl-brain was clean at test time. Fix: reorder health checks to run before pushes, or gate pushes on health-check pass.
+
+### Bug Fixes A & B — Closeout v2.1 (260503)
+Timestamp (BRT): 2026-05-04T00:36
+
+**Bug A (charmap):** `fire_brevo_alert` Python print line changed `→` (U+2192) to `->` (ASCII). Verification output: `ALERT fired -> jason@globalinkservices.io (HTTP 201)` — UnicodeEncodeError eliminated, false-negative "ALERT failed" gone.
+
+**Bug B (pre-push gate):** `check_brain_committer` + `check_sync_script` moved to Step 0, before sync and all repo pushes. On health failure: summary prints, Brevo alert fires, exit 1 — sync and pushes skipped entirely. `check_gl_brain_push_parity` stays post-push (correct — parity only meaningful after pushes complete). Verification output: `STATUS: PRE-PUSH HEALTH FAILED — repo pushes skipped` with zero sync or git output before it.
+
+Closeout bumped: `v2` → `v2.1`. Both `~/bin/closeout` and `globalink-claude-config/bin/closeout` updated byte-identical.
+Commit: `ef8297a` → `globalink-claude-config/main` (bin/closeout first-time tracked in repo)
+Verification artifact: `/tmp/closeout-bugfix-260503.log`
 
 ---
 

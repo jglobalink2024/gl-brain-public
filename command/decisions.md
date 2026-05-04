@@ -1,5 +1,38 @@
 # COMMAND — Decisions Register
-Last updated: 260428
+Last updated: 260503
+
+## 260503 — Eric Repurposed as Discovery User, Not Beta [via: Chat → CC]
+
+Session: [GL | STRATEGY | Cockpit-Done Recovery · Eric Repurpose | 260503]
+
+**Decision:** Eric reach-out for May 5–10 window approved as DISCOVERY USER, not beta launch.
+
+**Tension this resolves:** Original Pure Path A doctrine (260423) said "silence until cockpit-done." A strict reading requires zero contact until criterion #5 is non-zero. But criterion #5 ("3 non-Jason users returning unprompted 7+ days") cannot move from zero without inviting users. Deadlock. Resolution: distinguish CONTACT from PROMISES. The doctrine forbids promises a product can't keep. It does not forbid contact aimed at learning what the product still gets wrong.
+
+**Frame:** Recon-in-force, not attack. Eric is the small element making contact to bring back information that can't be obtained from the inside. He is not the objective. The objective remains the cockpit-done gate.
+
+**Three hard conditions for this to remain honest, not drift to 🅰.1:**
+1. No "beta" language anywhere — not in email, not in conversation, not in pricing context. Use "early look" or "friction-finding session."
+2. No pricing conversation, no founding member offer, no commitment ask. If Eric loves it, he doesn't get to buy yet. Product is not for sale.
+3. Friction log generated, committed to brain post-session, drives next sprint queue. If 30 days pass without code changes traceable to Eric's session → recon failed → fall back to 🅰.4 strict.
+
+**If any condition slips:** Eric pulled, posture returns to 🅰.4 strict hold, no further outreach until cockpit-done criteria materially advance.
+
+**What this decision does NOT do:**
+- Does not assert any of criteria 1–6 are met
+- Does not unlock Grant, Jon, Richard, or any other warm contact
+- Does not reopen Waalaxy / paid outreach
+- Does not change "no founding member offers" doctrine
+- Does not modify cockpit-done-definition.md
+
+**What this decision does:**
+- Reframes Eric specifically as discovery user with explicit conditions
+- Acknowledges criterion #5 requires action that strict-hold doctrine forbids — surfaces the deadlock and resolves it without revising the gate
+- Establishes contact-vs-promise distinction as doctrine
+
+**Reversal trigger:** If by EoD 260510 (one week from commit) no Eric session is scheduled OR any of the three conditions look at risk, this decision auto-reverts to 🅰.4 strict and Eric is pulled until cockpit-done criteria advance.
+
+---
 
 ## 260503 — Hardening #2 + #3 canon + CC SessionStart hook plan
 
@@ -182,3 +215,15 @@ Decision: Gemini/cursor/custom vendors return pending
   status rather than null. UI shows "coming soon."
 Rationale: Returning null silently made Sandra think
   her Gemini agent was working when it wasn't.
+
+---
+
+## 260503 — Hardening #3 ships CC-side SessionStart hash hook as canonical F8a detector
+
+Decision: Hardening #3 ships the CC-side SessionStart hash hook (`brain-integrity-check.js`) as the canonical detector for F8a (self-sealing freshness signal). Chat-side date proxy is demoted to soft-signal-only because web_fetch cache makes it unreliable for sub-30-min drift detection. The hook reads gl-brain/command/integrity.md hashes directly from the filesystem, bypasses all caches, and emits a HARD BANNER into CC context on any hash or date-proxy mismatch.
+
+Rationale: Chat-side date proxy was the intended F8a closure in Hardening #2, but the corruption test (260503) revealed claude.ai web_fetch holds stale cached content for 30+ minutes and rejects cache-bust query params. The CC-side hook has no dependency on network or cache — it reads local disk every session. Three-state self-test verified (clean → drift → recovery) on 260503.
+
+Items closed: F8a fully closed (both Chat-side soft signal + CC-side hard signal operational).
+
+
