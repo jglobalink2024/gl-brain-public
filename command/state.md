@@ -39,14 +39,13 @@ Session: [GL/BRAIN | OPS | gl-brain off-OneDrive move | 260504]
 - `2a432bb` — globalink-claude-config: brain-committer + hook, pushed ✅
 - gl-brain-public: already upstream ✅
 
-### Step 5 status
+### Step 5 status — VERIFIED ✅ 260504
 - L1 hook: CLEAN (verified in-session) ✅
 - closeout script path: VERIFIED in-session ✅
-- brain-committer live write: PENDING — first brain write next session proves it
-- closeout dry-run: PENDING — needs interactive session
+- brain-committer live write: VERIFIED — commit e04a195 pushed to C:\dev\gl-brain ✅
+- closeout dry-run: VERIFIED — GL_BRAIN_REPO="C:/dev/gl-brain" confirmed on line 13 ✅
 
 ### Open items
-- Step 5 final verify: CC_PROMPT_gl-brain-step5-verify_260504.md
 - Dual-name reconciliation (globalink-brain vs gl-brain): CC_PROMPT_globalink-brain-dual-name_260504.md
 
 ---
