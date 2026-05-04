@@ -115,7 +115,7 @@ All instances load `RESPONSE_RULES.md` for universal response formatting.
 Do not duplicate inline. RESPONSE_RULES.md is single source of truth.
 
 ## Brain location (local):
-`C:\Users\jdavi\OneDrive\Desktop\GlobalInk Repos\gl-brain\`
+`C:\dev\gl-brain\`
 
 ## Private repo (CC writes here):
 https://github.com/jglobalink2024/gl-brain
