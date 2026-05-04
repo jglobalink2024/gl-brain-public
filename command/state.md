@@ -3,6 +3,44 @@ Last updated: 260504
 
 ---
 
+## 260504 — Build State Reconciliation · CC queue vs brain vs code [via: CC]
+
+[PERSISTENT]
+Last updated: 260504
+Author: CC
+
+Session: [GL/COMMAND | RECON | Build State Reconciliation · GP-1 Gate Status | 260504]
+
+### What happened
+Read-only reconciliation session. Claude Code had mislabeled P0 #3 as "credit lifecycle hooks" (Autogap Macro-Step 3) — corrected after full cross-source investigation. No code edits made.
+
+### Findings
+- **P0 #3 (Smart Suggestions fallback):** SHIPPED — commit `411db2e`. `getSuggestedHandoff` returns null instead of `agents[0]`. Audit FLAG 7-B closed.
+- **P1 #4 (MCP SQL columns):** SHIPPED — `mcp_endpoint_url` + `mcp_capabilities` on agents, `mcp_secret` on workspaces, `types.ts` regenerated, TypeScript exit 0.
+- **P1 #5 (Documenso NDA):** DONE — Template 12572 configured, 5 fields, signing URL confirmed, PENDING_ACTIONS marked complete.
+- **Trio #1 (closeout health):** DONE — closeout v2.1 with brain-committer health check + Brevo alert.
+- **Trio #2 (POINTER hash / integrity.md):** DONE — SHA-256 hash tracking live, locked against bot writes (Hardening #4).
+- **Trio #3 (non-Brevo alert channel):** PENDING — CI.yml has no alert channel wired.
+- **RESTORE.md:** DONE — `globalink-claude-config/RESTORE.md`, commit `27c56de`, verified 260503.
+- **D5 Doctrine v1.3:** UNKNOWN — no file found anywhere in gl-brain or command-app. Possible Chat hallucination. Needs Jason clarification.
+
+### GP-1 Status
+- Last GREEN: 260503 22:47 — 2/2 passed, commit `73837e7`
+- 260504 11:03 UTC daily run: YELLOW — confirming run FAILED. Gate NOT cleared.
+- Gate revision (260428): 48h hold → 24h + 1 confirming run. Confirming run must be GREEN to unlock Autogap queue.
+- **Autogap queue still PARKED:** Canvas button wire → autoHandoff collapse → credit lifecycle hooks
+
+### Credit hooks clarification
+`lib/credit-hooks.ts` EXISTS with `beforeLLMCall` + `afterLLMCall` declared but NOT integrated into dispatch/pitch routes (TODO comments only). This is Autogap Macro-Step 3, not P0 #3. PARKED behind GP-1 gate.
+
+### What's next
+1. Re-run GP-1 smoke manually — one GREEN confirms the gate under revised 24h+1 rule
+2. After gate GREEN: execute Autogap Macro-Step 1 (Canvas "Run in [Agent]" button wire)
+3. Trio #3: non-Brevo alert channel in CI.yml
+4. Jason: clarify D5 Doctrine v1.3 label
+
+---
+
 ## 260504 — Closeout system bootstrap + pending action sweep [via: CC]
 
 [PERSISTENT]
