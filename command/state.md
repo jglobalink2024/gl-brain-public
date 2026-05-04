@@ -1,6 +1,23 @@
 # COMMAND â€” Current State
 Last updated: 260504
 
+## 260503 — patterns.md Review + L1 Rebless [via: CC]
+
+[PERSISTENT]
+Last updated: 260504
+Author: CC
+
+Session: [GL | BRAIN | CALIBER Protocol · patterns.md Rebless | 260503]
+
+### Changes
+- Surfaced full `command/patterns.md` (886 lines) inline for operator review — 62 sections, last entry “Surface Files Inline” LOCKED 260503
+- Operator confirmed content correct
+- Ran brain-committer --rebless: recomputed all 5 integrity hashes, `last_verified` updated to 260504 (commit 350c2e8)
+- L1 Freshness Gate: GREEN — hash mismatch (651b546f → e5e7f564) was legitimate 260503 content additions, not corruption
+- Looked up agency-agents repo: github.com/msitarzewski/agency-agents
+
+---
+
 ## 260503 — CALIBER Mismatch Stop Protocol → gl/principles.md [via: CC]
 
 [PERSISTENT]
