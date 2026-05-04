@@ -1,6 +1,6 @@
 # COMMAND — Current State
 Last updated: 260503
- DRIFT_MARKER_TEST
+
 ## 260503 — Hardening #2 · F4 CLOSED · F8a Partially Closed (Chat-side web_fetch cache gap discovered) [via: CC]
 
 [PERSISTENT]
@@ -73,8 +73,28 @@ Session: [GL/COMMAND | INFRA | Closeout Hardening F8a+F8c | 260503]
 ### Build State
 - 260503 — `~/bin/closeout` rewritten 129 → 280 lines. Repo copy at `globalink-claude-config/bin/closeout` byte-identical. Both `chmod +x`. `bash -n` passes. `.env.brains` extended with `BREVO_API_KEY` (filled by Jason from Proton Pass), `BREVO_SENDER_EMAIL=ops@globalinkservices.io`, `BREVO_ALERT_TO=jason@globalinkservices.io`. Brain-committer version check is warn-only per spec — SKILL.md has no version tag yet, so it currently warns; non-blocking.
 
-### Pending Verification
-- 260503 — Failure path (move `brain-committer/SKILL.md` aside, run closeout, expect Brevo email + exit 1) requires manual run by Jason now that BREVO_API_KEY is populated.
+### Verification — Trio #1 (260503)
+Timestamp (BRT): 2026-05-04T00:01
+
+**6/6 Acceptance Criteria: PASS**
+
+| # | Criterion | Result |
+|---|---|---|
+| 1 | Failure-path exit code == 1 | ✅ PASS |
+| 2 | Brevo 'sent' event to jason@globalinkservices.io | ✅ PASS |
+| 3 | Failure stdout names brain-committer SKILL.md as missing | ✅ PASS |
+| 4 | Clean-path exit code == 0 | ✅ PASS |
+| 5 | ~/.claude/closeout-last-success mtime updated | ✅ PASS |
+| 6 | No errant git push to gl-brain during failure path | ✅ PASS |
+
+Brevo event ID: `<202605040255.72901337518@smtp-relay.mailin.fr>` (subject: "🚨 CLOSEOUT FAILED — 260503-2254", delivered 22:55:56 EDT)
+Log artifacts: `/tmp/closeout-fail-260503.log`, `/tmp/closeout-clean-260503.log`, `/tmp/closeout-fail-exit.txt`
+
+**Trio #1 verification CLOSED — closeout v2 fires Brevo alert + exit 1 on health-check failure; clean path exits 0 with heartbeat write.**
+
+Two bugs flagged (non-blocking):
+- **Bug A (cosmetic):** `fire_brevo_alert` prints `→` (U+2192); Windows charmap fails AFTER HTTP POST succeeds — stderr shows "ALERT failed" as false negative. Fix: `PYTHONUTF8=1` or replace `→` with `->`.
+- **Bug B (architectural):** `check_brain_committer()` runs Step 5, AFTER repo pushes (Step 2). A dirty gl-brain would be pushed before health failure is detected. Test passed only because gl-brain was clean at test time. Fix: reorder health checks to run before pushes, or gate pushes on health-check pass.
 
 ---
 
