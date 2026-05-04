@@ -3,6 +3,29 @@ Last updated: 260504
 
 ---
 
+## 260504 — Dependabot security audit: 2 moderate alerts confirmed resolved [via: CC]
+
+[PERSISTENT]
+Last updated: 260504
+Author: CC
+
+Session: [GL/COMMAND | SECURITY | Dependabot Vuln Patch · @anthropic-ai/sdk | 260504]
+
+### Summary
+- Task: resolve 2 moderate Dependabot alerts flagged on push f5b7643
+- Outcome: both alerts already closed as fixed before this session ran
+- Alert #10 & #11: GHSA-p7fg-763f-g4gf — @anthropic-ai/sdk insecure default file permissions in LocalFilesystemMemory
+- Fixed by commit 17c867b (upgrade @anthropic-ai/sdk 0.82.0→0.91.1), shipped earlier this session
+- npm audit: 0 vulnerabilities confirmed
+- No new commits needed — existing overrides block (follow-redirects, uuid, postcss) remains valid
+
+### Build State
+- npm audit: 0 vulnerabilities
+- Open Dependabot alerts: 0
+- No code changes this session
+
+---
+
 ## 260504 — P1 #4 MCP SQL migrations CLOSED [via: CC]
 
 [PERSISTENT]
