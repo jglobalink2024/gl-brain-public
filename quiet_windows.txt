@@ -1,0 +1,2 @@
+2026-05-01,2026-05-03;IAD-GRU travel + arrival settling
+# Add future quiet windows below — one per line
