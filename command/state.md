@@ -1,5 +1,23 @@
-﻿# COMMAND â€” Current State
-Last updated: 260503
+# COMMAND â€” Current State
+Last updated: 260504
+
+## 260503 — CALIBER Mismatch Stop Protocol → gl/principles.md [via: CC]
+
+[PERSISTENT]
+Last updated: 260504
+Author: CC
+
+Session: [GL | BRAIN | CALIBER Mismatch Protocol · Principles Append | 260503]
+
+### Changes
+- Appended CALIBER Mismatch Stop Protocol to `gl/principles.md` via brain-committer (commit 339dda1)
+- Rule covers three items: (1) turn-level CALIBER format with score + recommended + actual running model, (2) stop-before-generate if recommended ≠ actual, (3) architectural note that Claude cannot self-swap models (selection occurs at API request layer before generation begins)
+- Exceptions enumerated: mid-thread intentional persistence, trivial factual answers, sequenced tool-call escalation within one turn
+
+### Integrity Note
+- Session-start hash mismatch on `command/patterns.md` flagged (expected 651b546f, got e5e7f564). Write was to `gl/principles.md` (separate file) — proceeded. Operator must run `brain-committer --rebless` after verifying patterns.md content.
+
+---
 
 ## 260503 â€” Trio #1 + RESTORE.md Verification CLOSED [via: CC]
 
