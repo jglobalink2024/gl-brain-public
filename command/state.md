@@ -3,6 +3,26 @@ Last updated: 260504
 
 ---
 
+## 260504 — P1 #4 MCP SQL migrations CLOSED [via: CC]
+
+[PERSISTENT]
+Last updated: 260504
+Author: CC
+
+Session: [GL/COMMAND | DB | P1 #4 MCP SQL Migrations | 260504]
+
+### Active Fixes
+- mcp_secret on workspaces: TEXT NOT NULL, entropy default (pre-existing NOT NULL — acceptable, functionally better)
+- mcp_endpoint_url on agents: TEXT nullable — added
+- capabilities on agents: converted from pre-existing TEXT (empty strings) → JSONB nullable via view rebuild on agents_safe
+
+### Build State
+- PART A: All SQL applied via Supabase MCP. info_schema verified.
+- PART B: types regenerated via MCP (CLI not auth'd). tsc clean (exit 0). Pre-existing type debt fixed: CheckpointRow, Checkpoint interface, command-data null/undefined, ledger entry_seq nullable, dev/reset dynamic table cast.
+- Smoke: 8/10 — APPSMOKE-03 (Clarity flaky) + APPSMOKE-06 (Ink typo pre-existing) unrelated to migration.
+
+---
+
 ## 260504 — TRACK 1 complete: P0#3 Smart Suggestions fallback fix + P1#4 MCP columns wired + P1#5 Documenso action queued [via: CC]
 
 [PERSISTENT]
