@@ -3,6 +3,27 @@ Last updated: 260504
 
 ---
 
+## 260504 — gl-brain Step 5 verified + globalink-brain merged + closeout path fixed [via: CC]
+
+[PERSISTENT]
+Last updated: 260504
+Author: CC
+
+Session: [GL/BRAIN | OPS | gl-brain off-OneDrive Step 5 Verify | 260504]
+
+### Summary
+- Step 5 of gl-brain off-OneDrive migration: all 5 pass criteria verified GREEN
+- brain-committer live write confirmed (commit e04a195) at C:/dev/gl-brain
+- Old OneDrive gl-brain folder deleted
+- globalink-brain content merged into gl-brain via PR #1 (17 new files, 9 conflicts resolved with ours)
+- GL_BRAIN_PATH in ~/.env.brains updated from OneDrive path to C:/dev/gl-brain
+- closeout drain now routes correctly to C:/dev/gl-brain
+
+### What's next
+- Dual-name reconciliation (globalink-brain vs gl-brain): CC_PROMPT_globalink-brain-dual-name_260504.md
+
+---
+
 ## 260504 — gl-brain off-OneDrive: cloned to C:\dev\gl-brain, 8 path refs updated [via: CC]
 
 [PERSISTENT]
