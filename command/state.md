@@ -1,6 +1,55 @@
 # COMMAND — Current State
 Last updated: 260503
 
+## 260503 — Hardening #3 SHIPPED + VERIFIED · F8a fully closed via CC SessionStart hash hook [via: CC]
+
+[PERSISTENT]
+Author: CC
+
+Session: [GL/COMMAND | BRAIN-OPS | Hardening #3 · CC SessionStart Hash Hook · F8a Full Closure | 260503]
+
+**Hardening #3 closes the F8a detection gap that Hardening #2 surfaced.** The CC SessionStart hash hook bypasses claude.ai web_fetch cache by reading the local filesystem directly, providing reliable drift detection wherever brain-committer is the canonical write path.
+
+### Shipped this session
+1. **Hook file**: `~/.claude/hooks/brain-integrity-check.js` (123 lines)
+   - SessionStart hook, runs alongside existing rap-b-prescan.js
+   - Reads `gl-brain/command/integrity.md` manifest
+   - Computes SHA-256 of all 5 tracked brain files (LF-normalized UTF-8)
+   - Hash check + date-proxy check (defensive against backwards last_verified edits)
+   - Emits HARD BANNER additionalContext on drift; silent on clean
+   - Try/catch wraps everything — never blocks CC startup
+2. **Wired into** `~/.claude/settings.json` SessionStart hooks array (was already pre-wired by parallel session — file just had to be created)
+3. **Mirrored to** `globalink-claude-config/hooks/brain-integrity-check.js` (L3.5 backup) — already tracked
+4. **Test evidence committed** to `command/symphony/hardening-3/test-evidence.md` with full JSON outputs:
+   - Test 1 (clean): empty additionalContext ✅
+   - Test 2 (drift after appending one space to state.md): HARD BANNER fires citing hash mismatch (expected 9e8c46c0…, got b1028584…) ✅
+   - Test 3 (recovery after revert): empty additionalContext ✅
+
+### Confirmation table
+| Item | Status | Evidence |
+|---|---|---|
+| Hook file created | ✅ | `~/.claude/hooks/brain-integrity-check.js` |
+| settings.json wired | ✅ | SessionStart array, line 63-66 |
+| L3.5 mirror sync | ✅ | `globalink-claude-config/hooks/brain-integrity-check.js` tracked |
+| Clean state: no banner | ✅ | test-evidence.md Test 1 |
+| Drift state: HARD BANNER fires | ✅ | test-evidence.md Test 2 |
+| Recovery: banner clears | ✅ | test-evidence.md Test 3 |
+| Brain entry committed | ✅ | this entry |
+
+### Item-12 false positive correction
+Earlier session diagnosed `gl-brain → gl-brain-public` sync as broken because `gh secret list` returned 404. Root cause was AUTH not infrastructure: I was authenticated as `jcameron52061` while the repo is owned by `jglobalink2024`. After `gh auth switch --user jglobalink2024`, the workflow list shows both `Sync Public Brain Mirror` and `GlobaLink Brain Writer` ACTIVE; recent runs all completed successfully (12-18s each). `GL_BRAIN_TOKEN` secret confirmed present (created 2026-04-23). The sync workflow has been working all along — my corruption commit `5420bc5` was successfully synced at 02:26:34Z. The Chat couldn't see it because of the web_fetch cache, NOT because of sync failure.
+
+### F8a closure status — FINAL
+- **Structural arm**: ✅ brain-committer --catchup REFUSES integrity.md update; brain-drain bypasses entirely
+- **Detection arm (CC)**: ✅ Hardening #3 hash hook verified working
+- **Detection arm (Chat)**: 🟡 soft-signal only — date proxy demoted in patterns.md canon due to web_fetch cache. Operators using Chat for brain reads accept residual ~30 min staleness window. CC is the enforcement boundary.
+
+### Open follow-ups
+- None for Hardening #2/#3 specifically. F4 + F8a both closed.
+- Existing carry-forward items (Symphony v12 preconditions, Vercel security report, etc.) unchanged.
+
+---
+
 ## 260503 — Hardening #2 · F4 CLOSED · F8a Partially Closed (Chat-side web_fetch cache gap discovered) [via: CC]
 
 [PERSISTENT]
