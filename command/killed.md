@@ -1,6 +1,42 @@
 # COMMAND — Killed Items Register
 Last updated: 260428
 
+## CURSOR_BRIEF — DEAD
+Killed: 260412
+Reason: CLAUDE.md at command-app/command-app/CLAUDE.md is
+  auto-read by CC at session start. CURSOR_BRIEF is redundant.
+Replaced by: CLAUDE.md auto-read
+Revive condition: Never
+
+## FOUNDING99 Coupon — DEAD
+Killed: 260413
+Reason: 0 redemptions. Abandoned before any use.
+Replaced by: FM direct Stripe link (no coupon needed)
+Revive condition: Never reference
+
+## Broad Sweep CC Prompts — DEAD
+Killed: 260413
+Reason: Large sweeping prompts cause session eating,
+  merge conflicts, and unintended file touches.
+Replaced by: Surgical single-component CC prompts with
+  explicit DELETE/REPLACE and verification steps.
+Revive condition: Never
+
+## Navattic Rebuild — DEFERRED
+Killed: 260413 (deferred, not dead)
+Reason: Currently shows landing page walkthrough, should
+  demo actual app. "Start 14-day trial" → "Start 14-day pilot"
+  fix also pending.
+Gate: After beta testing complete
+Revive condition: Post-beta — rebuild to demo real app flow
+
+## 260418 — Pure usage-based pricing as primary model — DEAD
+Killed: 260418
+Reason: Row 3 pricing fits Row 3 buyers (developers). Sandra is
+  Row 1/2 (operator). Cap + overage mechanism solves margin concern
+  without changing primary model.
+Replaced by: Flat + caps + overages hybrid model
+
 ## Drive ENTERPRISE-DOCTRINE-v1.2.md Backfill — DEAD
 Killed: 260428 — operator accepted gap on recommendation
 Reason: v1.3 is authoritative. Drive version history is decorative.
