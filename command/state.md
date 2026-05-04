@@ -1,6 +1,42 @@
 # COMMAND — Current State
 Last updated: 260503
 
+## 260503 — Cockpit-Done Definition Recovery + Eric Repurposing [via: CC]
+
+Session: [GL | STRATEGY | Cockpit-Done Recovery · Eric Repurpose | 260503]
+
+**Brain integrity correction.** The 260427 entry claimed "cockpit-done-definition.md created and locked — 6 criteria, goalposts cannot move without brain commit." File was never actually written. Criteria were defined in chat [GL | STR | Product Reckoning · Pure Path A Decision | 260423] (https://claude.ai/chat/9f1c8333-04a4-401c-8bca-c8e630b8d409), captured in proposed memory edits + closeout artifact disposition, but the brain commit step never landed.
+
+This entry establishes the corrected record:
+- Criteria defined 260423, not 260427
+- File written 260503 (this commit) at gl-brain/command/cockpit-done-definition.md
+- 260427 state.md entry stands as historical record of intent — execution gap closed 260503
+
+**Walk against criteria (260503 baseline) — see cockpit-done-definition.md tested-against record for detail:**
+- C1 PARTIAL · C2 PARTIAL · C3 IMPROVING · C4 NOT MET · C5 NOT MET · C6 MET (trivially)
+- Verdict: not yet real by its own definition
+
+**Eric repurposing decision.** Eric May 5–10 reach-out approved as DISCOVERY USER, not beta. Three hard conditions in decisions.md this commit:
+1. No "beta" language anywhere
+2. No pricing / no founding member offer / no commitment ask
+3. Friction log generated and brain-committed post-session
+
+If any condition slips → falls back to 🅰.4 strict (Eric pulled).
+
+**Files written this commit:**
+- gl-brain/command/cockpit-done-definition.md (NEW, locked artifact)
+- gl-brain/command/state.md (FULL-REPLACE, this entry prepended)
+- gl-brain/command/decisions.md (APPEND, Eric repurposing)
+
+**Open from carry-forward (not addressed this commit):**
+- Trio #1 verification CC contract drafted, not yet executed
+- P0 #3 Smart Suggestions fallback fix — sequenced after this commit
+- Eric reach-out draft + friction log template — drafted in chat, not yet brain-committed
+- RESTORE.md — spec still pending from operator
+- Brain post-condition fix (file-exists check on state.md path references) — third instance of brain-vs-reality drift this conversation, filed for trio queue
+
+---
+
 ## 260503 — Hardening #3 · F8a CLOSED · Self-Test Verified [via: CC]
 
 [PERSISTENT]
