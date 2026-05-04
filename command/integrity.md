@@ -41,7 +41,7 @@ decisions_hash: fb594fb7ad338913bf7497d1d5e88b0608a87ed529a981095bc8a56e5f3962d7
 patterns_hash: e5e7f56430a7aee791e55e702534daad7925e99ec1031c14b0b415e877aceb7a
 killed_hash: a6453f843593fae27d418ecbca3e764684ef0fbfc29a332d4f2f61d4c7a41364
 research_hash: 7f02427b065db153e44e2972ed45925c87346b737d4505b491deb382f7857c6b
-last_verified: 260504
+last_verified: 260504-0000
 ```
 
 ## Update contract
