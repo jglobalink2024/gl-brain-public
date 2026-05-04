@@ -1,6 +1,21 @@
 # COMMAND — Current State
 Last updated: 260504
 
+## 260503
+Session: [GL/COMMAND | HYGIENE | CF-1 · CF-2 · CF-3 Pre-Track-1 | 260503]
+
+[PERSISTENT]
+Last updated: 260504
+Author: CC
+
+260503 — CF-1/CF-2/CF-3 hygiene closed. brain-committer v1.0 tag added. closeout v2.1 committed to L3.5. chat-name check patched to read last ## heading. All pre-Track-1 hygiene items resolved. Track 1 (P0#3, P1#4, P1#5) is next.
+
+- CF-1: Added `version: v1.0` and `last_updated: 260503` to brain-committer SKILL.md frontmatter. Both ~/.claude/agents/brain-committer/SKILL.md and L3.5 copy are byte-identical. closeout version WARN will no longer fire.
+- CF-2: closeout v2.1 committed to globalink-claude-config (L3.5 backup). Commit: be005d2. Line counts match (302/302).
+- CF-3: Fixed `extract_chat_name` awk to use END-based last-match (removed `exit` and `NR>40` limit, added `END { print name }`). Fixed `check_chat_name` to use `grep -q` on full file instead of `head -n 10`. Test against /tmp stub confirmed reads second ## 260503 heading correctly.
+
+---
+
 ## 260504 — brain-committer SKILL.md: globalink-brain → gl-brain path fix [via: CC]
 
 [PERSISTENT]
