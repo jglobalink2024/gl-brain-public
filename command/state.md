@@ -3,6 +3,22 @@ Last updated: 260504
 
 ---
 
+## 260504 — Agent re-auth complete — GPT-4-1 + Perplexity-1 keyed [via: CC]
+
+[PERSISTENT]
+Last updated: 260504
+Author: CC
+
+Session: [GL/BRAIN | OPS | Brain Bootstrap · Pending Sweep | 260504]
+
+### Addendum
+- GPT-4-1 (openai) + Perplexity-1 (perplexity) in ws-1776139325700: api_key set via Supabase SQL from .env.local
+- Both now status=idle with api_key populated — ready for dispatch QA
+- All PENDING_ACTIONS from this session now closed or escalated
+- Commit bd611c6 pushed to gl-brain
+
+---
+
 ## 260504 — Build State Reconciliation · CC queue vs brain vs code [via: CC]
 
 [PERSISTENT]
