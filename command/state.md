@@ -1,6 +1,31 @@
 # COMMAND — Current State
 Last updated: 260503
 
+## 260503 — brain-committer POC-1 + POC-2 Post-Conditions [via: CC]
+
+[PERSISTENT]
+Last updated: 260503
+Author: CC
+
+Session: [GL | STRATEGY | brain-committer POC-1·POC-2 · Drift Fix | 260503]
+
+### Changes
+- Added `## Post-Conditions` section to brain-committer SKILL.md (before `## Hard Rules`)
+- POC-1: file-exists check — refuses brain writes that claim a file path exists when it doesn't
+- POC-2: date validation — soft-warns on past-dated state.md headers without backfill suffix
+- Closes brain-vs-reality drift pattern after 3 instances identified 260503
+
+### Sync Status
+- `~/.claude/agents/brain-committer/SKILL.md` — updated (local Claude config, not git-tracked)
+- `globalink-claude-config/agents/brain-committer/SKILL.md` — disk restored to match HEAD
+- git HEAD already had commit `435d2fa` from prior session closeout sync (disk had drifted)
+- Files byte-identical ✅
+
+### Note
+- Session-start L1 hash mismatch on `command/state.md` flagged. Run `brain-committer --rebless` after this closeout to reseal integrity.md.
+
+---
+
 ## 260503 — Agent Dev Kit v2 Deploy · GP-1 Smoke Verify [via: CC]
 
 [PERSISTENT]
