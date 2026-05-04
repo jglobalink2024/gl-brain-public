@@ -853,3 +853,34 @@ The L1 Freshness Gate detects brain content drift across four dimensions. Verifi
 **Mitigation strategy (Hardening #3):** Chat-side date proxy demoted to soft-signal-only. Primary freshness detection moves to CC-side SessionStart hook, which computes hashes locally, bypassing web_fetch cache entirely.
 
 **Until CC hook ships:** Operators writing to brain must manually run `brain-committer --rebless` if integrity.md is stale, even if content looks fresh via date proxy.
+
+
+## Surface Files Inline — Never Make Jason Open Them (LOCKED 260503)
+
+**Standing operator rule. All sessions, all repos, all surfaces.**
+
+Jason does not open files manually for review. State.md, decisions.md, diffs,
+prompts, integrity manifests — when review is needed, CC must `Read` / `cat` /
+`git log` and surface the actual content in chat. Periodically and unprompted
+when relevant.
+
+**Why:** Telling him "go read X" risks items never being reviewed because he
+won't go look. Items get written, but verification never happens, and silent
+drift accumulates.
+
+**Trigger:** Any time CC is about to say "you can review X at [path]" or
+"check [file] for details" — STOP. Surface the content inline instead.
+
+**Origin:** Locked 260503 during brain integrity rebless after the L1 hash
+hook fired its first HARD BANNER. Jason asked clarifying questions about the
+unpushed local commit instead of opening state.md / decisions.md to verify
+the content himself. Realized the failure mode: review-by-reference doesn't
+work for this operator.
+
+**Applies to:**
+- Brain file diffs (state.md, decisions.md, patterns.md, killed.md, research.md)
+- Git log output, commit contents, unpushed changes
+- Generated prompts and CC artifacts
+- SQL migrations (also covered by `feedback_show_migrations_inline`)
+- Audit reports, ops watchdog output, schema baseline diffs
+- Any file CC writes that needs operator validation
