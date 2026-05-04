@@ -25,9 +25,11 @@ Session: [GL/COMMAND | GP-1 | Chain + Smoke GREEN · First Attempt | 260504]
 - `lib/dev-gate.ts` — GP-1 supporting fixes.
 - `playwright.config.ts` — GP-1 supporting fixes.
 
-### Test results (first attempt, no retries)
-- Chain test: ok 1.2m
-- Smoke test: ok 20.5s
+### Test results (first attempt, no retries) — CONFIRMED 260504
+- Total: 3 passed (7.3m)
+- Auth setup: pass
+- Chain test (Perplexity → Claude): pass
+- Smoke test: pass
 
 ### GP-1 Gate Status
 - Status: GREEN as of 260504
@@ -37,6 +39,7 @@ Session: [GL/COMMAND | GP-1 | Chain + Smoke GREEN · First Attempt | 260504]
 ### Active Fixes resolved this session
 - stale-task false-positive in GP-1 e2e test: CLOSED
 - setDispatchBrief timing bug (goal text not rendering in 15s window): CLOSED
+- background proxy race condition (nuclear reset vs executeTask agent activation): CLOSED — stale-exec guard (2b.5) confirmed working, 3/3 pass 7.3m no retries
 
 ---
 

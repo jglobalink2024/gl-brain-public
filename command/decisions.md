@@ -1,5 +1,24 @@
 # COMMAND — Decisions Register
-Last updated: 260503
+Last updated: 260504
+
+## 260504 — GP-1 Stale-Execution Guard: executeTask 2b.5 [via: CC]
+
+Session: [GL/COMMAND | GP-1 | Stale-Exec Guard · 48h Clock Start | 260504]
+
+**Decision:** Add stale-execution guard (section 2b.5) inside `executeTask.ts` immediately before `// ── 2c. Mark agent active` (commit 1af2195).
+
+**Root cause diagnosed:** The `dispatchTask` route calls `void fetch("/api/agents/proxy")` as fire-and-forget. When a Playwright test fails/times out, this background proxy continues running through the full Perplexity → autoHandoff → executeTask(Claude) chain. The `beforeEach` nuclear reset then fires for the NEXT test, deleting tasks and setting agents to "idle". But executeTask — which was already running — had a ~200ms window between its initial task fetch (line ~224) and its `agents.update({ status: 'active' })` call (line ~307). The nuclear reset's "idle" write fired in this window, and executeTask then OVERWROTE it with "active". The agents-idle poll (`timeout: 30s`) then timed out waiting for Claude-Drafting to go idle while Claude API was still processing.
+
+**Fix (lib/pipeline/executeTask.ts, section 2b.5):**
+Re-query the task by ID immediately before marking the agent active. If the task is no longer in the DB (deleted by nuclear reset), return early with `errorCode: 'task_not_found'` WITHOUT touching agent status. This shrinks the race window from ~200ms to ~1 DB round-trip (~10ms).
+
+**Evidence:** Dev log from `/dev` page showed a repeating `nuclear reset → autoHandoff → executeTask → anthropic request → task complete` cycle for 1+ hour across 15+ failed test runs, confirming the stale background proxy as the source.
+
+**Confirmed working:** Playwright golden-path.spec.ts — 3 passed, 7.3m, no retries (commit 1af2195 tested post-fix).
+
+**GP-1 gate status:** GREEN as of 260504 ~01:00. 48h clock started. GP-2 gate opens 260506 ~01:00.
+
+---
 
 ## 260503 — Eric Repurposed as Discovery User, Not Beta [via: Chat → CC]
 
