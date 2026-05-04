@@ -19,6 +19,8 @@ Competitive gap confirmed:
 No tool provides BYOA cross-vendor coordination for
 non-technical boutique consultants. Gap is vacant.
 
+260504 — gl-brain relocated to C:\dev\gl-brain. OneDrive sync risk eliminated.
+
 ## Gemini Viability Assessment (260413)
 Source: Gemini Deep Research
 
