@@ -1,5 +1,29 @@
 ﻿# COMMAND — Current State
-Last updated: 260506
+Last updated: 260505
+
+---
+
+## 260505 — Proton Pass COMMAND naming sweep complete [via: CC]
+
+[PERSISTENT]
+Last updated: 260505
+Author: CC
+
+Session: GL/COMMAND | INFRA | Proton Pass Naming · Documenso Setup | 260505
+
+### What changed
+- Swept all 21 COMMAND entries in Proton Pass; renamed every entry to
+  COMMAND — [Service] — [Purpose] convention (em dashes, COMMAND always first)
+- Entries renamed: Documenso NDA Upload API, Documenso Resend API Key,
+  Supabase Dashboard Login, Brevo API Key, Brevo SMTP Key, Playwright Test
+  Credentials, Anthropic Production API Key, Anthropic n8n Automation,
+  GitHub OPS Token, Vercel OPS Token, Perplexity Production API Key,
+  Perplexity n8n Automation, Gemini Production API Key, OpenAI Production API
+  Key, HubSpot OAuth, Resend API Key, App Login jcameron5206, App Login
+  jdavis5206, LinkedIn OAuth, Google OAuth, n8n Webhook Secret
+- Convention locked: COMMAND — [Service] — [Purpose]; documented in
+  .env.example + .env.local.example comment headers
+- PENDING_ACTIONS.md item marked [x]; committed f62fae7, pushed main
 
 ---
 
@@ -198,6 +222,8 @@ WHERE id = 9 AND "envelopeId" = 'envelope_orsuumlkmhrwkmoh' AND type = 'EMAIL';
 **Addendum:** TEXT field (id=5) also updated — added `label: "Title / Role"` and `placeholder: "e.g. CEO, Founder, Consultant"` to fieldMeta. Field overlay now reads "Title /" truncated, aligned with the "Title:" line in the PDF. Verified in browser. No signing required.
 
 ### No COMMAND product code changes
+
+**Brevo SMTP resolved:** Key already saved in Proton Pass as "Brevo COMMAND SMTP Key" (not "COMMAND-documenso" — naming kept Brevo-centric so future editors know where to change it). No action required.
 
 ---
 
