@@ -1,5 +1,5 @@
-POINTER_VERSION: v3.1
-POINTER_CONTENT_HASH: 49a7910fba6922d5e0235c4740ac02076c0317d15bc998d9a6b46e1e56900a6a
+POINTER_VERSION: v3.2
+POINTER_CONTENT_HASH: 04db35999c32a1e89bc0cd47c7865e5acf5cde69f37713617ac370dd436937b3
 Last updated: 260428
 Author: CC
 
@@ -40,11 +40,22 @@ Always fetch:
 - `https://raw.githubusercontent.com/jglobalink2024/gl-brain-public/main/gl/decisions.md`
 
 Session-type additions:
-- BUILD: `command/patterns.md`, `command/killed.md`
-- STRATEGY: `command/decisions.md`, `command/research.md`
-- GTM: `command/decisions.md` + paste `gl/entities.md` (private — operator pastes)
-- COMPETITIVE: `command/research.md`, `command/killed.md`
-- PATENT: `command/killed.md`, `command/decisions.md`, `command/research.md`
+- BUILD:
+  - `https://raw.githubusercontent.com/jglobalink2024/gl-brain-public/main/command/patterns.md`
+  - `https://raw.githubusercontent.com/jglobalink2024/gl-brain-public/main/command/killed.md`
+- STRATEGY:
+  - `https://raw.githubusercontent.com/jglobalink2024/gl-brain-public/main/command/decisions.md`
+  - `https://raw.githubusercontent.com/jglobalink2024/gl-brain-public/main/command/research.md`
+- GTM:
+  - `https://raw.githubusercontent.com/jglobalink2024/gl-brain-public/main/command/decisions.md`
+  - paste `gl/entities.md` (private — operator pastes)
+- COMPETITIVE:
+  - `https://raw.githubusercontent.com/jglobalink2024/gl-brain-public/main/command/research.md`
+  - `https://raw.githubusercontent.com/jglobalink2024/gl-brain-public/main/command/killed.md`
+- PATENT:
+  - `https://raw.githubusercontent.com/jglobalink2024/gl-brain-public/main/command/killed.md`
+  - `https://raw.githubusercontent.com/jglobalink2024/gl-brain-public/main/command/decisions.md`
+  - `https://raw.githubusercontent.com/jglobalink2024/gl-brain-public/main/command/research.md`
 
 ### STEP 3 — Date freshness check
 
@@ -149,6 +160,11 @@ console.log(actual === expected ? 'OK' : 'MISMATCH');
 
 ## Version history
 
+- v3.2 (260504) — Session-type fetch references elevated from relative paths to full
+  HTTPS URLs. Closes Chat-side fetch ceiling for STRATEGY / BUILD / COMPETITIVE /
+  GTM / PATENT session-type additions. Rule 14 manifestation: claude.ai web_fetch
+  blocks URLs not provided verbatim in user/fetch content; relative paths in POINTER
+  were unreachable from Chat. CC-side reads unaffected. Hash field recomputed.
 - v3.1 (260428) — Hardening #2: POINTER_VERSION + POINTER_CONTENT_HASH fields,
   L1 Freshness Gate Steps 1–5 instantiated, integrity.md trust anchor introduced.
   Closes F4 (POINTER drift) and F8a (self-sealing freshness signal).
