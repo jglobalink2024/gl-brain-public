@@ -3,6 +3,29 @@ Last updated: 260505
 
 ---
 
+## 260505 — Proton Pass naming sweep complete — 21 entries [via: CC]
+
+[PERSISTENT]
+Last updated: 260505
+Author: CC
+
+Session: GL | COMMAND | Proton Pass Naming Sweep · Credentials | 260505
+
+### What changed
+- Completed full Proton Pass naming sweep: renamed all 21 COMMAND-related credential entries to follow the `COMMAND — [Service] — [Purpose]` convention (em dashes)
+- Entries renamed: Documenso (2), Supabase, Brevo API Key, Brevo SMTP Key, Playwright, Anthropic Prod, Anthropic n8n, GitHub OPS, Vercel OPS, Perplexity Prod, Perplexity n8n, Gemini, OpenAI, HubSpot OAuth, Resend Documenso, Resend API Key, App Login jcameron5206, App Login jdavis5206, LinkedIn OAuth, Google OAuth, n8n Webhook Secret
+- Updated PENDING_ACTIONS.md to mark the Proton Pass sweep item complete (commit f62fae7, pushed to main on command-app)
+- No code changes this session — ops/admin only
+
+### No COMMAND product code changes
+
+### GP-1 Gate: GREEN — GP-2 opens 260506 ~01:00
+
+### Open (Jason action)
+- Verify NDA signing test email in jason@globalinkservices.io (envelope_aoakrtifkumenltr) — still open from prior session
+
+---
+
 ## 260505 — Proton Pass COMMAND naming sweep complete [via: CC]
 
 [PERSISTENT]
