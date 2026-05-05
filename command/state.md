@@ -3,6 +3,63 @@ Last updated: 260505
 
 ---
 
+## 260505 — C4 FAIL audit + deep-dive filed + agents fork fixed [via: CC]
+
+[PERSISTENT]
+Last updated: 260505
+Author: CC
+
+Session: [GL/COMMAND | BUILD | C4 Workload Penalty Audit · brain-committer Root Cause | 260505]
+
+### What changed
+- **C4 audit — FAIL verdict confirmed** (`command/decisions.md`, commit d697cf0)
+  - `semanticMatcher.ts`: no load term exists — `task_success_rate` / `avg_token_efficiency` fetched but never used in scoring
+  - Minimum fix scoped: in-flight count query + `loadPenalty = min(inflightCount × 10, 30)` cap
+  - `cockpit-verification-tracker.md` created — formal C4 path-to-PASS documented
+- **Deep-dive architecture doc filed** (`command/architecture/deep-dive-260504.md`, commit 02e629b)
+- **brain-committer root cause + fix** (sub-sessions this date):
+  - Agents repo on `add/brain-committer` branch; `main` drops brain-committer from working tree
+  - Fix: pushed `add/brain-committer` → `fork/main` on jglobalink2024/agency-agents
+  - Fallback SOP documented in `decisions.md`; brain-committer v1.3 shipped with correct path
+
+### No COMMAND product code changes (C4 fix scoped, not implemented)
+### GP-1 Gate: GREEN — GP-2 opens 260506
+
+### What's next
+- Implement C4 minimum fix in `semanticMatcher.ts`
+- Playwright verification: idle agent scores higher than 2-active-task agent
+- Update `cockpit-done-definition.md` walk entry once C4 PASS
+
+---
+
+## 260505 — Session Identity Rule verified · POINTER v3.4 [via: CC]
+
+[PERSISTENT]
+Last updated: 260505
+Author: CC
+
+Session: [GL | COMMAND | Session Identity Rule · POINTER v3.4 | 260505]
+
+### What changed
+- **Session identity rule confirmed shipped** (prior session 260505-0323 closeout):
+  - `RESPONSE_RULES.md` §"Session identity" added — Chat now emits `📍 SESSION:` block
+    at top of first reply, immediately after L1 gate verdict
+  - Canonical session name = routing key; URL (if user pastes it) lets CC navigate directly
+  - `ORIGIN: [session name]` prefix required on any Chat findings block destined for CC
+- **POINTER_COMMAND.md v3.4** shipped — Step 4 hook referencing session identity rule,
+  POINTER_CONTENT_HASH recomputed: 636ef416a3d7e3660397163f9970a209edb548a63e8b89f353bd058018edcd8b
+- **This continuation session:** resumed from context summary; task was already complete.
+  Verified working tree clean, all commits pushed, public mirror in sync.
+
+### Problem closed
+- Chat had no mechanism to declare its identity → CC couldn't route findings back to originating session
+- Fix: RESPONSE_RULES canonical rule + POINTER_COMMAND Step 4 hook (both Chat-only, not CC/Cowork)
+
+### No COMMAND product code changes
+### GP-1 Gate: GREEN (inherited) — GP-2 opens 260506
+
+---
+
 ## 260505 — Brain Split Fix · brain-committer v1.3 shipped [via: CC]
 
 [PERSISTENT]
