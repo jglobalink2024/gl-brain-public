@@ -3,6 +3,72 @@ Last updated: 260505
 
 ---
 
+## 260505 — Schema decision + CC fallback test VIABLE [via: CC]
+
+[PERSISTENT]
+Last updated: 260505
+Author: CC
+
+Session: [GL/COMMAND | OPS | Schema Decision · CC Fallback Test | 260505]
+
+### What changed
+- command/decisions.md (APPEND): gap-flagger log schema mismatch resolved
+  - Decision: align SKILL.md to live schema (forward-only, no log migration)
+  - activated/date/outcome accepted as valid aliases; optional fields added for new entries
+  - Closes 2-review carry-forward from gap-flagger 2604/2605
+- CC fallback test: direct brain commit without brain-committer — VIABLE
+  - Lifecycle tag, commit format, entity firewall all held without brain-committer
+  - Verdict: CC fallback approved for simple APPEND-mode writes; brain-committer remains default
+  - Commit: c92a3b8 — decisions.md + agent_activity_log.md
+
+### No COMMAND product code changes
+### GP-1 Gate: GREEN (inherited 260504) — GP-2 opens 260506
+
+### What's next
+- 260506: GP-2 gate opens — Autogap chain dispatch eligible
+- Update gap-flagger/SKILL.md input contract (accepted aliases + optional fields) before 2606 review
+
+---
+
+## 260505 — Brain Close: 260503 Contract Execution · WRITE 4 Pending [via: CC]
+
+[PERSISTENT]
+Last updated: 260505
+Author: CC
+
+Session: [GL/COMMAND | BRAIN-OPS | 260503 Brain Close Contract · Partial Execution | 260505]
+
+### What happened
+Executed the SESSION BRAIN CLOSE contract from [GL/COMMAND | INFRA | Trio #1 · RESTORE.md Verification | 260503].
+Pre-flight audit showed 3 of 6 writes already done in prior sessions; 2 executable now; 1 blocked.
+
+### Audit result
+
+| Write | Target | Status |
+|---|---|---|
+| WRITE 1 | cockpit-done-definition.md | ✅ EXISTS — written 260503 |
+| WRITE 2 | decisions.md Eric repurposing | ✅ EXISTS — line 23, 260503 |
+| WRITE 3 | gl/principles.md CALIBER mismatch | ✅ EXISTS — line 77, 260503 |
+| WRITE 4 | command/contracts/ + 3 files | ❌ PENDING — contract content not in session |
+| WRITE 5 | decisions.md carry-forward doctrine | ✅ APPENDED this session |
+| WRITE 6 | state.md entry | ✅ THIS ENTRY |
+
+### Finding — 260505 brain audit over-claimed
+The 260505 "Brain Audit · Phantom Carry-Forward Doctrine Written" session (state.md entry, line 46)
+falsely marked WRITE 4 as "TRACK 1 COMPLETE 260504 — all shipped." The command/contracts/ folder
+does not exist and was not created. "TRACK 1 COMPLETE" referred to the implementation work
+(P0#3, P1#4, P1#5 features shipped), not the brain documentation contract files.
+
+### Open action
+- WRITE 4 (command/contracts/): provide content for P0-3-smart-suggestions-fallback.md,
+  P1-4-mcp-sql-migrations.md, and P1-5-documenso-nda-fields.md to complete this contract.
+
+### Additional finding
+bc60d42 (phantom carry-forward → patterns.md) was manually reverted by operator at d4c275a.
+Revert stands — not re-executed this session.
+
+---
+
 ## 260505 — Agent Dev Kit v2 verified · gap-flagger 2605 · GLaOS outline [via: CC]
 
 [PERSISTENT]
