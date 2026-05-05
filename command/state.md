@@ -3,6 +3,27 @@ Last updated: 260505
 
 ---
 
+## 260505 — CLAUDE.md Brain Fetch URL Fix · L1 Gate Test [via: CC]
+
+[PERSISTENT]
+Last updated: 260505
+Author: CC
+
+Session: [GL | COMMAND | L1 Gate Test · CLAUDE.md Fix | 260505]
+
+### What changed
+- Ran L1 Freshness Gate (Step 3.5) as live gate test — result: GATE PASSED CLEAN
+- Found stale URL in `~/.claude/CLAUDE.md` line 277: brain fetch was pointing to deprecated `globalink-brain-public` mirror
+- Fixed: updated to canonical `gl-brain-public` — all future CC session startups will hit POINTER v3.4 directly
+- Verified corrected prompt (all three URLs pointing to `gl-brain-public`) → CLEAR on date-proxy check, no integrity drift detected
+
+### GP-1 Gate: GREEN — no gate changes this session. GP-2 opens 260506 ~01:00 BRT.
+
+### Open (Jason action)
+- None
+
+---
+
 ## 260505 — Documenso token cleanup + Proton Pass naming convention [via: CC]
 
 [PERSISTENT]
