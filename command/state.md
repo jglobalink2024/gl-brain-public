@@ -3,6 +3,49 @@ Last updated: 260506
 
 ---
 
+## 260505 — Alerting Smoke Test PASSED · Dual Channel Verified [via: CC]
+
+[PERSISTENT]
+Last updated: 260505
+Author: CC
+
+Session: [GL/COMMAND | BRAIN-OPS | globalink-brain Migration · Carry-Forward Closed | 260505]
+
+### What changed
+- Added permanent smoke-test mechanism to `sync-public.yml`: `workflow_dispatch` trigger with `smoke_test=true` input → first step exits 1 → alert pipeline fires. No more manual inject/revert dance for future tests.
+- Fixed alert run-URL refs in `sync-public.yml` from archived `jglobalink2024/globalink-brain` → `jglobalink2024/gl-brain`.
+
+### Smoke-test execution (workflow run `25398460134`)
+- Run triggered via `gh workflow run sync-public.yml -f smoke_test=true`
+- Result: ❌ failure (as designed)
+- **Brevo email DELIVERED** — messageId `<202605051946.56389570185@smtp-relay.mailin.fr>` to `jason@globalinkservices.io`, subject "🚨 Brain sync FAILED — commit ac7e7816..."
+- **ntfy push DELIVERED** — msg id `sz5k2GDnx26i`, priority urgent, title "Brain sync FAILED", topic `gl-brain-ops-25a9465b49b52d152e14aa5d0f071c5e`
+- Both channels HTTP 200, both fired from same workflow run, independence confirmed (different transport, different secret, different API)
+
+### Three ntfy pushes sent to topic 260505
+| Msg ID | Priority | Title | Purpose |
+|---|---|---|---|
+| `CaLLh4TgnuKW` | low | gl-brain ops test | Initial subscription smoke check |
+| `sz5k2GDnx26i` | urgent | Brain sync FAILED | Workflow failure path |
+| `343myP782eCk` | default | ✅ Final ntfy confirmation | Operator-confirm prompt |
+
+If Jason received any of these, ntfy subscription is healthy. (Confirmation pending on his device.)
+
+### Carry-forward closed (all 7 items)
+- ✅ 260413 audit Active Fixes (6) — all VERIFIED FIXED via code walk
+- ✅ Workflows ported + checkout@v5 + workflow_dispatch
+- ✅ NTFY_TOPIC + BREVO_API_KEY secrets on gl-brain
+- ✅ Vercel env vars (Stripe FM + Google + HubSpot OAuth) — already set 22d ago
+- ✅ Google + HubSpot OAuth apps verified real (not placeholders)
+- ✅ Alerting smoke test — both channels confirmed live
+- ⏳ ntfy on-device confirmation — pending Jason check phone/desktop
+
+### What's next
+- Operator: confirm ntfy push receipt (any of the 3 IDs above)
+- No further session-blocking items
+
+---
+
 ## 260505 — CLAUDE.md Brain Fetch URL Fix · L1 Gate Test [via: CC]
 
 [PERSISTENT]
