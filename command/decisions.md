@@ -1,6 +1,60 @@
 # COMMAND — Decisions Register
 Last updated: 260505
 
+## 260505 — C4 workload penalty audit: FAIL verdict + minimum fix scoped
+
+Session: [GL/COMMAND | BUILD | C4 Penalty Audit · Semantic Matcher | 260505]
+
+**Verdict: C4 FAIL — strict cockpit-done definition not met**
+
+### What was audited
+File: command-app/command-app/lib/pipeline/semanticMatcher.ts
+Criterion: C4 = "Task routing considers availability and load, not just type"
+
+### Finding
+No load term exists in semanticMatcher.ts. The scoring formula is:
+  combinedScore = keywordScore × 0.6 + historyScore × 0.4
+
+- keywordScore: type match + keyword overlap — not load
+- historyScore: past success rate (outcome='success' last 30 days / total) — not load
+- status field: used only to exclude 'error' agents at query level
+- task_success_rate, avg_token_efficiency: fetched from agents table, NEVER USED in scoring
+
+No is_active boolean, no in-flight count, no queue depth, no workload penalty of any kind.
+
+### Why 260503 recon misread "93 vs 74" as a workload penalty
+The delta was a historyScore difference between two agents with different recent
+success rates. Identical keyword scores; the 0.4×history weight produced the gap.
+No penalty term. Interpretation was wrong; the code is clear.
+
+### Minimum fix scoped (Session size: S)
+File: command-app/command-app/lib/pipeline/semanticMatcher.ts
+Change: Add in-flight task count query + load penalty term
+
+1. After agent fetch, count tasks WHERE assigned_agent_id IN agents AND status IN ('active','dispatched') AND workspace_id = workspaceId. Build inflightMap: agentId → count.
+
+2. In scoring loop:
+   const inflightCount = inflightMap[agent.id] ?? 0;
+   const loadPenalty = Math.min(inflightCount * 10, 30); // cap 30
+   const combinedScore = Math.round(keywordScore * 0.6 + historyScore * 0.4 - loadPenalty);
+
+3. Expose inflightCount + loadPenalty on AgentScore interface for debuggability.
+
+Idle-0 vs idle-2 (same type, same history): delta = 20 points. Monotonic + non-zero. ✓
+
+Option A (is_active binary) rejected: criterion says "load" not just "availability."
+Binary flag cannot distinguish 1-task vs 10-task agents. Queue depth is correct signal.
+
+### C4 path to PASS
+Implement minimum fix above → verify via Playwright that:
+  - Two same-type agents: idle gets higher combinedScore than one with 2 active tasks
+  - Score delta is non-zero and proportional to in-flight count
+  - Routing log shows loadPenalty field populated
+
+C4 PASS gates: cockpit-done-definition.md 260503 walk update.
+
+---
+
 ## 260505 — gap-flagger log schema: align SKILL.md to live schema (forward-only) [via: CC]
 
 Session: [GL/COMMAND | OPS | Agent Dev Kit v2 · Gap-Flagger 2605 · GLaOS Outline | 260505]
