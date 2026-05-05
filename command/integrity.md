@@ -36,12 +36,12 @@ $ms = [System.IO.MemoryStream]::new([Text.Encoding]::UTF8.GetBytes($raw))
 ## Manifest
 
 ```
-state_hash: cbd77ef56f89bc1322c24e51436c9634aadb1843174bee59cdf0e9805cfba750
+state_hash: 232d4543f523c646596daf0aed36504215b1ea303d94e4c2919c14374217efea
 decisions_hash: 4060b5811ec0b82ea501e79be9f13efe7fb89cfb5cb6eae0c08b2dabc6d0242d
 patterns_hash: fb6ef37d9813f679e8079dc19b1127975d8cf5b260592a38a39a98101872b4cd
 killed_hash: c22503f964cbc1c358809929272a48f4fdf684fada080bdd0db851fd18ee8937
 research_hash: 761f319511978dc072f2f92f313d8c5939c992287d81a61ed09c7a9d49b70ba9
-last_verified: 260505-1725
+last_verified: 260505-1729
 ```
 
 ## Update contract

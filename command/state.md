@@ -3,6 +3,51 @@ Last updated: 260505
 
 ---
 
+## 260505 — C4+C3+C2 verified PASS · Cockpit-Done 3/6 green [via: CC]
+
+[PERSISTENT]
+Last updated: 260505
+Author: CC
+
+Session: [GL/COMMAND | BUILD | C2 Handoff Deep Verification · J2 Playwright PASS | 260505]
+
+### What changed
+- C3 Realtime verified PASS: agent-status-realtime.spec.ts all 3 plays green
+  - S01 idle→active: 958ms (gate 5000ms)
+  - S02 active→idle: 1346ms (gate 5000ms)
+  - S03 blur→refocus: 246ms (gate 5000ms)
+  - Fix: workspace scoped to owner_email=TEST_EMAIL to prevent admin RLS bypass returning wrong workspace
+  - Commit: 89bf4bd (agent-status-realtime.spec.ts)
+
+- C2 Handoff Deep verified PASS: J2_handoff_deep.spec.ts all 4 plays green
+  - J2-P1: auto-select → /api/route-task → confidence_score > 0 — PASS
+  - J2-P2: dispatched task in TASK QUEUE — PASS
+  - J2-P3: /bridge CCF all 4 fields filled + Initiate Transfer enabled — PASS
+  - J2-P4: Transfer initiated banner + GENERATED HANDOFF PROMPT + Copy button + HANDOFF LOG 1 — PASS
+  - Vendors: Perplexity-1 (source) → GPT-4-1 (target) — two distinct vendors confirmed
+  - Root cause of prior INCONCLUSIVE: symphony test had no THEN SEND TO (test defect, not code defect)
+  - Commit: 3c17ba6 (J2_handoff_deep.spec.ts v3 — Phase 2.4 auto-execute compatible)
+
+- Brain tracker updated: cockpit-verification-tracker.md C2 → PASS
+  - Commit: 97c8fcb
+
+### Cockpit-Done Gate Status
+- C4: PASS (260505)
+- C3: PASS (260505)
+- C2: PASS (260505)
+- C1: PARTIAL — requires real non-technical user <= 10 min onboarding (human gate, not buildable in code)
+- C5: NOT MET — requires 3 users x 7 unprompted return days
+- C6: MET trivially — coming-soon page makes no claims
+
+### GP-1 Gate
+GREEN — C4+C3+C2 all verified. C1 gated on human actor.
+
+### Open (Jason action)
+- C1 unblocked: schedule 1 non-technical user onboarding session, record/observe
+- Verify NDA signing test email in jason@globalinkservices.io (prior session — still open)
+
+---
+
 ## 260505 — Proton Pass naming sweep complete — 21 entries [via: CC]
 
 [PERSISTENT]
