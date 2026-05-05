@@ -1,5 +1,64 @@
 ﻿# COMMAND — Current State
-Last updated: 260505X
+Last updated: 260505
+
+---
+
+## 260505 — Atomic Brain Update 260504 · GP-1 Verified · Deep Dive Filed [via: CC]
+
+[PERSISTENT]
+Author: CC
+
+Session: [GL/COMMAND | BRAIN-OPS | Deep Dive Filed · GP-1 Verified | 260505]
+
+### What happened
+- Executed "Atomic Brain Update 260504" delegation contract (3-session convergence)
+- **Op 1 — GP-1 verified GREEN:** Fresh Playwright run 3/3 passed (492s, exit 0, 260505). Cookie dismissal confirmed `auth.setup.ts` lines 65–70 + 106–109, commit `1af2195`. Gate-status: `[260504 ~01:00] GREEN 438s — 48h clock STARTS NOW`
+- **Op 2 — Architecture file filed:** `command/architecture/deep-dive-260504.md` committed `02e629b`. 9-section synthesis from Chat session `[GL | TECH | Build State Snapshot · Brain Alignment | 260504]`. Public mirror 200 OK (22,353 bytes)
+- **Op 3 — state.md 260504 entry** already present (POC-1 retroactively resolved by Op 2)
+- **Op 4 — Integrity reblessed** `260505-0409`; state/decisions/patterns/research hashes updated
+- **Op 5 — Closeout** exit 0 CLEAN · heartbeat `2026-05-05T07:21:10Z`
+
+### GP-1 Gate: GREEN — 48h clock started 260504 ~01:00 BRT · GP-2 opens 260506 ~01:00 BRT
+### Autogap queue: UNPARKED — Slot 1 manual verify → Slot 2 manual verify → Slot 3 credit hooks
+
+### What's next
+- GP-2 chain dispatch eligible 260506 ~01:00 BRT
+- Slots 1+2 manual verify + Slot 3 credit hooks before Eric beta invite
+- F7 architecture rot fire drill — no cadence set, highest unmitigated risk
+
+---
+
+## 260505 — Documenso setup complete · POINTER dead URL non-issue [via: CC]
+
+[PERSISTENT]
+Last updated: 260505
+Author: CC
+
+Session: [GL/COMMAND | OPS | Documenso Setup · POINTER Dead URL Resolved | 260505]
+
+### What changed
+
+**Documenso setup (PENDING_ACTIONS item closed):**
+- Admin account: already active (Jason Davis, Personal Account)
+- API token: `COMMAND-integration` generated (no expiry) — copied to Jason's clipboard
+- Template: `COMMAND_NDA_Beta_v2.0` confirmed live (created May 5, 2026)
+- Test send: fired to jason@globalinkservices.io (Document ID: envelope_aoakrtifkumenltr, status: Pending)
+- SMTP: confirmed working (document created and sent successfully)
+- PENDING_ACTIONS: main item marked [x]; new item added for Proton Pass token storage (Jason action)
+- command-app commit: 2d771c5
+
+**POINTER RESPONSE_RULES.md "dead URL" — non-issue:**
+- Investigated F8a session finding that RESPONSE_RULES.md was 404 on gl-brain-public
+- Confirmed via gh API: file EXISTS at sha d6f42c22, size 4054 bytes — URL is live
+- Root cause: temporary CDN glitch during F8a test session (260505); self-resolved
+- No POINTER change needed
+
+### Remaining Jason action
+- Store Documenso COMMAND-integration token in Proton Pass (PENDING_ACTIONS item open)
+- Check jason@globalinkservices.io for NDA signing email to confirm SMTP delivery
+
+### No COMMAND product code changes
+### GP-1 Gate: GREEN — GP-2 opens 260506
 
 ---
 
