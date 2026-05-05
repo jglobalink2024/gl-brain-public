@@ -3,6 +3,30 @@ Last updated: 260505
 
 ---
 
+## 260505 — Brain Split Fix · DEPRECATED.md Stub · Integrity Rebless [via: CC]
+
+[PERSISTENT]
+Last updated: 260505
+Author: CC
+
+Session: [GL/COMMAND | OPS | Brain Split Fix · Rebless | 260505]
+
+### What changed
+- Audited canonical `gl-brain` (325 commits) vs deprecated `globalink-brain` (151 commits) using temp local remote
+- Found 4 orphaned commits (`c0854be`, `7d122ab`, `5bfb130`, `7815eba`) in deprecated NOT in canonical
+- All 4 confirmed already present in canonical via `199d6be` (prior session migration) — no cherry-pick needed
+- Wrote formal `DEPRECATED.md` stub to `globalink-brain` → committed `f16ead3` + pushed
+- Reblessed integrity: `state_hash` `55a6d3dd` → `0684e4d7` — commit `77661bc` pushed
+- Public mirror local clone pulled to `260505-0732` (GHA sync healthy)
+- Memory #26 (TWO-BRAIN-REPO SPLIT) marked **RESOLVED 260505** in `project_brain_topology.md` + `MEMORY.md` index
+
+### What's next
+- Public mirror will pick up rebless commit (`77661bc`) on next GHA sync run
+- `push-research-260504.ps1` in `C:\dev\gl-brain\` root is untracked — ONE-USE, can be deleted
+- No open blockers on brain-ops side
+
+---
+
 ## 260505 — globalink-brain ARCHIVED · Migration Complete [via: CC]
 
 [PERSISTENT]
