@@ -3,6 +3,36 @@ Last updated: 260505
 
 ---
 
+## 260505 — Brain Split Fix · brain-committer v1.3 shipped [via: CC]
+
+[PERSISTENT]
+Last updated: 260505
+Author: CC
+
+Session: [GL/COMMAND | BRAIN-OPS | Brain Split Fix · brain-committer v1.3 | 260505]
+
+### What changed
+- **Brain split root cause identified and fixed:**
+  - brain-committer/SKILL.md had wrong git path (`GlobalInk Repos\gl-brain` — doesn't exist)
+  - Corrected to `C:\dev\gl-brain` — all future brain-committer writes now route correctly
+  - Deprecated repo: `globalink-brain` (GlobalInk Repos) — still exists, no further action needed
+- **ACT-2 cherry-picked** to canonical gl-brain/command/state.md (decisions.md schema entry already present)
+- **brain-committer v1.3 shipped** (agents repo commit 4173236, branch add/brain-committer):
+  - `state.md` mode: FULL-REPLACE → PREPEND (concurrent write race eliminated at source)
+  - Atomic rebless: canonical Node.js script — compute + patch + write in one pass, no race window
+  - Version pin: CLAUDE.md updated v1.2 → v1.3
+- **Multiple integrity reblesses** executed via atomic script during concurrent multi-session drift
+- **Final brain state:** all 5 hashes clean, `last_verified: 260505-0310`, working tree clean
+
+### Decisions logged
+- state.md write mode change: FULL-REPLACE → PREPEND (structural fix, 260505)
+- Atomic rebless as canonical pattern (no split compute/commit across Bash calls)
+
+### No COMMAND product code changes
+### GP-1 Gate: GREEN — GP-2 opens 260506
+
+---
+
 ## 260505 — brain-committer root cause found + fork/main fixed [via: CC direct]
 
 [PERSISTENT]
