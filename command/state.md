@@ -152,6 +152,8 @@ WHERE id = 9 AND "envelopeId" = 'envelope_orsuumlkmhrwkmoh' AND type = 'EMAIL';
 
 **Pending manual (Jason):** Save Brevo SMTP key "COMMAND-documenso" to Proton Pass.
 
+**Addendum:** TEXT field (id=5) also updated — added `label: "Title / Role"` and `placeholder: "e.g. CEO, Founder, Consultant"` to fieldMeta. Field overlay now reads "Title /" truncated, aligned with the "Title:" line in the PDF. Verified in browser. No signing required.
+
 ### No COMMAND product code changes
 
 ---
