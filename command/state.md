@@ -3,6 +3,25 @@ Last updated: 260505
 
 ---
 
+## 260505 — ONE-USE File Purge · command-app root cleanup [via: CC]
+
+[PERSISTENT]
+Last updated: 260505
+Author: CC
+
+Session: [GL/COMMAND | CLEANUP | ONE-USE File Purge · Root Cleanup | 260504]
+
+### What changed
+- Deleted 2 ONE-USE prompt files from `command-app/command-app/` root:
+  - `PROMPT_CCO_drive_rule13_v14.md`
+  - `PROMPT_CC_braincommitter_skill_create.md`
+- Note: brain-committer `SKILL.md` missing (`~/.claude/agents/brain-committer/` has only `.bak`) — direct write used; restore needed
+
+### No COMMAND product code changes
+### GP-1 Gate: GREEN — GP-2 opens 260506
+
+---
+
 ## 260505 — WRITE 4 Complete · command/contracts/ created [via: CC]
 
 [PERSISTENT]
