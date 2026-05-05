@@ -3,6 +3,34 @@ Last updated: 260505
 
 ---
 
+## 260505 — Documenso SMTP FROM fix — jason@globalinkservices.io [via: CC]
+
+[PERSISTENT]
+Last updated: 260505
+Author: CC
+
+Session: GL/COMMAND | INFRA | Documenso Email Fix | 260505
+
+### What changed
+- Diagnosed why test NDA email (envelope_aoakrtifkumenltr) never arrived at jason@globalinkservices.io
+- Document IS in Documenso Personal Inbox at /inbox — created and queued correctly; delivery was the failure point
+- Root cause: NEXT_PRIVATE_SMTP_FROM_ADDRESS was set to support@globalinkservices.io — an address NOT verified in Brevo; Brevo silently rejected all outbound signing emails
+- Fix applied: changed NEXT_PRIVATE_SMTP_FROM_ADDRESS to jason@globalinkservices.io (verified in Brevo with DKIM + DMARC green); saved via Render env vars → triggered rebuild+deploy (~5 min build, in progress at closeout)
+- Wrote CfC delegation prompt for post-deploy email delivery verification: wait for deploy live, send fresh test from COMMAND_NDA_Beta_v2.0 template, confirm email arrives in Proton Mail inbox
+- No code changes — ops/infra only
+
+### Next actions
+- CfC to run post-deploy verification once documenso-gl deploy goes live
+- If PASS: Documenso email delivery confirmed working; NDA flow ready for first beta user
+- If FAIL: check Render logs for SMTP errors, check Brevo transactional log
+- Future option: if support@globalinkservices.io preferred as NDA sender, add it as verified sender in Brevo → swap var back
+
+### No COMMAND product code changes
+
+### GP-1 Gate: GREEN — GP-2 opens 260506 ~01:00
+
+---
+
 ## 260505 — C4+C3+C2 verified PASS · Cockpit-Done 3/6 green [via: CC]
 
 [PERSISTENT]
