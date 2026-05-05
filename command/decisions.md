@@ -756,3 +756,47 @@ Author: CC
 
 **Trigger to revisit:** Upgrade to paid Render tier (if scale demands), or migrate Documenso to a host with free pre-deploy hooks.
 
+---
+
+## 260505 — F8a closed via two-proof path
+
+[PERSISTENT]
+Last updated: 260505
+Author: CC
+
+**Decision:** Close F8a (self-sealing freshness signal) using two
+independent proofs instead of the originally-specified live-mirror
+corruption test.
+
+**Proof 1 — CC arm (deterministic):** ~/.claude/hooks/brain-integrity-check.js
+fires at session start, computes SHA-256 of all 5 tracked brain files,
+compares to integrity.md manifest, emits HARD BANNER additionalContext
+on mismatch. Verified empirically 260505 — fired correctly on session
+start with hash mismatch (expected 0abbb0b8…, got a5e3a58c…).
+
+**Proof 2 — Chat arm (prompt-following):** POINTER Step 3.5 prose
+verified against 5-case truth table on isolated content (no fetch).
+Cases cover date-newer, date-equal, HHMM-newer (F8a tight case),
+date-older, and malformed-date branches. Result: PASS 5/5.
+Key finding: HHMM precision catches 5-minute drift correctly (Case 3);
+Check A correctly short-circuits before Check B on malformed input (Case 5).
+
+**Scope:** F8a is now closed for both detection arms. The CC arm is
+the enforcement boundary (developer writes flow through CC).
+The Chat arm is informational — Chat sessions surface drift to operators
+but cannot block writes.
+
+**Why not the live-mirror test:** Concurrent-write traffic on gl-brain
+main + raw.githubusercontent.com CDN cache make hot-brain corruption
+tests infeasible (anti-pattern locked in patterns.md 260505). Two
+corruption commits (1dd460d, b50b056) were overwritten within minutes
+during the test attempt.
+
+**Recovery:** Both corruption commits reverted; integrity.md reblessed
+atomically; state.md entry committed via brain-committer.
+
+**Deferred — v3.5 hardening:** integrity.md `last_verified` field itself
+is not validated by Check A. If trust anchor is corrupted, Step 3.5
+trusts it implicitly. Flagged for future hardening pass; out of scope
+for F8a closure.
+
