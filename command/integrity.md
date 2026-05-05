@@ -37,11 +37,11 @@ $ms = [System.IO.MemoryStream]::new([Text.Encoding]::UTF8.GetBytes($raw))
 
 ```
 state_hash: da6df97228d587016865a4119920d259f0127496adba3b04836ef3b088e5ce0b
-decisions_hash: 0d8746bbd5fe8b55dd335f40a216f77d4f929bcb618428cffbe34e45fef6ec0a
+decisions_hash: f7d36c41606fee0cb39ae3f916ff3ac5088526d0a1313c5aa00e6a6af6b1fbb5
 patterns_hash: e5e7f56430a7aee791e55e702534daad7925e99ec1031c14b0b415e877aceb7a
 killed_hash: c22503f964cbc1c358809929272a48f4fdf684fada080bdd0db851fd18ee8937
 research_hash: d813b4284c86b7fc79219f751159a7dd1a677e7752c1610d7db51ce126ddc747
-last_verified: 260504-2300
+last_verified: 260505-0000
 ```
 
 ## Update contract

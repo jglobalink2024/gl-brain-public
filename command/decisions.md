@@ -402,3 +402,25 @@ Rationale: Sandra's mental model is flat (ChatGPT/Claude/Perplexity
 Revisit: Q3 2026 — credit packs if 3+ FM customers ask for
   pay-as-you-go in discovery.
 
+---
+
+## 260503 — L1 Freshness Gate · web_fetch cache-bust limitation · CC-side hook is authoritative
+
+[PERSISTENT]
+Author: Chat (via CC brain-committer)
+
+Session: [GL | INFRA | L1 Gate Cache-Bust Test · POINTER v3.1 Verdict | 260503]
+
+**Finding:** Chat-side L1 Freshness Gate cannot force fresh GitHub raw fetches via URL query-param cache-bust (`?nocache=...`). web_fetch's permission system rejects arbitrary query params not previously seen in tool results — returns PERMISSIONS_ERROR. Bare URL succeeds but inherits whatever caching exists at the fetch layer.
+
+**Architectural conclusion:** Chat-side L1 verification is best-effort against potentially stale fetcher caches. The CC SessionStart hook (which reads local file content directly via filesystem, no HTTP layer) is the only authoritative integrity verification path.
+
+**Doctrine implications:**
+1. Chat-side L1 SOFT BANNER is the right default when integrity cannot be independently confirmed for all 5 tracked files — do not auto-promote to CLEAR
+2. For high-stakes verification (post-corruption test, post-rebless), require CC session pass — Chat session pass is necessary but not sufficient
+3. To force freshness when it actually matters, bump POINTER_CONTENT_HASH and push — any cached copy fails parity check on next gate run
+
+**No code change required.** This is a doctrine clarification — captures a known gap in the F4/F8a closure architecture so it isn't re-derived later.
+
+**Related:** Hardening #2 entry (260503 in state.md), POINTER_COMMAND.md v3.1, command/integrity.md.
+
