@@ -4550,3 +4550,19 @@ Session: [GL/COMMAND | BRAIN-OPS | 260503 Brain Close Verify · No Open Actions 
 Session: [GL/COMMAND | BRAIN-OPS | L1 Gate Test · F8a Closure | 260505]
 260505 — Verified Perplexity COMMAND market validation research (appended 260504) successfully committed to gl-brain/command/research.md via closeout script at 260505-0334. No code changes this session.
 Session: [GL/COMMAND | OPS | Research Commit Verify · Closeout | 260505]
+260505 — CF-3 regression re-fixed: commit 2d0b531 had re-introduced '; exit' into extract_chat_name awk rule, reverting be005d2's fix. Removed exit, tested with dual-heading /tmp scenario, synced to L3.5 backup (globalink-claude-config cb776e4, pushed). CF-1 and CF-2 confirmed already resolved in prior sessions. No code changes to command-app.
+Session: [GL/COMMAND | INFRA | CF Hygiene Audit · CF-3 Regression Fix | 260505]
+260505 — Verified Perplexity COMMAND market validation research appended + committed to gl-brain (260505-0334 closeout). Verified all 3 PENDING_ACTIONS: (1) EmailTest260505 Documenso token already absent; (2) Proton Pass 'COMMAND — Documenso — NDA Upload API' contains correct api_fmhrzxmtaemqd3bd token (not rnd_); (3) brain-warden P1 alert confirmed non-recurrent. No code changes.
+Session: [GL/COMMAND | OPS | Research Commit Verify · Pending Actions Sweep | 260505]
+260505 — PENDING_ACTIONS full closure: all 5 open items resolved (env.brains verified, mgmt token scope clarified, GitHub #4314332 done by Jason, security@vercel.com Gmail draft created r-9195757795768814493, ntfy receipt confirmed by Jason). Zero open items remain.
+Session: [GL/COMMAND | BRAIN-OPS | L1 Gate Test · F8a Closure | 260505]
+260505 — Post-closeout credential cleanup: deleted Documenso EmailTest260505 test token; corrected Proton Pass COMMAND—Documenso—NDA Upload API entry (rnd_ Render key replaced with api_fmhrzxmtaemqd3bd); resolved brain-warden P1 alert in agent_alerts (resolved=true, confirmed transient). All PENDING_ACTIONS [x].
+Session: [GL/COMMAND | OPS | Housekeeping Agent Scaffold · Credential Cleanup | 260505]
+260505 — CF-3 regression re-fixed: commit 2d0b531 had re-introduced '; exit' into extract_chat_name awk rule, reverting be005d2's fix. Removed exit, tested with dual-heading /tmp scenario, synced to L3.5 backup (globalink-claude-config cb776e4, pushed). CF-1 and CF-2 confirmed already resolved in prior sessions. No code changes to command-app.
+Session: [GL/COMMAND | INFRA | CF Hygiene Audit · CF-3 Regression Fix | 260505]
+260505 — Verified Perplexity COMMAND market validation research appended + committed to gl-brain (260505-0334 closeout). Verified all 3 PENDING_ACTIONS: (1) EmailTest260505 Documenso token already absent; (2) Proton Pass 'COMMAND — Documenso — NDA Upload API' contains correct api_fmhrzxmtaemqd3bd token (not rnd_); (3) brain-warden P1 alert confirmed non-recurrent. No code changes.
+Session: [GL/COMMAND | OPS | Research Commit Verify · Pending Actions Sweep | 260505]
+260505 — PENDING_ACTIONS full closure: all 5 open items resolved (env.brains verified, mgmt token scope clarified, GitHub #4314332 done by Jason, security@vercel.com Gmail draft created r-9195757795768814493, ntfy receipt confirmed by Jason). Zero open items remain.
+Session: [GL/COMMAND | BRAIN-OPS | L1 Gate Test · F8a Closure | 260505]
+260505 — Post-closeout credential cleanup: deleted Documenso EmailTest260505 test token; corrected Proton Pass COMMAND—Documenso—NDA Upload API entry (rnd_ Render key replaced with api_fmhrzxmtaemqd3bd); resolved brain-warden P1 alert in agent_alerts (resolved=true, confirmed transient). All PENDING_ACTIONS [x].
+Session: [GL/COMMAND | OPS | Housekeeping Agent Scaffold · Credential Cleanup | 260505]
