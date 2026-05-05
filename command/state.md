@@ -3,6 +3,53 @@ Last updated: 260505
 
 ---
 
+## 260505 — ACT-1: brain-committer fallback · direct CC commit verified [via: CC direct]
+
+[PERSISTENT]
+Last updated: 260505
+Author: CC
+
+Session: [GL/COMMAND | OPS | brain-committer fallback · ACT-1 direct CC commit | 260505]
+
+### What changed
+- ACT-1 executed: direct CC commit to `command/research.md` bypassing brain-committer — VIABLE
+  - Edit → git add → git commit → git push → revert — all succeeded first attempt
+  - Commit fc9453d (test), 83d37a4 (revert), both pushed to origin/main
+  - brain-committer confirmed as compliance/routing layer, NOT a physical gate
+- Fallback SOP documented: direct CC path works; note bypass in commit message; log in decisions.md
+
+### Key finding
+brain-committer absent from agent list at session close (was present at session open).
+ACT-1 timing validated the need for this test.
+
+### No COMMAND product code changes
+### GP-1 Gate: GREEN (inherited) — GP-2 opens 260506
+
+### What's next
+- Rebless `command/decisions.md` (hash drift flagged at session start — `brain-committer --rebless`)
+- Add fallback SOP to gl-brain ops docs or decisions.md
+
+---
+
+## 260505 — ONE-USE File Purge · command-app root cleanup [via: CC]
+
+[PERSISTENT]
+Last updated: 260505
+Author: CC
+
+Session: [GL/COMMAND | CLEANUP | ONE-USE File Purge · Root Cleanup | 260504]
+
+### What changed
+- Deleted 2 ONE-USE prompt files from `command-app/command-app/` root:
+  - `PROMPT_CCO_drive_rule13_v14.md`
+  - `PROMPT_CC_braincommitter_skill_create.md`
+- Note: brain-committer SKILL.md missing (only .bak present at `~/.claude/agents/brain-committer/`) — direct write used; SKILL.md restore needed
+
+### No COMMAND product code changes
+### GP-1 Gate: GREEN — GP-2 opens 260506
+
+---
+
 ## 260505 — Brain Split Fix · ACT-2 Cherry-Pick · brain-committer Path Corrected [via: CC]
 
 [PERSISTENT]
