@@ -3,6 +3,26 @@ Last updated: 260505
 
 ---
 
+## 260505 — Perplexity market validation push verified [via: CC]
+
+[PERSISTENT]
+Last updated: 260505
+Author: CC
+
+Session: GL/COMMAND | RESEARCH | Perplexity Market Validation Push Verification | 260505
+
+### What changed
+- Previous unattended CC session had appended full Perplexity Deep Research block (COMMAND market validation) to command/research.md but git push was blocked at session end
+- This session verified: gl-brain repo arrived clean and up to date — push had completed before this session opened
+- Confirmed research.md tail contains full Perplexity content (footnotes [^1]–[^26] visible, closing --- present)
+- No code changes, no new decisions — verification only
+
+### Next actions
+- Research is live in brain; available for strategy/GTM synthesis in any future session
+- No blockers
+
+---
+
 ## 260505 — Documenso SMTP FROM fix — jason@globalinkservices.io [via: CC]
 
 [PERSISTENT]
