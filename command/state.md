@@ -3,6 +3,30 @@ Last updated: 260505
 
 ---
 
+## 260505 — WRITE 4 Complete · command/contracts/ created [via: CC]
+
+[PERSISTENT]
+Last updated: 260505
+Author: CC
+
+Session: [GL/COMMAND | BRAIN-OPS | WRITE 4 · Contract Files Complete | 260505]
+
+### What changed
+- Created `command/contracts/` directory in gl-brain (was missing despite being marked done in error in 260505 Brain Audit session)
+- Wrote 3 contract documentation files (commit ba2f774):
+  - `P0-3-smart-suggestions-fallback.md` — null-safe fallback fix, commit 411db2e
+  - `P1-4-mcp-sql-migrations.md` — MCP SQL columns (mcp_endpoint_url, mcp_capabilities, mcp_secret), commit 53ec64b
+  - `P1-5-documenso-nda-fields.md` — Documenso NDA template 12572, 4 signer fields
+
+### Closes
+- WRITE 4 action from [GL/COMMAND | BRAIN-OPS | 260503 Brain Close Contract · Partial Execution | 260505]
+- All 6 WRITE items from the 260503 Brain Close contract are now complete
+
+### No COMMAND product code changes
+### GP-1 Gate: GREEN — GP-2 opens 260506
+
+---
+
 ## 260505 — C4 FAIL audit + deep-dive filed + agents fork fixed [via: CC]
 
 [PERSISTENT]
@@ -3902,4 +3926,72 @@ Session: [GL/COMMAND | OPS | Rule 13 Extension · SOURCE_CHAT | 260505]
 
 
 Session log: COMMAND billing page FM tier $99 Pilot â†’ Studio mismatch. /settings/billing SELECT A PLAN must match /pricing. Supabase migration applied. Vercel auto-deploy pending. Symphony v11 Findings MAJOR-04.
+
+---
+
+# === MIGRATED FROM globalink-brain 260505 ===
+
+The following 3 session log entries were authored in the globalink-brain repo prior to its archival. Migrated here verbatim with date-of-origin preserved. Source: `globalink-brain/command/state.md`.
+
+---
+
+## 260504 — Documenso Deploy · Render Turbo Fix [migrated from globalink-brain]
+
+[PERSISTENT]
+Author: CC
+
+Session: [GL/COMMAND | INFRA | Documenso Deploy · Render Turbo Fix | 260504]
+
+- Documenso v2.8.1 now LIVE at https://documenso-gl.onrender.com
+- Root cause resolved: `turbo run start --filter=@documenso/remix` silently no-ops in Render CI (non-TTY, persistent:true tasks)
+- Fix: Start command changed to `cd apps/remix && node build/server/main.js` — bypasses Turbo entirely
+- CWD prefix also fixes Hono serveStatic static asset resolution (build/client relative to app dir)
+- Pre-Deploy Command (prisma db push) confirmed paid-tier Render feature — not available on free tier
+- Schema sync manual going forward; current schema confirmed in sync
+- documenso-operator.md agent skill written to ~/.claude/agents/
+
+Decisions logged: command/decisions.md "260504 — Documenso start command: bypass Turbo entirely" + "260504 — Render Pre-Deploy Command is a paid feature".
+Pattern logged: command/patterns.md "Render + Hono monorepo: CWD matters for static assets (LOCKED 260504)".
+
+---
+
+## 260504 — Documenso Signing Cert · Env Vars Saved [migrated from globalink-brain]
+
+[PERSISTENT]
+Author: CC
+
+Session: [GL/COMMAND | INFRA | Documenso Deploy · Signing Cert | 260504]
+
+- `NEXT_PRIVATE_SIGNING_TRANSPORT=local` and `NEXT_PRIVATE_SIGNING_LOCAL_FILE_CONTENTS` (RSA 2048, 10yr, CN=documenso-gl, base64 PEM, 3772 chars) saved to Render env vars for `documenso-gl` service
+- All other required vars confirmed pre-existing: `NEXTAUTH_SECRET`, `NEXT_PRIVATE_ENCRYPTION_KEY`, `NEXT_PRIVATE_ENCRYPTION_SECONDARY_KEY`, SMTP stack (`NEXT_PRIVATE_SMTP_*`)
+- Deploy `deploy-r2pg` triggered — rebuilding with full signing cert in place
+- PENDING_ACTIONS.md: GITHUB unarchive row marked [x] (confirmed push ee63dd5..c0854be); VERCEL env vars row marked [x] (signing vars saved)
+- Documenso admin first-time setup: site live at /signin, standard auth flow — Jason must sign up/sign in to create admin account and generate API token
+- Next: verify `deploy-r2pg` lands clean → sign in → generate API token → upload NDA template
+
+Service config: command/infra/documenso-live.md (created 260505 during migration).
+
+---
+
+## 260503 — Brain Hardening #3 — ntfy.sh second alert channel [migrated from globalink-brain]
+
+[PERSISTENT]
+Author: CC
+
+Session: [GL/COMMAND | OPS | Brain Hardening · ntfy.sh Alert Channel | 260503]
+
+- F2 + F8b closed: ntfy.sh added as fully independent second alert channel alongside Brevo
+- `NTFY_TOPIC` secret added to globalink-brain GitHub repo (long random topic, unguessable)
+- `sync-public.yml`: existing step renamed "Notify on failure (Brevo email)"; new parallel step "Notify on failure (ntfy.sh push)" added with `if: failure()`, Priority: urgent
+- `brain-heartbeat.yml`: ntfy curl added inside `AGE_HOURS > 48` branch before `exit 1`, Priority: high
+- Both channels verified independent: different API, different secret, different transport
+- Live test: injected `exit 1` as first step → run 25297494565 failed → Brevo messageId `<202605040203.16871763278@smtp-relay.mailin.fr>` + ntfy id `YaeDaKZglqcm` both confirmed HTTP 200
+- Revert confirmed: run 25297521970 succeeded — workflow back to production state
+- Jason manual step remaining: install ntfy app + subscribe to topic `gl-brain-ops-25a9465b49b52d152e14aa5d0f071c5e`
+
+Migration note: when gl-brain assumes the active sync workflow, NTFY_TOPIC secret must be provisioned in `gl-brain` repo secrets (not just `globalink-brain`).
+
+---
+
+# === END globalink-brain MIGRATION ===
 
