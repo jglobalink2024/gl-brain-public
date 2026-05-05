@@ -3,6 +3,56 @@ Last updated: 260505
 
 ---
 
+## [260505] POINTER Step 3.5 Isolation Test — PASS 5/5
+
+[PERSISTENT]
+Last updated: 260505
+Author: CC
+
+**Session:** [GL/COMMAND | TECH | POINTER Step 3.5 Isolation Test | 260505]
+
+**Decision:** POINTER v3.3 Step 3.5 gate logic confirmed production-sound.
+
+All five edge cases verified against the inline rule:
+- Case 1 (date-newer, full day): 🔴 BANNER ✅
+- Case 2 (same-day, YYMMDD < HHMM anchor): 🟢 CLEAR ✅
+- Case 3 (same-day, 5-min drift, HHMM precision): 🔴 BANNER ✅
+- Case 4 (date-older): 🟢 CLEAR ✅
+- Case 5 (malformed trailing letter, Check A stops before B): 🔴 BANNER ✅
+
+F8a closure confirmed. HHMM-precision catches sub-day corruption
+that day-only comparison misses. Check A short-circuit works correctly.
+
+**Status:** RESOLVED — no gate changes required.
+
+---
+
+## [260505] POINTER v3.5 Hardening Candidate — integrity.md Blind Spot
+
+[PERSISTENT]
+Last updated: 260505
+Author: CC
+
+**Session:** [GL/COMMAND | TECH | POINTER Step 3.5 Isolation Test | 260505]
+
+**Finding:** Step 3.5 validates each brain file's `Last updated:` header
+against integrity.md's `last_verified` field. However, integrity.md's
+own `last_verified` field is never validated for format compliance
+(YYMMDD or YYMMDD-HHMM). If integrity.md itself is corrupted or
+receives a malformed last_verified value, Step 3.5 trusts it blindly
+and the entire date-proxy check becomes unreliable.
+
+**Proposed v3.5 fix:**
+Add a pre-check (runs before Check A) that validates integrity.md's
+`last_verified` field format. Invalid format →
+🔴 HARD BANNER: "integrity.md last_verified is malformed ([value]).
+Cannot use as comparison anchor. Operator must inspect and rebless."
+Stop. Do not proceed to Check A or B.
+
+**Status:** CANDIDATE — not yet implemented. Gate for v3.5 authoring.
+
+---
+
 ## 260505 — tsx scripts do not auto-load .env.local — explicit dotenv required
 
 **Session:** [GL/COMMAND | BUILD | C2+C3 Verification · Sentinel Scaffold | 260505]
@@ -799,4 +849,26 @@ atomically; state.md entry committed via brain-committer.
 is not validated by Check A. If trust anchor is corrupted, Step 3.5
 trusts it implicitly. Flagged for future hardening pass; out of scope
 for F8a closure.
+
+---
+
+## 260505 — Housekeeping Agent: Zombie Detection Logic
+
+Decision: Zombie tasks are identified by POSITIVE MATCH on executing states, not exclusion of terminal states.
+- ZOMBIE_STATES = ["active", "running"] — tasks dispatched and never finished
+- TERMINAL_STATES = ["complete", "failed"] — excluded from zombie concern but not used in query
+- Query: .in("status", ZOMBIE_STATES) — safer than NOT IN exclusion (won't accidentally pick up unknown/new states)
+- RESET_TO_STATUS = "failed" — constraint-valid; "idle" is NOT in tasks_status_check
+
+Constraint reference: tasks_status_check allows: pending | running | complete | failed | active | paused | queued
+
+Trigger: Live smoke run exposed 76 false zombie detections + 20x constraint rejections (all from queued/complete tasks incorrectly swept).
+
+---
+
+## 260505 — All housekeeping agents must load dotenv at module startup
+
+Decision: Every agent index.ts must call `config({ path: resolve(process.cwd(), ".env.local") })` before any import that touches Supabase or env vars. tsx does not auto-load .env.local; agents silently receive undefined credentials without this.
+
+Pattern: dotenv block goes at file top (lines 3-5), before all other imports. This is the canonical env-loading pattern for all scripts in scripts/agents/.
 
