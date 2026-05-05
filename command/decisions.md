@@ -1,5 +1,34 @@
 # COMMAND — Decisions Register
-Last updated: 260504
+Last updated: 260505
+
+## 260505 — gap-flagger log schema: align SKILL.md to live schema (forward-only) [via: CC]
+
+Session: [GL/COMMAND | OPS | Agent Dev Kit v2 · Gap-Flagger 2605 · GLaOS Outline | 260505]
+
+**Decision:** Update `gap-flagger/SKILL.md` input contract to formally accept the live `agent_activity_log.md` field names as primary. Do NOT migrate existing log entries. Forward-only extension: new entries should add optional fields when possible.
+
+**Field mapping (live → SKILL.md canonical):**
+
+| Live log field | SKILL.md contract field | Resolution |
+|---|---|---|
+| `activated` | `agent_name` | Accept `activated` as valid alias; update SKILL.md to document both |
+| `date` (YYMMDD) | `timestamp` (ISO-8601) | Accept YYMMDD; note precision loss (no time-of-day) in SKILL.md |
+| `outcome` | `task_outcome` | Accept `outcome` as valid alias; update SKILL.md to document both |
+| *(absent)* | `first_month` | Apply heuristically from install date; add as optional field for new entries |
+| *(absent)* | `invoker` | Add as optional field for new entries |
+| *(absent)* | `handoff_to` | Add as optional field for new entries |
+
+**Rationale:** The live log has 10+ entries already committed in the established format. Migrating existing entries would violate the append-only principle (`RM_RF_BLOCKED` class violation — append-only is sacred). `SKILL.md` was written before the live log existed and diverged during initial setup. The simpler and safer fix is to align the spec to the implementation, not the implementation to the spec. The field-mapping heuristic gap-flagger currently applies is correct — this decision formalizes it.
+
+**Impact on gap-flagger:** Remove "schema mismatch" from Section 12 Data Quality in future reviews once SKILL.md is updated. The heuristic mapping is now the official contract, not a workaround.
+
+**Excluded options:**
+- *(a) Migrate existing log entries to SKILL.md field names* — rejected. Violates append-only. 10 entries would need rewriting. No operational benefit.
+- *(c) Keep mismatch unresolved* — rejected. It's a recurring data-quality flag. Two reviews is enough signal to decide.
+
+**Next action:** Update `gap-flagger/SKILL.md` input contract section to document `activated`/`date`/`outcome` as accepted aliases. Add optional fields to the schema table. Target: before 2606 review.
+
+---
 
 ## 260504 — GP-1 Stale-Execution Guard: executeTask 2b.5 [via: CC]
 

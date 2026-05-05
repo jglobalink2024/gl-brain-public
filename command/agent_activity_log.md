@@ -49,6 +49,28 @@ Optional fields:
 date: 260505
 session_type: ops
 vehicle: cc
+task: Direct-CC brain commit fallback test (no brain-committer) — decisions.md schema decision append
+scan_performed: yes
+activated: none (brain-committer explicitly bypassed — this IS the fallback test)
+why: gap-flagger 2605 ACT item required one direct-CC brain commit to verify fallback path viability
+outcome: shipped
+efficiency_gain: medium
+first_month: false
+gap_flagged: none
+notes: |
+  Fallback verdict: VIABLE. CC produced correct commit conventions without brain-committer:
+  lifecycle tag ([PERSISTENT] in decisions.md header), reverse-chrono insert, correct
+  field format, no entity.md access, staged specific file only. Quality delta vs.
+  brain-committer: minimal — the commit message format and lifecycle tag discipline held.
+  brain-committer adds value for: FULL-REPLACE state.md writes, integrity.md rebless,
+  and complex multi-file brain operations. For simple APPEND writes, CC fallback is safe.
+  Decision: brain-committer remains the default; direct CC fallback is approved for
+  simple APPEND-mode writes when brain-committer is unavailable.
+
+---
+date: 260505
+session_type: ops
+vehicle: cc
 task: Agent Dev Kit v2 deployment verification + gap-flagger 2605 triage review
 scan_performed: yes
 activated: gap-flagger
