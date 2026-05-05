@@ -1,6 +1,29 @@
 # COMMAND — Decisions Register
 Last updated: 260505
 
+## 260505 — C4 fix shipped: semanticMatcher.ts load penalty live
+
+Session: [GL/COMMAND | BUILD | C4 Penalty Audit · Semantic Matcher | 260505]
+
+Commit: 7a5d856 — command-app main
+File: lib/pipeline/semanticMatcher.ts
+
+Changes shipped:
+- Bulk in-flight query: tasks WHERE workspace_id=wid AND status IN ('queued','active') AND agent_id IN [agent IDs]
+- inflightMap: Record<agentId, count> built from query results
+- loadPenalty = Math.min(inflightCount * 10, 30) applied to combinedScore
+- combinedScore = Math.max(0, Math.round(kw*0.6 + hist*0.4 - loadPenalty))
+- inflightCount + loadPenalty added to AgentScore interface (debuggability)
+- rationale string updated to mention load penalty when active tasks > 0
+- console.log updated to show load breakdown per agent
+
+TypeScript: exit 0. ESLint: clean. Preflight: PASSED.
+
+C4 criterion: "Task routing considers availability and load, not just type"
+Status: IMPLEMENTATION COMPLETE — pending Playwright verification.
+
+---
+
 ## 260505 — C4 workload penalty audit: FAIL verdict + minimum fix scoped
 
 Session: [GL/COMMAND | BUILD | C4 Penalty Audit · Semantic Matcher | 260505]
@@ -570,4 +593,34 @@ Session: [GL/COMMAND | OPS | Rule 13 Extension · SOURCE_CHAT | 260505]
   RETURN TO: [exact SOURCE_CHAT value]
 
 **Canonical delegation header field order:** MODEL → CALIBER → SOURCE_CHAT
+
+---
+
+## 260504 — Documenso start command: bypass Turbo entirely [migrated from globalink-brain 260505]
+
+[PERSISTENT]
+Author: CC
+
+**Decision:** Use `cd apps/remix && node build/server/main.js`, NOT `turbo run start --filter=@documenso/remix`.
+
+**Root cause:** Turbo `persistent: true` tasks silently no-op in non-TTY environments (Render CI). Turbo never errors — it just doesn't run the task. Service appears deployed but server never starts.
+
+**Bonus:** The `cd apps/remix &&` prefix also fixes the Hono `serveStatic` path (looks for `build/client` relative to CWD). See patterns.md "Render + Hono monorepo: CWD matters for static assets (LOCKED 260504)".
+
+**Applies to:** Documenso self-hosted on Render. Live at `https://documenso-gl.onrender.com` since 260504.
+
+---
+
+## 260504 — Render Pre-Deploy Command is a paid feature [migrated from globalink-brain 260505]
+
+[PERSISTENT]
+Author: CC
+
+**Decision:** Cannot set `prisma db push` as a pre-deploy step on Render free tier — locked behind paywall.
+
+**Implication:** Schema sync must be done manually in Supabase SQL Editor when Prisma schema changes for the Documenso instance.
+
+**Current state (260504):** Schema is in sync — no action needed unless Documenso schema changes via upstream.
+
+**Trigger to revisit:** Upgrade to paid Render tier (if scale demands), or migrate Documenso to a host with free pre-deploy hooks.
 

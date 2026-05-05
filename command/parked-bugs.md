@@ -81,3 +81,22 @@ No parallel work. No "while we're in there." Discipline.
 - No fixes in this file — this is a queue, not a log
 - When tempted to fix a parked bug outside the review protocol: STOP
 - Tier assignment is the operator's call (Jason), not CC's default
+
+---
+
+## Migrated from globalink-brain — 260413 audit Active Fixes (status: VERIFY)
+
+[PERSISTENT] [migrated from globalink-brain state.md 260505]
+
+These items were on the "Active Fixes (still open)" list in globalink-brain's state.md as of 260505. Status not independently re-verified during migration. Operator should walk each before assigning to a tier or unparking.
+
+| Item | globalink-brain severity | Last claimed status | Verify against |
+|---|---|---|---|
+| `Run in [Agent]` button dead — `StepDetailSidebar:551` | Critical | Open per 260413 audit | Check if button now wired or component refactored since 260413 |
+| ROI tracker inflated baseline | Critical | Open per 260413 audit | `lib/roi/` — confirm baseline calc; gl-brain credit-hooks-status.md may already cover this |
+| Smart suggestions wrong fallback | Critical | LIKELY FIXED via P0#3 TRACK 1 (260504) | Verify against TRACK 1 commit + cockpit-done C1 walk |
+| Two auto-handoff implementations (deduplicate `lib/pipeline/`) | High | Open per 260413 audit | Search for both implementations; check if one was removed during GP-1 work |
+| No vendor fetch timeout (30s AbortController) | High | LIKELY FIXED 260504 (90s AbortController shipped per state.md GP-1 entry) | Verify timeout values in `app/api/agents/proxy/route.ts` |
+| API keys written client-side (must route server-side) | High | Open per 260413 audit — security gap | Audit any code path writing `api_key` from client; should be server-only |
+
+Migration policy: do NOT silently move any of these to "resolved" without explicit verification + commit reference. Mark `[VERIFIED FIXED — commit X]` or `[VERIFIED OPEN — added to Tier N]` per item.

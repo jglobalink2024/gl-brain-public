@@ -944,3 +944,88 @@ Direct CC commit to `command/decisions.md` (APPEND-mode) without routing through
 - Complex multi-file atomic brain operations
 
 **Origin:** gap-flagger 2605 ACT escalation — brain-committer WATCH→ACT (57% concentration, 2nd consecutive window). Fallback path verified before 2606 review as required ACT item.
+
+---
+
+## Tool Split: CC vs Cursor (LOCKED 260413)
+
+[PERSISTENT] [migrated from globalink-brain 260505]
+
+CC for multi-file builds — walk away, let it run.
+Cursor for surgical single-file edits only.
+Never use Cursor for anything touching `lib/pipeline/` or `components/tasks/` — those surfaces are CC territory.
+
+---
+
+## preflight.ps1 — Run Before Every Push
+
+[PERSISTENT] [migrated from globalink-brain 260505]
+
+Location: command-app root.
+Runs: TypeScript check + missing-module scan.
+Gate: Never push if preflight fails. No `--no-verify` to bypass.
+
+---
+
+## Cursor Prompt Pattern
+
+[PERSISTENT] [migrated from globalink-brain 260505]
+
+Surgical, single-component prompts beat broad sweeps.
+Use explicit DELETE/REPLACE with verification steps.
+End every Cursor prompt with `git add [specific files]` + commit + push.
+Never use `git add .` or `git add -A` — always specific files.
+
+---
+
+## Playwright Auth Pattern (LOCKED)
+
+[PERSISTENT] [migrated from globalink-brain 260505]
+
+Test user: `jcameron5206@proton.me`
+Password: stored in `.env.local` as `COMMAND_TEST_PASSWORD` (reset 260410)
+Env vars: `COMMAND_TEST_EMAIL` + `COMMAND_TEST_PASSWORD` in `.env.local`
+Auth method: REST API + localStorage injection.
+Auth file: `e2e/auth.setup.ts`.
+Trace on first retry — Playwright Trace Viewer is the standard debug tool.
+
+---
+
+## Render + Hono monorepo: CWD matters for static assets (LOCKED 260504)
+
+[PERSISTENT] [migrated from globalink-brain 260505]
+
+When deploying a Hono server from a monorepo to Render, the server's CWD at startup determines where `serveStatic({ root: 'build/client' })` resolves.
+
+**Fix:** prefix the start command with `cd <app-dir> &&` so CWD = the app directory, not the monorepo root.
+
+Example: `cd apps/remix && node build/server/main.js` (NOT `node apps/remix/build/server/main.js`).
+
+Also bypasses Turbo `persistent: true` no-op in non-TTY (Render CI).
+
+---
+
+## Content System Pattern (LOCKED 260418)
+
+[PERSISTENT] [migrated from globalink-brain 260505]
+
+Batch + schedule + template + Claude co-write + byproduct capture.
+
+No daily creation. No blank-page drafting. System compliance delivers 3x/week output without discipline dependency.
+
+Origin: 260418 GTM motion shift to community-first (LinkedIn 3x/week).
+
+---
+
+## GitHub Action Health (UPDATED 260505 for gl-brain)
+
+[PERSISTENT] [migrated from globalink-brain 260505 — repo refs updated]
+
+Sync Action fires on every push to `gl-brain` (private). Writes to `gl-brain-public` (public mirror).
+
+If mirror goes stale > 48 hrs: check Action run logs for failures.
+
+**Node.js 20 deprecation:** fix Action before Jun 2 2026 (action items in PENDING_ACTIONS.md).
+- `actions/checkout@v4` runs on Node.js 20 → deprecated
+- ntfy.sh + Brevo dual alert channels live (Brain Hardening #3 260503) — silent failure detection
+- Workflows: `.github/workflows/sync-public.yml` + `brain-heartbeat.yml`
