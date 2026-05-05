@@ -26,7 +26,7 @@ Applied via tRPC `field.setFieldsForTemplate` (x-team-id: 178745) in Documenso a
 
 ## Evidence
 - PENDING_ACTIONS: P1 #5 marked ✅ DONE 260504
-- Confirmed: 4 fields on template page 4, all mapped to correct signer recipient
+- Confirmed: 4 fields on template page 4, all mapped to correct recipient
 
 ## Session
 [GL/COMMAND | OPS | Cockpit-Done TRACK 1 | 260504]

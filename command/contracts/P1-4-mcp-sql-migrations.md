@@ -4,7 +4,7 @@ Last updated: 260505
 Status: SHIPPED
 
 ## Summary
-Added MCP-related columns to agents and workspaces tables to unlock the Settings › Integrations MCP section for beta testing.
+Added MCP-related columns to agents and workspaces tables to unlock the Settings › Integrations MCP section for beta testing with Eric.
 
 ## Migration
 File: `20260413220000_mcp_endpoint_url.sql`
@@ -18,8 +18,8 @@ Columns added:
 All `IF NOT EXISTS` guarded — safe to re-run.
 
 ## Evidence
-- App commit: 53ec64b (TypeScript types regenerated)
-- Migration applied: 260504 via Supabase MCP (ycxaohezeoiyrvuhlzsk)
+- App commit: 53ec64b (types.ts regen)
+- Migration applied: 260504 via Supabase MCP (project: ycxaohezeoiyrvuhlzsk)
 - Verification query: `SELECT column_name, data_type FROM information_schema.columns WHERE table_schema='public' AND table_name IN ('agents','workspaces') AND column_name IN ('mcp_endpoint_url','mcp_capabilities','mcp_secret') ORDER BY table_name, column_name;` — 3 rows confirmed
 
 ## Session
