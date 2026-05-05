@@ -3,6 +3,112 @@ Last updated: 260505
 
 ---
 
+## 260505 — Agent Dev Kit v2 verified · gap-flagger 2605 · GLaOS outline [via: CC]
+
+[PERSISTENT]
+Last updated: 260505
+Author: CC
+
+Session: [GL/COMMAND | OPS | Agent Dev Kit v2 · Gap-Flagger 2605 · GLaOS Outline | 260505]
+
+### What changed
+- Agent Dev Kit v2: all 4 deployment steps verified complete (prior session deployed; this session confirmed)
+  - AT env flag = 0 ✓, hooks live ✓, rm -rf blocked ✓, audit logs active ✓, jq 1.8.1 ✓
+  - No stale AT flags in shell rc files
+- gap-flagger 2605 review: ran against agent_activity_log.md (10 entries, 260420–260422)
+  - brain-committer ESCALATED: WATCH → ACT (57% concentration, 2nd consecutive window)
+  - Required action before 2606 review: run one direct-CC brain commit to verify fallback path
+  - Schema mismatch decision still outstanding — must document in command/decisions.md
+  - Review committed + pushed: command/reviews/agent_review_2605.md (585b87d)
+  - Activity log: 260505 session entry appended
+- GLaOS public artifact outline: 10-post LinkedIn series outline drafted
+  - Source: gl/build-os.md v1.1 (8 sections)
+  - Output: C:\Users\jdavi\Downloads\glaos-public-artifact-outline.md
+  - Frame: "The Build OS — zero to first paying customer in 90 days with AI tooling"
+  - Post 9 = public artifact release of the Build OS document
+
+### No COMMAND product code changes
+Ops/infra verification + brain content session only. GP-1 untouched.
+
+### GP-1 Gate Status (inherited from 260504)
+- Status: GREEN as of 260504
+- Gate to GP-2 opens: 260506
+
+### What's next
+- 260506: GP-2 gate opens — Autogap chain dispatch queue eligible
+- ACT: run one direct-CC brain commit before 2606 review (verify brain-committer fallback)
+- ACT: log schema mismatch decision in command/decisions.md
+- CONTENT: draft Post 1 of GLaOS LinkedIn series when content sprint opens
+
+---
+
+## 260505 — Brain Audit · Phantom Carry-Forward Doctrine Written [via: CC]
+
+[PERSISTENT]
+Last updated: 260505
+Author: CC
+
+Session: [GL/COMMAND | BRAIN-OPS | Brain Audit · Phantom Carry-Forward | 260505]
+
+### What happened
+Audit session. User surfaced a 9-item list from a prior closeout that claimed these items were missing from the brain. Direct brain file verification showed 8 of 9 were already correctly written. One was genuinely missing and was written this session.
+
+### Audit verdict
+
+| # | Item | Status |
+|---|---|---|
+| 1 | cockpit-done-definition.md | ✅ EXISTS — command/cockpit-done-definition.md, written 260503 |
+| 2 | Eric repurposing decision | ✅ EXISTS — decisions.md 260503 entry, hash reblessed 260504 |
+| 3 | CALIBER mismatch stop protocol | ✅ EXISTS — gl/principles.md "CALIBER Mismatch Stop Protocol (260503)" |
+| 4 | Brain post-condition POC-1 + POC-2 | ✅ EXISTS — brain-committer SKILL.md ## Post-Conditions section |
+| 5 | CF-1 brain-committer version tag | ✅ RESOLVED — SKILL.md v1.2, WARN no longer fires |
+| 6 | CF-2 closeout v2.1 L3.5 commit | ✅ RESOLVED — commit be005d2 in globalink-claude-config |
+| 7 | CF-3 closeout chat-name heading fix | ✅ RESOLVED — awk END-based last-match, grep -q full file |
+| 8 | P0 #3 / P1 #4 / P1 #5 contracts | ✅ TRACK 1 COMPLETE 260504 — all shipped, state.md 260504 entry |
+| 9 | Phantom carry-forward doctrine | ✅ WRITTEN THIS SESSION — patterns.md commit bc60d42 |
+
+### What was written
+- `command/patterns.md` — appended `## Anti-Pattern: Phantom Carry-Forward (LOCKED 260505)` (commit bc60d42)
+- `command/integrity.md` — patterns_hash updated atomically in same commit (last_verified: 260505-0002)
+
+### One open operator action
+- P1 #5 Documenso — add Full Name, Company, Title, Date text inputs to Beta NDA template 12572 in Documenso admin UI. Credentials in Proton Pass.
+- After that action: run `C:\Users\jdavi\Downloads\chat-handoff-cockpit-done-criteria.md` in Chat to verify cockpit-done criteria 1–4.
+
+### Source of the stale audit list
+The 9-item list was generated from a read of an earlier session state, before TRACK 1 shipped (260504). The items were real gaps at 260503 but were resolved by 260504. Lesson: the phantom carry-forward anti-pattern (just committed to patterns.md) is the doctrine fix.
+
+---
+
+## 260505 — POINTER_COMMAND.md v3.3 rebless · Rule 12 recovery [via: CC]
+
+[PERSISTENT]
+Last updated: 260505
+Author: CC
+
+Session: [GL | BRAIN | POINTER v3.3 Rebless · Rule 12 Recovery | 260505]
+
+### What changed
+- Diagnosed Rule 12 violation: POINTER_COMMAND.md v3.2→v3.3 content was written directly (outside brain-committer) by a prior CC session
+- Content verified by operator as correct — two L1 gate hardening fixes:
+  1. CDN cache-busting: all raw.githubusercontent.com fetches must append ?v=YYMMDD
+  2. Malformed date rule: HARD BANNER on any Last updated: that fails YYMMDD parse
+- POINTER_CONTENT_HASH field was set to __PENDING__ — recomputed and reblessed via brain-committer --rebless this session
+- patterns.md: clean (no file-level drift — conversation-only discussion, no write needed)
+
+### No product code changes
+Brain/infra diagnostic session only. No COMMAND app changes.
+
+### GP-1 Gate Status (inherited from 260504)
+- Status: GREEN as of 260504
+- 48h clock: 260504 → gate to GP-2 opens 260506
+
+### What's next
+- 260506: GP-2 gate opens — Autogap chain dispatch eligible
+- L1 gate CDN + malformed-date rules now active in POINTER v3.3
+
+---
+
 ## 260504 — POINTER_COMMAND v3.1 → v3.2 · Session-type URLs [via: CC]
 
 [PERSISTENT]
