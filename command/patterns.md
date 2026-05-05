@@ -1,5 +1,5 @@
 # COMMAND — Build Patterns
-Last updated: 260428
+Last updated: 260505
 
 ## Ops Watchdog — Canary Methodology (LOCKED 260427)
 
@@ -884,3 +884,43 @@ work for this operator.
 - SQL migrations (also covered by `feedback_show_migrations_inline`)
 - Audit reports, ops watchdog output, schema baseline diffs
 - Any file CC writes that needs operator validation
+
+---
+
+## Anti-Pattern: Phantom Carry-Forward (LOCKED 260505)
+
+**The failure mode:** A session log entry uses "created", "shipped", "locked",
+"committed", or "deployed" language for an artifact that was only discussed or
+drafted in chat — never actually git-committed. The next session reads the log,
+treats the artifact as real, and builds on a foundation that doesn't exist.
+
+**Real instance (260503 recovery):** state.md entry dated 260427 stated
+"cockpit-done-definition.md created and locked — 6 criteria, goalposts cannot
+move without brain commit." The file was never written. Discovered 260503 when
+brain-committer file-exists check would have caught it. Recovery cost: one full
+session, integrity audit, and explicit backfill entry.
+
+**The pattern triggers when:**
+- An artifact is described as complete in chat without a corresponding git commit ID
+- A session log says "see [path]" but the path doesn't exist in the repo
+- A carry-forward list from one session shows items as "done" without commit evidence
+
+**Enforcement:**
+- brain-committer POC-1: file-exists check runs before any write that references
+  a gl-brain path near existence-claim language. Blocks the write if the path
+  doesn't exist — operator must either create the file in the same commit or
+  reword to use future-tense language ("to be created", "TBD", "planned").
+- brain-committer POC-2: date validation on state.md headers. Past-dated entries
+  without `[backfill of YYMMDD]` suffix → soft warn.
+
+**Session log hygiene rules:**
+1. Never use "created", "shipped", "committed" in a log entry without a git hash
+2. "Discussed and agreed" ≠ "committed" — they are different columns in the ledger
+3. Any "open from carry-forward" item in state.md is UNRESOLVED until a commit ID
+   is appended to the entry
+4. If you can't produce a git hash, the artifact does not exist yet — say so
+
+**Origin:** Identified 260503 during cockpit-done-definition.md recovery.
+Three instances of brain-vs-reality drift found in that single session.
+POC-1/POC-2 were added to brain-committer as the systemic fix.
+Session: [GL | STRATEGY | Cockpit-Done Recovery · Eric Repurpose | 260503]
