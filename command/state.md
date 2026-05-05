@@ -3794,6 +3794,29 @@ Top 3 fixes pre-SÃ£o Paulo (~3hrs total):
 no migration, no lock-in, works with what you already run."
 Active for: Grant Carlson, Richard Squires, Jon Smith
 
+---
+
+## 260505 — Rule 13 Extension: SOURCE_CHAT field · Step 3.5 CLEAR [via: CC]
+
+[PERSISTENT]
+Last updated: 260505
+Author: CC
+
+Session: [GL/COMMAND | OPS | Rule 13 Extension · SOURCE_CHAT | 260505]
+
+### What changed
+- Step 3.5 malformed date check run on all 5 canonical brain files — all PASSED (CLEAR)
+  - state.md: 260505 ✅  decisions.md: 260505 ✅  patterns.md: 260428 ✅  killed.md: 260428 ✅  research.md: 260504 ✅
+  - integrity.md last_verified: 260505-0209 — date proxy verdict: CLEAR
+- Rule 13 Extension added to `~/.claude/CLAUDE.md`:
+  - SOURCE_CHAT is now a required field in all Chat → CC delegation contracts
+  - Missing SOURCE_CHAT = malformed contract → CC stops and requests before proceeding
+  - CC echoes `RETURN TO:` at top of findings so operator knows which thread to paste back to
+  - Canonical delegation header order locked: MODEL → CALIBER → SOURCE_CHAT
+
+### No COMMAND product code changes
+### GP-1 Gate: GREEN (inherited) — GP-2 opens 260506
+
 ## Next Session Priorities (updated 260420)
 ### Immediate — Symphony v12 preconditions (Jason manual, no CC needed)
 1. Verify BILL-02 on production: sign in as jcameron5206@proton.me â†’ /settings/billing â†’ confirm 4 tiers, no Studio, "Pilot (free)" plan label

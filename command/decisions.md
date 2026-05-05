@@ -497,3 +497,23 @@ Rebless: after direct writes, integrity.md state_hash may drift. If closeout
 Constraint: Rule 12 still applies — brain-committer remains the required path
   when available. Direct CC path is fallback-only.
 
+---
+
+## 260505 — Rule 13 Extension: SOURCE_CHAT required in all delegation contracts [via: CC]
+
+Session: [GL/COMMAND | OPS | Rule 13 Extension · SOURCE_CHAT | 260505]
+
+**Decision:** Add SOURCE_CHAT as a required field in all Chat → CC (and Chat → any variant) delegation contracts.
+
+**Rationale:** CC had no way to know which originating Chat thread to return findings to. Prior sessions had delegation contracts with MODEL + CALIBER but no source thread identification. This created orphaned findings with no return path.
+
+**Implementation:** Rule 13 Extension added to `~/.claude/CLAUDE.md` (global, loads on every session). Field is required as the LAST line of the delegation contract header block. Missing SOURCE_CHAT = malformed contract → CC stops and requests it before proceeding.
+
+**Format:**
+  SOURCE_CHAT: [GL/WORKSTREAM | DOMAIN | Topic · Topic | YYMMDD]
+
+**CC echo format:**
+  RETURN TO: [exact SOURCE_CHAT value]
+
+**Canonical delegation header field order:** MODEL → CALIBER → SOURCE_CHAT
+
