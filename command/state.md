@@ -1,5 +1,34 @@
 # COMMAND — Current State
-Last updated: 260505X
+Last updated: 260505
+
+---
+
+## 260504 — POINTER_COMMAND v3.1 → v3.2 · Session-type URLs [via: CC]
+
+[PERSISTENT]
+Last updated: 260505
+Author: CC
+
+Session: [GL/COMMAND | BRAIN | POINTER v3.2 · Session-Type URLs | 260504]
+
+### What changed
+- Patched POINTER_COMMAND.md from v3.1 to v3.2 (brain-committer, FULL-REPLACE)
+- Session-type fetch references (BUILD / STRATEGY / GTM / COMPETITIVE / PATENT) elevated from relative paths to full HTTPS URLs on gl-brain-public
+- Root cause: claude.ai web_fetch rejects relative paths — Chat-side fetches for session-type additions were silently failing (Rule 14 manifestation)
+- POINTER_CONTENT_HASH recomputed; self-verification printed OK before commit
+- Committed to gl-brain (c0bb64c), public mirror sync confirmed via gh API
+- claude.ai GlobaLink Command project knowledge updated to v3.2 via Chrome MCP (JS DataTransfer injection)
+
+### No product code changes
+Brain/infra session only. No COMMAND app changes.
+
+### GP-1 Gate Status (inherited)
+- Status: GREEN as of 260504
+- 48h clock: 260504 → gate to GP-2 opens 260506
+
+### What's next
+- 260506: GP-2 gate opens — Autogap chain dispatch queue eligible
+- No further POINTER action needed unless new session types added
 
 ---
 
