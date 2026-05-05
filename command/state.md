@@ -3,6 +3,48 @@ Last updated: 260505
 
 ---
 
+## 260505 — globalink-brain ARCHIVED · Migration Complete [via: CC]
+
+[PERSISTENT]
+Last updated: 260505
+Author: CC
+
+Session: [GL/COMMAND | BRAIN-OPS | globalink-brain Migration · Pre-Archive Consolidation | 260505]
+
+### What changed
+The legacy `jglobalink2024/globalink-brain` and `globalink-brain-public` repos have been archived on GitHub. `gl-brain` is now the sole canonical brain. Brain split eliminated.
+
+### Migration summary (all into gl-brain)
+- **Patterns** (commits 199d6be, f2adc25): 7 appended to `command/patterns.md` — Tool Split, preflight.ps1, Cursor Prompt, Playwright Auth (LOCKED), Render+Hono CWD (LOCKED 260504), Content System (LOCKED 260418), GitHub Action Health (UPDATED for gl-brain refs)
+- **Decisions**: 2 appended to `command/decisions.md` — Documenso bypass Turbo + Render Pre-Deploy paid feature
+- **State**: 3 session log entries in chronological migration block — Documenso Render Turbo Fix, Documenso Signing Cert, Brain Hardening #3 ntfy.sh
+- **Infra (NEW)**: `command/infra/documenso-live.md` (service config, Render IDs, signing cert spec, NDA template fields) + `command/infra/alerting.md` (ntfy + Brevo dual channel, NTFY_TOPIC, gl-brain port plan)
+- **Parked-bugs**: 6 Active Fixes from 260413 audit appended with status: VERIFY (not silently re-classified)
+- **PENDING_ACTIONS**: 6 manual steps appended — Vercel env vars, Google/HubSpot OAuth setup, alerting workflow port to gl-brain, actions/checkout v5 upgrade pre-Jun 2 2026, ntfy app subscription
+
+### Archival actions
+- `gh api PATCH repos/jglobalink2024/globalink-brain` → `{archived: true}` ✓
+- `gh api PATCH repos/jglobalink2024/globalink-brain-public` → `{archived: true}` ✓
+- Final write to globalink-brain: deprecation README (`7d4546d`) — pointers to gl-brain
+- OneDrive folder renamed: `globalink-brain/` → `_DEPRECATED-globalink-brain/`
+
+### Doctrine updates
+- `globalink-claude-config/RESTORE.md` (commit 615cb9d): brain refs globalink-brain → gl-brain; ntfy alert channel referenced
+- `~/bin/brain-classify`: added `gl-brain` to GL_STRONG keywords (kept `globalink-brain` for historical content routing)
+
+### Verification
+- Migration L1 self-verify: PASS — all 5 brain hashes match
+- gl-brain remote: HEAD on origin/main confirmed
+- Both archived repos: `archived: true` confirmed via gh API
+
+### What's next
+- Operator action: walk parked-bugs.md "Active Fixes (260413 audit, status: VERIFY)" — mark each VERIFIED FIXED or VERIFIED OPEN with commit refs
+- Operator action: install ntfy app + subscribe to topic `gl-brain-ops-25a9465b49b52d152e14aa5d0f071c5e` (PENDING_ACTIONS)
+- Future session: port `sync-public.yml` + `brain-heartbeat.yml` from archived globalink-brain to gl-brain repo + provision NTFY_TOPIC/BREVO_API_KEY secrets (PENDING_ACTIONS)
+- Future session: walk Vercel env vars + OAuth app setup (PENDING_ACTIONS)
+
+---
+
 ## 260505 — Documenso betaNDA Direct Link: 404 Fixed [via: CC]
 
 [PERSISTENT]
