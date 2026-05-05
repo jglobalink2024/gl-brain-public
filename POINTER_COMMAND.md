@@ -1,5 +1,5 @@
-POINTER_VERSION: v3.3
-POINTER_CONTENT_HASH: 1be01a1f5f68c819716f4fed9529a7ab2c8e08e79ac28a13efb428dd143b995b
+POINTER_VERSION: v3.4
+POINTER_CONTENT_HASH: __PENDING__
 Last updated: 260505
 Author: CC
 
@@ -112,6 +112,9 @@ At top of first reply:
 
 If multiple banners apply, emit the most severe and include the others in its body.
 
+After emitting the gate verdict, emit the Chat session identity block per
+RESPONSE_RULES.md §"Session identity" (Chat only — not CC or Cowork).
+
 ### STEP 5 — Auto-catchup synthesis (L3b)
 
 Triggered only when state.md age > 7 days (Step 3 escalation).
@@ -175,6 +178,11 @@ console.log(actual === expected ? 'OK' : 'MISMATCH');
 
 ## Version history
 
+- v3.4 (260505) — Session identity rule wired into Step 4: after emitting the
+  gate verdict, Chat emits a 📍 SESSION block (canonical name + URL if known)
+  at the top of its first reply. Defined in RESPONSE_RULES.md §"Session identity".
+  Enables CC to route findings back to the originating Chat session. CC and
+  Cowork do not emit this block.
 - v3.3 (260505) — Two L1 gate hardening fixes: (1) CDN cache-busting instruction
   added to Step 2 — Chat must append `?v=YYMMDD` to all raw.githubusercontent.com
   fetches; without this GitHub CDN serves stale data and drift detection is blind.

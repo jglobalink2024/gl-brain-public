@@ -3,6 +3,48 @@ Last updated: 260505
 
 ---
 
+## 260504 — Deep Dive Synthesis Filed · GP-1 GATE CLEARED [via: CC]
+
+[PERSISTENT]
+Author: CC
+
+Session: [GL | TECH | Build State Snapshot · Brain Alignment | 260504]
+
+**Two outcomes shipped this session:**
+
+### 1. Deep dive synthesis filed to brain
+- New file: `gl-brain/command/architecture/deep-dive-260504.md`
+- 9-section synthesis covering: build state truth, state-management root cause,
+  Pure Path A posture, brain 5-layer architecture + Hardening #1+#2, GTM reality,
+  gate sequence, risk map, next-session primer
+- Public URL: https://raw.githubusercontent.com/jglobalink2024/gl-brain-public/main/command/architecture/deep-dive-260504.md
+- Author: Claude Chat (drafted), CC (filed via brain-committer)
+- Not tracked in integrity.md (architecture/ docs not in canonical hash schema)
+
+### 2. GP-1 gate verified GREEN
+- Cookie consent dismissal in auth.setup.ts CONFIRMED present
+  (commit: `1af2195`, line 68: `const consentDismiss = page.getByRole("button", { name: "Essential Only" });`)
+- Post-auth dismissal also present (line 109)
+- Latest Playwright golden-path run: GREEN at 8.2m (3/3 passed, exit 0)
+- Last gate-status entries: `[260503 22:47] GREEN 414s` · `[260504 ~01:00] GREEN 438s -- GP-1 stale-exec guard fix confirmed; 48h clock STARTS NOW`
+- GP-1 BLOCKED status (deep dive §7) is now stale — superseded by this entry.
+  Deep dive remains as-authored with inline note; this state.md entry is canonical.
+
+**Downstream unblocks:**
+- Autogap queue (Slot 1 manual verify, Slot 2 manual verify, Slot 3 credit hooks
+  full chain) UNPARKED — execute in order on next build session
+- 24h stability watch began 260504 ~01:00 BRT
+- GP-2 chain dispatch gate opens 260506 ~01:00 BRT (after 48h GP-1 stable)
+- Eric beta invite gate: still pending Slots 1+2 manual verify, Slot 3 credit
+  hooks chain test, F5 spec rewrite green, then 24h watch
+
+**Files changed this session:**
+- `gl-brain/command/architecture/deep-dive-260504.md` (NEW)
+- `gl-brain/command/state.md` (this entry)
+- `gl-brain/command/integrity.md` (state_hash recomputed, last_verified bumped)
+
+---
+
 ## 260505 — ACT-1 follow-through: fallback SOP landed, rebless verified [via: CC direct]
 
 [PERSISTENT]

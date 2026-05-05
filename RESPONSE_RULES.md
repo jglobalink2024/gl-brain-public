@@ -1,6 +1,6 @@
 # GlobaLink Response Rules — Universal (all Claude instances)
 # Source of truth. All instances fetch this. Do not duplicate inline.
-# Last updated: 260416
+# Last updated: 260505
 
 ## Structure (always in this order)
 1. Quick Summary — 3-5 bullets, 10 words max each. ALWAYS first.
@@ -56,6 +56,30 @@ Format: [GL | WORKSTREAM | Topic · Topic | YYMMDD]
 - Separator: middle-dot · (U+00B7) between topics
 - Date: START date of the chat, not current date
 - Proactively suggest at session open
+
+## Session identity (Chat only — not CC or Cowork)
+
+Emit immediately after the L1 gate verdict, at the top of your first substantive reply:
+
+```
+📍 SESSION: [GL | WORKSTREAM | Topic | YYMMDD]  ← preliminary; finalize at closeout
+```
+
+If the user's opening message includes a `https://claude.ai/chat/` URL, echo it on the next line:
+```
+   URL: https://claude.ai/chat/[id]
+```
+
+Rules:
+- Date = today (session start date — same date used at closeout for thread naming)
+- Topic = inferred from first message; append `(preliminary)` if uncertain
+- Finalize and drop `(preliminary)` at session closeout
+- **Findings for CC:** prefix any output block with `ORIGIN: [session name]` so CC
+  can trace the source even when the content arrives out-of-context (pasted, brain-drained,
+  relayed via Jason)
+
+Why: CC cannot look up a Chat session by topic alone. Session name is the routing key.
+URL (if captured from user message) lets CC navigate directly to the originating chat.
 
 ## Brain pruning (gated — do not activate yet)
 Gate: first paying customer OR brain file count exceeds 15 files.
