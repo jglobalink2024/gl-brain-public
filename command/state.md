@@ -3,6 +3,42 @@ Last updated: 260505
 
 ---
 
+## 260505 — Documenso betaNDA Direct Link: 404 Fixed [via: CC]
+
+[PERSISTENT]
+Last updated: 260505
+Author: CC
+
+Session: [GL/COMMAND | DOCUMENSO | betaNDA Fix · 404 Root Cause | 260430]
+
+### What changed
+
+**Fix:** EMAIL field (id=9) on template `envelope_orsuumlkmhrwkmoh` had `fieldMeta: null` (inserted via raw SQL in a prior session — missed the default value). Documenso's `extractFieldAutoInsertValues` calls `ZFieldAndMetaSchema.safeParse(field)` before auto-inserting. `ZEmailFieldMeta.optional()` accepts `undefined` but NOT `null`, so safeParse returned error → `AppError(INVALID_REQUEST)` → caught by `handleV2Loader` as non-UNAUTHORIZED → `throw new Response('Not Found', {status: 404})`.
+
+**Resolution:** SQL fix:
+```sql
+UPDATE documenso."Field"
+SET "fieldMeta" = '{"type": "email", "fontSize": 12, "textAlign": "left"}'::jsonb
+WHERE id = 9 AND "envelopeId" = 'envelope_orsuumlkmhrwkmoh' AND type = 'EMAIL';
+```
+
+**Verified:** `go.command.globalinkservices.io/betaNDA` → Dub → `documenso-gl.onrender.com/d/VPhS0vWhOuB6Al1GO62iK` loads fully. Page 4 shows all 5 fields (Signature, Name, Text/Title, Date, Email) on the Participant signing block. Flow is operational.
+
+**Lesson:** When inserting Field records via raw SQL for Documenso, always set `fieldMeta` to the canonical default for that field type — never leave it NULL. Null fails Zod schema `ZFieldAndMetaSchema` even though the DB column is nullable.
+
+**Canonical defaults:**
+- SIGNATURE: `{"type":"signature","fontSize":18}`
+- NAME: `{"type":"name","fontSize":12,"textAlign":"left"}`
+- EMAIL: `{"type":"email","fontSize":12,"textAlign":"left"}`
+- DATE: `{"type":"date","fontSize":12,"textAlign":"left"}`
+- TEXT: `{"type":"text","fontSize":12,"textAlign":"left","label":"","placeholder":"","text":"","required":false,"readOnly":false}`
+
+**Pending manual (Jason):** Save Brevo SMTP key "COMMAND-documenso" to Proton Pass.
+
+### No COMMAND product code changes
+
+---
+
 ## 260505 — Atomic Brain Update 260504 · GP-1 Verified · Deep Dive Filed [via: CC]
 
 [PERSISTENT]
