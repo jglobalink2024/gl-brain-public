@@ -1,19 +1,5 @@
 # COMMAND — Research Register
-Last updated: 260505
-
----
-## ACT-1 Fallback Path Test — Direct CC Commit (260505)
-[EVIDENCE]
-Author: CC (direct — brain-committer bypassed intentionally)
-Session: [GL/COMMAND | OPS | brain-committer fallback path · direct CC commit | 260505]
-
-**Purpose:** Verify that gl-brain accepts a direct CC commit when brain-committer is unavailable.
-**Result:** VIABLE — commit succeeded without brain-committer routing.
-**Revert:** This entry will be removed in the same session (git revert).
-**Finding:** Direct CC → git commit → push is a functioning fallback. Brain-committer is a
-compliance layer, not a physical gate. Downtime of brain-committer does NOT block brain writes.
-
----
+Last updated: 260504
 
 ---
 ## globalink-brain Dual-Name Reconciliation — Findings (260504)
