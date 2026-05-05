@@ -1,5 +1,5 @@
 [PERSISTENT]
-Last updated: 260505 (rebless via CC 260505-1205)
+Last updated: 260505
 Author: CC
 
 # COMMAND Brain Integrity Manifest
