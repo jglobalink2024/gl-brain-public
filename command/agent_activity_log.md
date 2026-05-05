@@ -46,6 +46,24 @@ Optional fields:
 ## Entries
 
 ---
+date: 260505
+session_type: ops
+vehicle: cc
+task: Agent Dev Kit v2 deployment verification + gap-flagger 2605 triage review
+scan_performed: yes
+activated: gap-flagger
+why: GP-1 GREEN since 260504; deferred items from 260503 Chat handoff authorized by Jason; gap-flagger run produced 2605 review with brain-committer ACT escalation finding
+outcome: shipped
+efficiency_gain: high
+gap_flagged: none
+notes: |
+  Kit fully deployed (Steps 0-3 all pre-existing from prior session). Verification
+  confirmed: AT flag OFF, hooks live, rm -rf blocked, audit logs active. 2605 review
+  surfaced brain-committer WATCH → ACT escalation (2nd consecutive window at 57%
+  concentration, fallback still untested). Action item: run one direct-CC brain
+  commit before 2606 review to verify fallback path.
+
+---
 date: 260422
 session_type: build
 vehicle: cc + chat
