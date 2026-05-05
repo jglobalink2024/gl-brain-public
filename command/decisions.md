@@ -453,3 +453,30 @@ Session: [GL | INFRA | L1 Gate Cache-Bust Test · POINTER v3.1 Verdict | 260503]
 
 **Related:** Hardening #2 entry (260503 in state.md), POINTER_COMMAND.md v3.1, command/integrity.md.
 
+---
+
+## 260503 — Carry-Forward Contracts Must Be File-Persisted [via: Chat]
+
+[PERSISTENT]
+Author: Chat (documented via CC 260505)
+
+Session: [GL/COMMAND | INFRA | Trio #1 · RESTORE.md Verification | 260503]
+
+Any contract referenced by name in a carry-forward brief MUST
+be committed to gl-brain/command/contracts/ before session
+close. A name without a file path is a phantom reference —
+it evaporates when the context window closes.
+
+Pattern identified: 260428 session closeout referenced "pre-written
+Rule 13 contracts in my carry-forward state" for P0#3, P1#4, P1#5.
+They were never written to disk. Retrieved in 260503 session via
+chat history search + redraft from context.
+
+Fix: contracts/ folder established as the canonical path for any
+Rule 13 contract that may be referenced in future sessions.
+
+Note: contracts/ folder creation (WRITE 4 of the 260503 brain close
+contract) is still pending — P0-3-smart-suggestions-fallback.md,
+P1-4-mcp-sql-migrations.md, and P1-5-documenso-nda-fields.md content
+was not in scope of the 260505 execution session.
+
