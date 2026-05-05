@@ -3,6 +3,56 @@ Last updated: 260505
 
 ---
 
+## 260505 — Brain Split Fix · ACT-2 Cherry-Pick · brain-committer Path Corrected [via: CC]
+
+[PERSISTENT]
+Last updated: 260505
+Author: CC
+
+Session: [GL/COMMAND | BRAIN-OPS | Brain Split Fix · brain-committer Path | 260505]
+
+### What changed
+- **Root cause of two-brain-repo split identified and fixed:**
+  - brain-committer/SKILL.md had wrong git path: `C:\Users\jdavi\OneDrive\Desktop\GlobalInk Repos\gl-brain` (folder does not exist)
+  - Corrected to canonical path: `C:\dev\gl-brain` (remote: github.com/jglobalink2024/gl-brain)
+  - All future brain-committer-routed writes now land in the correct repo
+- **ACT-2 content cherry-picked (deprecated globalink-brain → canonical gl-brain):**
+  - ACT-2 verified: gap-flagger 2605 schema mismatch decision already logged in decisions.md ✅
+  - Schema: activated/date/outcome accepted as aliases; SKILL.md updated in prior 260505 session ✅
+  - Rebless rec from ACT-2: canonical brain already reblessed (commit 5f03a02, 260505-1205) ✅
+  - Canonical brain had all 5 hashes matching integrity.md at session start; working tree clean
+- **Deprecated repo:** globalink-brain (GlobalInk Repos\globalink-brain) still exists; brain-committer path fix prevents future misroutes — no further action needed
+
+### No COMMAND product code changes
+### GP-1 Gate: GREEN — GP-2 opens 260506
+
+---
+
+## 260505 — POINTER v3.3 stale-contract detection · hash verification [via: CC]
+
+[PERSISTENT]
+Last updated: 260505
+Author: CC
+
+Session: [GL/COMMAND | BRAIN | POINTER v3.3 audit · stale-contract detection | 260505]
+
+### What happened
+- Received delegation contract to patch POINTER_COMMAND.md v3.1 → v3.2 (elevate session-type paths to full HTTPS URLs)
+- CC read C:\dev\gl-brain\POINTER_COMMAND.md — file was already at v3.3 with full HTTPS URLs already present
+- Stale contract detected: v3.2 and v3.3 work was done in prior sessions (260504–260505); no write needed
+- Received second delegation contract to stage POINTER_COMMAND.md v3.3 to Downloads for CfC upload
+- CC copied gl-brain → C:\Users\jdavi\Downloads\POINTER_COMMAND.md; byte-identical confirmed via diff
+- CfC agent attempted automated re-upload to claude.ai project knowledge — blocked by Chrome CDP security policy on file inputs
+- CfC discovered POINTER_COMMAND.md was already present in project knowledge (UUID 84326e77, created 260505 04:51 UTC) at v3.3
+- CC ran Node.js self-hash verification on Downloads copy: SELF-HASH OK (1be01a1f…995b)
+- Project knowledge hash confirmed identical — upload was never needed; file already current
+
+### No brain writes required
+### No COMMAND product code changes
+### GP-1 Gate: GREEN (inherited 260504) — GP-2 opens 260506
+
+---
+
 ## 260505 — gap-flagger SKILL.md aliases · patterns.md CC fallback policy [via: CC]
 
 [PERSISTENT]
