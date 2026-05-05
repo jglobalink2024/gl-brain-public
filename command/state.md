@@ -3,6 +3,30 @@ Last updated: 260505
 
 ---
 
+## 260505 — ACT-1 follow-through: fallback SOP landed, rebless verified [via: CC direct]
+
+[PERSISTENT]
+Last updated: 260505
+Author: CC
+
+Session: [GL/COMMAND | OPS | brain-committer fallback · SOP landed + rebless verified | 260505]
+
+### What changed
+- Fallback SOP appended to `command/decisions.md` (commit 6d7521d)
+  - Documents Rule 12 exception procedure: Edit + git when brain-committer absent
+  - Includes rebless flow (Node SHA-256, update integrity.md manifest)
+- Brain integrity confirmed clean: closeout script ran at 0257, reblessed all 5 hashes
+- Drift banner at session start was stale — no manual rebless needed
+
+### No COMMAND product code changes
+### GP-1 Gate: GREEN (inherited) — GP-2 opens 260506
+
+### What's next
+- GP-2 gate opens 260506 — Autogap chain dispatch eligible
+- brain-committer agent absent two sessions running — worth investigating root cause
+
+---
+
 ## 260505 — ACT-1: brain-committer fallback · direct CC commit verified [via: CC direct]
 
 [PERSISTENT]
