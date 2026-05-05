@@ -3,6 +3,36 @@ Last updated: 260505
 
 ---
 
+## 260505 — Documenso token cleanup + Proton Pass naming convention [via: CC]
+
+[PERSISTENT]
+Last updated: 260505
+Author: CC
+
+Session: [GL/COMMAND | INFRA | Documenso Setup · Proton Pass Naming | 260505]
+
+### What changed
+- Deleted redundant `COMMAND-integration` Documenso token (confirmed zero usage: not in `.env.local`, not in Vercel production, not referenced in any code files). Only `upload-nda` token remains (value `api_x0y0gdrwkiytxosa`, active in `.env.local`).
+- Established and locked COMMAND Proton Pass token naming convention: `COMMAND — [Service] — [Purpose]`
+- Updated `.env.example` + `.env.local.example` Documenso comments from old label `"Documenso COMMAND-integration"` → `"COMMAND — Documenso — NDA Upload API"` + added note that `DOCUMENSO_API_KEY` env var name is machine-readable and must not be renamed
+- Updated `PENDING_ACTIONS.md`: replaced stale token-save item with Proton Pass rename + full-account naming convention sweep task for Jason
+- Blocked Cursor from double-executing this task (would have locked in wrong convention label + violated Rule 12 on brain write)
+- App commit: `98b7458`
+
+### Documenso token state (canonical)
+| Documenso token | Value | In use | Proton Pass label (target) |
+|---|---|---|---|
+| `upload-nda` | `api_x0y0gdrwkiytxosa` | `.env.local` | `COMMAND — Documenso — NDA Upload API` |
+| `COMMAND-integration` | `api_fmhrzxmtaemqd3bd` | DELETED 260505 | n/a |
+
+### GP-1 Gate: GREEN — GP-2 opens 260506 ~01:00. No gate changes this session.
+
+### Open (Jason action)
+- Rename Proton Pass entry from "Documenso COMMAND-integration" → "COMMAND — Documenso — NDA Upload API"
+- Sweep all other COMMAND-related Proton Pass entries for convention compliance
+
+---
+
 ## 260505 — Brain Split Fix · DEPRECATED.md Stub · Integrity Rebless [via: CC]
 
 [PERSISTENT]
