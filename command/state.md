@@ -1,5 +1,42 @@
-# COMMAND — Current State
+﻿# COMMAND — Current State
 Last updated: 260505
+
+---
+
+## 260505 — gap-flagger SKILL.md aliases · patterns.md CC fallback policy [via: CC]
+
+[PERSISTENT]
+Last updated: 260505
+Author: CC
+
+Session: [GL/COMMAND | OPS | Agent Dev Kit v2 · Gap-Flagger 2605 ACT Close | 260505]
+
+### What changed
+- gap-flagger/SKILL.md input contract updated (direct edit — ~/.claude/agents/, not a brain repo file):
+  - `activated` documented as accepted alias for `agent_name`
+  - `date` (YYMMDD) documented as accepted alias for `timestamp`
+  - `outcome` documented as accepted alias for `task_outcome`
+  - `first_month` changed from required → optional (inferred when absent)
+  - Alias block added below table with origin note (260505, forward-only, no log migration)
+- command/patterns.md CC fallback policy appended (via brain-committer, commit ~98516b1):
+  - New section: "CC Direct Fallback for APPEND-Mode Brain Writes (260505)"
+  - Verdict: VIABLE — all disciplines held in 260505 fallback test
+  - Policy: brain-committer remains default; CC approved for APPEND-mode only when brain-committer unavailable
+  - Explicitly excludes: integrity.md, FULL-REPLACE mode (state.md, gl/principles.md), complex multi-file ops
+
+### 260505 ACT items — ALL CLOSED
+- ✅ CC fallback test: decisions.md direct APPEND, commit c92a3b8 — VIABLE
+- ✅ Schema decision logged in decisions.md (field aliases, forward-only)
+- ✅ gap-flagger/SKILL.md aliases documented (this session)
+- ✅ patterns.md CC fallback policy written (this session)
+
+### No COMMAND product code changes
+### GP-1 Gate: GREEN (inherited 260504) — GP-2 opens 260506
+
+### What's next
+- 260506: GP-2 gate opens — Autogap chain dispatch eligible
+- CONTENT: draft Post 1 of GLaOS LinkedIn series when content sprint opens
+- WRITE 4 (command/contracts/): P0-3, P1-4, P1-5 contract files — still open from 260505 Brain Close session
 
 ---
 
