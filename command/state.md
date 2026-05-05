@@ -166,12 +166,15 @@ Session: GL/COMMAND | INFRA | Proton Pass Sweep · Documenso Email Fix | 260505
 - Wrote CfC delegation prompt for post-deploy email delivery verification: wait for deploy live, send fresh test from COMMAND_NDA_Beta_v2.0 template, confirm email arrives in Proton Mail inbox
 - Documenso deploy confirmed GREEN at 6:07 PM — SMTP fix is live
 - No code changes — ops/infra only
+- CfC ran post-deploy email verification: Documenso API confirmed sendStatus: "SENT" for test document "COMMAND_NDA_Beta_v2.0 — Email Test 260505" to jason@globalinkservices.io. Email delivery PASS.
+- Two PENDING_ACTIONS cleanup items added: (1) delete EmailTest260505 Documenso token, (2) audit Proton Pass "upload-nda" entry (may be mislabeled Render key). Committed to command-app PENDING_ACTIONS.md (commit 2f58d73).
+- Chat naming ALL-INCLUSIVE rule locked in feedback memory (feedback_thread_naming.md 260505): chat name at closeout must cover all tasks in session including pre-compaction work.
 
 ### Next actions
-- CfC to run post-deploy verification once documenso-gl deploy goes live
-- If PASS: Documenso email delivery confirmed working; NDA flow ready for first beta user
-- If FAIL: check Render logs for SMTP errors, check Brevo transactional log
-- Future option: if support@globalinkservices.io preferred as NDA sender, add it as verified sender in Brevo → swap var back
+- Jason: confirm email arrived in jason@globalinkservices.io inbox (Google Workspace — CfC hit password prompt, couldn't confirm final delivery)
+- Jason: run the two PENDING_ACTIONS cleanup items (token delete + Proton Pass audit)
+- Documenso NDA email flow confirmed working — ready for first beta user once inbox confirmed
+- GP-2 gate still eligible ~260506 01:00
 
 ### No COMMAND product code changes
 
