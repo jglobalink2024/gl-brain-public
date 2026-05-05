@@ -36,7 +36,7 @@ $ms = [System.IO.MemoryStream]::new([Text.Encoding]::UTF8.GetBytes($raw))
 ## Manifest
 
 ```
-state_hash: d6038989f6f16d192577d25369e6e490ba6b76c6ed77627262bb665669d79588
+state_hash: c238af29c46bfad49d626f3a6f179420340c8a93e0037ae408bf78a2bc0e66e4
 decisions_hash: 4060b5811ec0b82ea501e79be9f13efe7fb89cfb5cb6eae0c08b2dabc6d0242d
 patterns_hash: fb6ef37d9813f679e8079dc19b1127975d8cf5b260592a38a39a98101872b4cd
 killed_hash: c22503f964cbc1c358809929272a48f4fdf684fada080bdd0db851fd18ee8937
