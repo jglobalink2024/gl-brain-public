@@ -3,6 +3,81 @@ Last updated: 260505
 
 ---
 
+## 260505 — F8a CLOSED · Two-Proof Pivot · Live-Mirror Test Abandoned [via: CC]
+
+[PERSISTENT]
+Last updated: 260505
+Author: CC
+
+Session: [GL/COMMAND | BRAIN-OPS | F8a Closure · Two-Proof Pivot | 260505]
+
+### What changed
+F8a (self-sealing freshness signal) closed via two-proof path after the
+live-mirror corruption test was abandoned. Concurrent-write traffic on
+gl-brain main reblesses integrity.md every few minutes; the test could
+not hold a corruption commit on main long enough to verify Chat-side
+detection. Diagnosis logged as anti-pattern (see patterns.md this date).
+
+### Proof 1 — CC arm (deterministic, empirical)
+- ~/.claude/hooks/brain-integrity-check.js fired at session start
+- Reported state.md hash mismatch: expected 0abbb0b8…, got a5e3a58c…
+- Detection works as designed; HARD BANNER additionalContext emitted
+- This is the ENFORCEMENT boundary — CC is where developer writes flow
+- Status: CLOSED EMPIRICALLY 260505 (this session)
+
+### Proof 2 — Chat arm (LLM prompt-following on isolated content)
+Fresh-context Chat session, 5-case truth table, no fetch dependency.
+
+| Case | Inputs (state vs verified) | Expected | Actual | Result |
+|---|---|---|---|---|
+| 1 | 260506 vs 260505-1725 | 🔴 BANNER (date-newer) | 🔴 BANNER (Check B — date-newer) | ✅ |
+| 2 | 260505 vs 260505-1725 | 🟢 CLEAR (date-equal, time precedence) | 🟢 CLEAR (260505-0000 < 260505-1725) | ✅ |
+| 3 | 260505-1730 vs 260505-1725 | 🔴 BANNER (F8a tight case, HHMM) | 🔴 BANNER (Check B — 5-min drift caught) | ✅ |
+| 4 | 260504 vs 260505-1725 | 🟢 CLEAR (older) | 🟢 CLEAR (260504 < 260505) | ✅ |
+| 5 | 260506X vs 260505-1725 | 🔴 BANNER (malformed, Check A) | 🔴 BANNER (Check A — malformed, stops before B) | ✅ |
+
+Verdict: PASS (5/5) — all verdicts match expected results
+Status: CLOSED via prompt-following verification 260505
+
+Observation logged for v3.5 hardening pass (deferred, out of scope for this closure):
+- `last_verified` in integrity.md itself is not validated by Check A.
+  If integrity.md is corrupted, Step 3.5 trusts it implicitly. Future
+  hardening pass should add Check A coverage to the trust anchor itself.
+
+### F8a closure — final
+| Arm | Mechanism | Proof Type | Status |
+|---|---|---|---|
+| CC | brain-integrity-check.js (deterministic JS) | Empirical, this session | ✅ CLOSED |
+| Chat | POINTER Step 3.5 prose (LLM follows) | Truth-table verified (5/5) | ✅ CLOSED |
+
+### Deferred architecture item
+**Concurrent-write queue makes hot-brain corruption tests infeasible.**
+Live-mirror corruption tests on main require the brain to NOT be reblessed
+between corruption push and Chat fetch. With multiple sessions writing
+to main and brain-committer reblessing on each write, no test window
+exists. Future integrity tests must use isolated content (this session's
+Proof 2) or a quiesced brain branch. Anti-pattern locked in patterns.md
+260505.
+
+### Cleanup executed this session
+- Reverted corruption commits 1dd460d and b50b056 (`git revert --no-edit`)
+- Atomic rebless: all 5 brain hashes recomputed, last_verified updated
+- patterns.md APPEND: Anti-Pattern: Live-Mirror Corruption Tests on Hot Brains
+- decisions.md APPEND: F8a closed via two-proof path 260505
+
+### No COMMAND product code changes
+### GP-1 Gate: GREEN (inherited 260504) — GP-2 opens 260506
+
+### What's next
+- None for F8a. Both arms closed. CC hook + POINTER prose are the canonical
+  detection layers; brain-committer is the canonical write path.
+- Future hardening (if needed): quiesced-brain branch protocol for
+  destructive integrity tests
+- v3.5 hardening (deferred): validate `last_verified` format in integrity.md
+  via Check A
+
+---
+
 ## 260505 — Perplexity market validation push verified [via: CC]
 
 [PERSISTENT]
