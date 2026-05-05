@@ -1261,6 +1261,27 @@ Closeout bumped: `v2` â†’ `v2.1`. Both `~/bin/closeout` and `globalink-clau
 Commit: `ef8297a` â†’ `globalink-claude-config/main` (bin/closeout first-time tracked in repo)
 Verification artifact: `/tmp/closeout-bugfix-260503.log`
 
+### Re-Verification — Trio #1 · v2.1 (260505)
+Timestamp (BRT): 2026-05-05T02:59
+
+**6/6 Acceptance Criteria: PASS**
+
+| # | Criterion | Result |
+|---|---|---|
+| 1 | Failure-path exit code == 1 | ✅ PASS |
+| 2 | Brevo 'sent' event to jason@globalinkservices.io | ✅ PASS |
+| 3 | Failure stdout names brain-committer SKILL.md as missing | ✅ PASS |
+| 4 | Clean-path exit code == 0 | ✅ PASS |
+| 5 | ~/.claude/closeout-last-success mtime updated | ✅ PASS |
+| 6 | No errant git push to gl-brain during failure path | ✅ PASS |
+
+Brevo event ID: `1c165287-476a-4843-9b9a-142155b4f813` (subject: "🚨 CLOSEOUT FAILED — 260505-0211", delivered 2026-05-05T07:11:54+02:00)
+Log artifacts: `/tmp/closeout-fail-260503.log`, `/tmp/closeout-clean-260503.log`
+
+Note on criterion 6: gl-brain origin/main advanced from `58afd0c` to `878690a` during test window, but the commit (`878690a`, "brain: state — POINTER v3.3 stale-contract detection + hash verification [via: CC]", timestamp 02:12:41 BRT) was a concurrent brain-committer CC operation, not from closeout. Closeout failure-path log explicitly shows "repo pushes skipped." Criterion met.
+
+**Trio #1 verification CLOSED — closeout v2 fires Brevo alert + exit 1 on health-check failure; clean path exits 0 with heartbeat write.**
+
 ---
 
 ## 260503 — Brain Hardening #2 · POINTER v3.1 + integrity.md (F4 + F8a Closure) [via: CC]
