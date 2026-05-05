@@ -1071,4 +1071,29 @@ downstream consumers (Chat, CC, hooks) fire the expected drift banner.
 **Origin:** F8a verification attempt 260505. Two corruption commits
 (1dd460d, b50b056) were overwritten within minutes by concurrent rebless
 operations. Test design abandoned; F8a closed via two-proof path
+
+---
+
+## Pattern: Supabase check constraint — verify before writing (260505)
+
+When writing to a constrained column (e.g. tasks.status), always:
+1. Read the actual constraint from DB (pg_get_constraintdef or information_schema.check_constraints) before writing any value
+2. Use explicit constants for allowed values — never magic strings
+3. Prefer POSITIVE MATCH (.in()) over exclusion (.not().in()) — exclusion silently accepts unknown states added later
+
+Example violation: ledger-janitor was writing status="idle" (not in tasks_status_check); reset target must be "failed".
+
+Valid tasks.status values (260505): pending | running | complete | failed | active | paused | queued
+
+---
+
+## Pattern: tsx agent startup — dotenv required (260505)
+
+tsx does not auto-load .env.local. Every agent index.ts must include:
+```ts
+import { config } from "dotenv";
+import { resolve } from "path";
+config({ path: resolve(process.cwd(), ".env.local") });
+```
+Place this block BEFORE all other imports. Without it, AGENT_SUPABASE_URL and all other env vars are undefined at runtime.
 (CC hook empirical + Chat truth table 5/5).
