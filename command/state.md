@@ -3,6 +3,31 @@ Last updated: 260505
 
 ---
 
+## 260505 — brain-committer root cause found + fork/main fixed [via: CC direct]
+
+[PERSISTENT]
+Last updated: 260505
+Author: CC
+
+Session: [GL/COMMAND | OPS | brain-committer fallback · SOP landed + rebless verified | 260505]
+
+### What changed
+- **Root cause identified:** brain-committer lives on `add/brain-committer` branch of agents repo.
+  Any switch to `main` drops it from the working tree. Confirmed by git log + branch inspection.
+- **Fix applied:** pushed `add/brain-committer` → `fork/main` (jglobalink2024/agency-agents).
+  GlobaLink fork's main now has brain-committer. Resilient to branch switches.
+- **Integrity rebless:** confirmed already clean (closeout script ran 0257 + 0323). No manual action needed.
+- **Fallback SOP:** landed in `command/decisions.md` (commit 6d7521d, prior session).
+
+### No COMMAND product code changes
+### GP-1 Gate: GREEN (inherited) — GP-2 opens 260506
+
+### What's next
+- GP-2 gate opens 260506 — Autogap chain dispatch eligible
+- Monitor that agents repo stays on `add/brain-committer` branch locally
+
+---
+
 ## 260504 — Deep Dive Synthesis Filed · GP-1 GATE CLEARED [via: CC]
 
 [PERSISTENT]
