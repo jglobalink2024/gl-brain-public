@@ -1,5 +1,32 @@
 # COMMAND — Current State
-Last updated: 260504X
+Last updated: 260505X
+
+---
+
+## 260505 — L1 Gate doctrine append · decisions.md [via: CC]
+
+[PERSISTENT]
+Last updated: 260505
+Author: CC
+
+Session: [GL | INFRA | L1 Gate Cache-Bust Doctrine · decisions.md Append | 260505]
+
+### What changed
+- Received Chat-originated doctrine clarification for L1 Freshness Gate web_fetch cache-bust limitation (found during POINTER v3.1 verification, session 260503)
+- Routed through brain-committer to APPEND entry to command/decisions.md
+- Entry documents: Chat-side L1 verification is best-effort (web_fetch rejects ?nocache=... query params); CC SessionStart hook is the only authoritative integrity verification path
+- integrity.md decisions_hash recomputed atomically in same commit (7fcba53)
+
+### No code changes
+Infra/doctrine session only. No COMMAND product changes. No state machine changes.
+
+### GP-1 Gate Status (inherited from 260504)
+- Status: GREEN as of 260504
+- 48h clock: 260504 → gate to GP-2 opens 260506
+
+### What's next
+- 260506: GP-2 gate opens — Autogap chain dispatch queue eligible
+- No action required from this session
 
 ---
 
