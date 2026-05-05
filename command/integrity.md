@@ -38,10 +38,10 @@ $ms = [System.IO.MemoryStream]::new([Text.Encoding]::UTF8.GetBytes($raw))
 ```
 state_hash: 9449aaa6710fc862ffd964f828577dc437ba74d8babd74618998a22937f1068a
 decisions_hash: d7ce5ce8f43f8eb49d21b165086250518ea0d194c5d4ae7025701ce77f79d836
-patterns_hash: fb6ef37d9813f679e8079dc19b1127975d8cf5b260592a38a39a98101872b4cd
+patterns_hash: 03db3c5b432e39ac668a5f1d8a63079cf6d4f9dbf77dc6c3ad95f9ca810a36aa
 killed_hash: c22503f964cbc1c358809929272a48f4fdf684fada080bdd0db851fd18ee8937
 research_hash: 761f319511978dc072f2f92f313d8c5939c992287d81a61ed09c7a9d49b70ba9
-last_verified: 260505-1839
+last_verified: 260505-1841
 ```
 
 ## Update contract

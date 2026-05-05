@@ -1029,3 +1029,46 @@ If mirror goes stale > 48 hrs: check Action run logs for failures.
 - `actions/checkout@v4` runs on Node.js 20 → deprecated
 - ntfy.sh + Brevo dual alert channels live (Brain Hardening #3 260503) — silent failure detection
 - Workflows: `.github/workflows/sync-public.yml` + `brain-heartbeat.yml`
+
+---
+
+## Anti-Pattern: Live-Mirror Corruption Tests on Hot Brains (LOCKED 260505)
+
+[PERSISTENT]
+Last updated: 260505
+Author: CC
+
+**Pattern:** To verify integrity-detection logic, push a deliberately
+corrupted file to the live brain repo (main branch) and observe whether
+downstream consumers (Chat, CC, hooks) fire the expected drift banner.
+
+**Why it fails:**
+1. **Concurrent-write traffic.** Multiple sessions write to gl-brain main
+   continuously. Each write through brain-committer triggers integrity.md
+   rebless. The test corruption is overwritten before downstream consumers
+   can fetch and evaluate it.
+2. **CDN cache.** raw.githubusercontent.com serves stale content for an
+   unbounded window (30+ min observed). Even when corruption survives on
+   main, Chat fetches may not see it. ?nocache= query params are rejected
+   by claude.ai web_fetch (Rule 14).
+3. **No test window exists.** The fastest concurrent-rebless cycle observed
+   was <60 seconds. CDN cache is 30+ minutes. The intersection is empty.
+
+**What to do instead — isolated-content tests:**
+- Inline the test inputs directly into the verification prompt
+- No URL fetches, no mirror dependency, no main-branch corruption
+- Run truth-table coverage (multiple boundary cases) to prove logic correctness
+- Use the deterministic arm (CC SessionStart hook) for empirical detection;
+  use the prose arm (Chat) for prompt-following verification
+
+**When live-mirror tests ARE acceptable:**
+- Brain is quiesced (no concurrent sessions writing) — coordinate via lockfile
+- OR test runs against a feature branch, not main — corruption is naturally
+  isolated and reverted with the branch delete
+- OR the test is verifying sync infrastructure itself (CDN, GHA workflow,
+  webhook), not detection logic
+
+**Origin:** F8a verification attempt 260505. Two corruption commits
+(1dd460d, b50b056) were overwritten within minutes by concurrent rebless
+operations. Test design abandoned; F8a closed via two-proof path
+(CC hook empirical + Chat truth table 5/5).
