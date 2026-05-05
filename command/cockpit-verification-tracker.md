@@ -1,7 +1,7 @@
 [PERSISTENT]
 Last updated: 260505
 Author: CC audit + fix + verification session
-Session: [GL/COMMAND | BUILD | C4 Playwright Verification · Router Load Scoring | 260505]
+Session: [GL/COMMAND | BUILD | C3 Realtime Verification · Agent Status Propagation | 260505]
 
 # COMMAND Cockpit — Verification Tracker
 
@@ -56,7 +56,7 @@ requires product stability. C6 is currently trivially met (coming-soon page).
 - [~] Same-type agent idle > busy ordering — conditional, skipped (no pair in workspace)
 - [x] routing_decisions.candidate_agents shows loadPenalty field (Phase 3 path: scoreAgentsForTask)
 
-**C4 GATE: PASS. C3 verification can begin.**
+**C4 GATE: PASS. C3 verification complete.**
 
 ### Known gap (Phase 3)
 scoreAgentsForTask in semanticMatcher.ts is dead code in the current UI flow.
@@ -68,30 +68,48 @@ scoreAgentsForTask wiring is Phase 3 (semantic embedding infrastructure). Logged
 
 ## C3 — Agent status reflects actual use, not webhook theater
 
-**Status: IMPROVING (as of 260503)**
-**Gating: C4 PASS — C3 verification can now begin**
+**Status: PASS ✓**
+**Commits: 89bf4bd (Playwright test)**
 
 ### Criterion
 > "Agent status reflects actual use, not webhook theater"
 
-### Evidence (260503 walk)
-- Sidebar polling 5–30s shipped
-- Realtime subscription on agents table NOT shipped (I-3 known gap)
-- Status updates lag by up to 30s without Realtime
-- Cannot verify accurately until routing is load-aware (C4) ← C4 now PASS
+### Evidence (260505 walk)
+- Realtime subscription on agents table confirmed SHIPPED in both dashboard/page.tsx and router/page.tsx
+  - dashboard: `agents-realtime-${workspace.id}` on UPDATE + INSERT (lines 909-957)
+  - router: `router-agents-realtime-${workspace.id}` on UPDATE + INSERT (lines 1228-1263)
+- executeTask.ts writes agents.status = 'active' before LLM call (line 340)
+- executeTask.ts writes agents.status = 'idle' at completion (lines 902/921)
+- Full DB→Realtime→UI chain confirmed: executeTask writes → Supabase Realtime fires → sidebar badge updates
+
+- Playwright suite: tests/agent-status-realtime.spec.ts (commit 89bf4bd)
+  - Agent: Claude-Drafting (seed-claude-drafting-7464e500) in workspace ws_7464e500
+  - C3-S01: idle→active propagates in 958ms (gate: 5000ms) — PASS
+  - C3-S02: active→idle propagates in 1346ms (gate: 5000ms) — PASS
+  - C3-S03: blur→refocus→active propagates in 246ms (gate: 5000ms) — PASS
+  - All 3 tests: exit code 0
+
+- Fix applied: beforeAll workspace resolution scoped to owner_email=TEST_EMAIL
+  (admin client RLS bypass was returning system-wide workspaces → no idle agent crash)
 
 ### Pass criteria
-- [ ] Realtime subscription on agents table ships (I-3)
-- [ ] Status update latency < 5s for in-flight state changes
-- [ ] Playwright test: task dispatched → agent status shows 'active' within 5s
-- [ ] Playwright test: task completed → agent status returns to 'idle' within 5s
+- [x] Realtime subscription on agents table ships (I-3) — confirmed already shipped
+- [x] Status update latency < 5s for in-flight state changes
+  - idle→active: 958ms ✓
+  - active→idle: 1346ms ✓
+  - post-blur refocus: 246ms ✓
+- [x] Playwright test: idle→active reflects in sidebar within 5s — PASS
+- [x] Playwright test: active→idle reflects in sidebar within 5s — PASS
+- [x] Bonus: Realtime subscription survives tab blur/refocus — PASS
+
+**C3 GATE: PASS. C2 verification unblocked.**
 
 ---
 
 ## C2 — One real end-to-end handoff works across 2+ vendors without copy-paste
 
 **Status: PARTIAL (as of 260503)**
-**Gating: blocked until C3 PASS**
+**Gating: C3 PASS — C2 verification now unblocked**
 
 ### Criterion
 > "One real end-to-end handoff works across at least 2 vendors without copy-paste"
@@ -168,3 +186,4 @@ scoreAgentsForTask wiring is Phase 3 (semantic embedding infrastructure). Logged
 | 260503 | [GL \| STRATEGY \| Cockpit-Done Recovery · Eric Repurpose \| 260503] | Not real |
 | 260505 | [GL/COMMAND \| BUILD \| C4 Penalty Audit · Semantic Matcher \| 260505] | Not real — C4 impl complete, verification pending |
 | 260505 | [GL/COMMAND \| BUILD \| C4 Playwright Verification · Router Load Scoring \| 260505] | C4 PASS. Unblocks C3. |
+| 260505 | [GL/COMMAND \| BUILD \| C3 Realtime Verification · Agent Status Propagation \| 260505] | C3 PASS. Unblocks C2. C4+C3 both green. |
