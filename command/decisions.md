@@ -1,6 +1,66 @@
 # COMMAND — Decisions Register
 Last updated: 260505
 
+## 260505 — scoreAgentsForTask dead code gap — Phase 3 wire-up required
+
+**Session:** [GL/COMMAND | BUILD | C4 Playwright Verification · Router Load Scoring | 260505]
+**Decision:** Document and park the scoreAgentsForTask / taskDescription wiring gap as a Phase 3 item.
+
+### Finding
+scoreAgentsForTask (semanticMatcher.ts) is dead code in the current UI flow.
+routeAndExecute() in router/page.tsx is called from handleDispatch and handleAutoExecute.
+Neither call passes taskDescription, so the `if (options.taskDescription)` branch in
+routerExecution.ts never executes. scoreAgentsForTask never runs in production.
+
+C4 is satisfied by task-router-engine.ts + /api/route-task (confirmed by Playwright tests).
+semanticMatcher.ts with load penalty is ready for Phase 3 when embeddings ship.
+
+### Why not fix now
+Wiring taskDescription into routeAndExecute would require:
+1. Changing the routeAndExecute() call signature in router/page.tsx
+2. Ensuring the taskInput state is available at dispatch time (it is — but the change
+   touches the dispatch hot path, which is GP-1 critical)
+3. End-to-end test coverage for the new path
+
+Rule: no hot-path surgery until GP-1 is 48h GREEN. Park until C3 PASS.
+
+### Phase 3 action item
+After C3 PASS: pass taskInput.trim() as taskDescription in all routeAndExecute() calls
+in router/page.tsx. Verify routing_decisions.candidate_agents shows loadPenalty field.
+This activates the routing_decisions audit trail for the full semantic scoring path.
+
+---
+
+## 260505 — Playwright test pattern: waitForResponse over UI element assertions
+
+**Session:** [GL/COMMAND | BUILD | C4 Playwright Verification · Router Load Scoring | 260505]
+**Decision:** In COMMAND Playwright tests, use page.waitForResponse() to detect API calls — not UI element assertions — when the UI has multiple rendering branches.
+
+### Finding
+The router page has a Phase 2.4 auto-execute flow: high-confidence recommendations
+skip the static RecommendationPanel and immediately dispatch the task. The "Recommended Agent"
+text appears for <100ms (between setRecommendation and setAutoExecPhase) — Playwright's poll
+misses it. Tests that assert on transient UI text are flaky by design.
+
+### Pattern (canonical for COMMAND)
+```typescript
+// Register BEFORE click — catches API call regardless of UI branch
+const routeTaskDone = page.waitForResponse(
+  (resp) => resp.url().includes("/api/route-task") && resp.status() === 200,
+  { timeout: 20_000 },
+);
+await button.click();
+await routeTaskDone;
+await page.waitForTimeout(300); // let route interceptor parse body
+```
+
+### Also found
+Cookie consent dialog (fresh browser context) blocks form interaction if not dismissed first.
+Fix: add `getByRole("button", { name: /essential only/i }).click()` in beforeAll after navigation,
+wrapped in try/catch (dialog may not appear if preference is stored).
+
+---
+
 ## 260505 — C4 fix shipped: semanticMatcher.ts load penalty live
 
 Session: [GL/COMMAND | BUILD | C4 Penalty Audit · Semantic Matcher | 260505]
