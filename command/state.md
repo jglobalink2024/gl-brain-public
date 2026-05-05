@@ -3,6 +3,43 @@ Last updated: 260505
 
 ---
 
+## 260505 — Housekeeping Agent Infrastructure Scaffold · Ledger Janitor Fix [via: CC]
+
+[PERSISTENT]
+Last updated: 260505
+Author: CC
+
+Session: [GL/COMMAND | OPS | Housekeeping Agent Scaffold · Ledger Janitor Fix | 260505]
+
+### What changed
+Scaffolded the full COMMAND 24/7 Housekeeping Agent Infrastructure in command-app. 8 agents live: sentinel (health poller, 15min), ledger-janitor (zombie task sweeper, 2h), credit-auditor (credits monitor, 4h), brain-warden (brain integrity, 6h), smoke-runner (Playwright GP gate, 6h), log-digester (Vercel nightly digest), response-rules-deployer (one-time, SELF_DISABLE armed), brain-reconciler (one-time, SELF_DISABLE armed — two-brain split already resolved). Shared utilities: supabase-client (untyped AnyClient), logger, alert. Orchestrator: agent-runner.ts + agent-schedule.json using node-cron. Supabase tables: health_log, agent_alerts, agent_logs (all applied). node-cron devDep added.
+
+### Bug fix: ledger-janitor constraint violation
+Live smoke run found 76 tasks incorrectly flagged as zombies + 20x task.reset_failed (tasks_status_check constraint rejection). Root cause: zombie query used NOT IN exclusion on stale TERMINAL_STATES (included "completed", "cancelled" — not valid constraint values), and reset wrote status="idle" (also not valid). Fix: ZOMBIE_STATES = ["active", "running"] (positive .in() match), RESET_TO_STATUS = "failed" (constraint-valid). Verified: 1 real zombie found and reset to "failed" cleanly. No DB migration required.
+
+### Dotenv fix (all agents)
+Only sentinel had dotenv loading at startup. Added `config({ path: resolve(process.cwd(), ".env.local") })` to all 8 agent index.ts files. Required because tsx does not auto-load .env.local; agents were running without env vars until this fix.
+
+### Agent infrastructure status
+- agent-runner.ts: CONFIRMED LIVE (Supabase confirms sentinel first logged 260505 20:52 UTC)
+- sentinel: ACTIVE (polling every 15min, confirmed via health_log)
+- Other agents: not yet cycled (expected at startup — 2h–6h cadences)
+- P1 alerts: 0 (brain-warden first-run P1 diagnosed as transient GitHub cold-fetch rate limit)
+- TypeScript: npx tsc --noEmit exits 0
+
+### CCO supervision
+CCO ran parallel agent-runner supervision session. Created runner-restarts.md + morning-brief-260505.md in scripts/smoke-log/. 3 scheduled monitoring tasks created (command-smoke-log-checker 30min, command-smoke-runner-heartbeat 6h, command-morning-brief daily 07:01 EDT).
+
+### GP-1 Gate
+Status: GREEN (inherited). GP-2 clock: check brain-warden on next cycle 260506 ~03:00 UTC.
+
+### What's next
+- Verify brain-warden P1 does not recur (PENDING_ACTIONS row added)
+- smoke-runner next cycle ~260506 03:00 UTC confirms GP-1 48h green
+- response-rules-deployer SELF_DISABLE is armed — enable when ready for one-time brain deploy
+
+---
+
 ## 260505 — F8a CLOSED · Two-Proof Pivot · Live-Mirror Test Abandoned [via: CC]
 
 [PERSISTENT]
@@ -75,6 +112,21 @@ Proof 2) or a quiesced brain branch. Anti-pattern locked in patterns.md
   destructive integrity tests
 - v3.5 hardening (deferred): validate `last_verified` format in integrity.md
   via Check A
+
+---
+
+## 260505 — CF-1/CF-2/CF-3 hygiene audit complete [via: CC]
+
+[PERSISTENT]
+Last updated: 260505
+Author: CC
+
+Session: [GL/COMMAND | INFRA | CF-1·CF-2·CF-3 Hygiene Audit | 260503]
+
+CF-1/CF-2/CF-3 hygiene audit complete (260505 CC session):
+- CF-1 (brain-committer version tag): ALREADY DONE — v1.3 tag present in both ~/.claude/agents/brain-committer/SKILL.md and globalink-claude-config copy; copies byte-identical. No action needed.
+- CF-2 (closeout L3.5 sync): ALREADY DONE — ~/bin/closeout and globalink-claude-config/bin/closeout identical at 302 lines. No action needed.
+- CF-3 (chat-name last-heading fix): RE-FIXED — commit 2d0b531 had regressed the fix from be005d2 by re-adding '; exit' to extract_chat_name awk rule. Removed exit, re-tested with dual-heading /tmp scenario (Second returned, not First), synced to L3.5, committed cb776e4, pushed. All pre-Track-1 hygiene resolved.
 
 ---
 
