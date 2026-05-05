@@ -3,6 +3,57 @@ Last updated: 260505
 
 ---
 
+## 260505 — F8a L1 Freshness Gate Hardening · Test + Rebless [via: CC]
+
+[PERSISTENT]
+Last updated: 260505
+Author: CC
+
+Session: [GL/COMMAND | INFRA | F8a Gate Hardening · POINTER v3.3 · Rebless | 260505]
+
+### What changed
+
+**POINTER v3.3 shipped (SHA e7b7189)**
+- Step 2: CDN cache-bust instruction — append `?v=YYMMDD` to all raw.githubusercontent.com fetches
+- Step 3.5: Malformed date check runs FIRST — `Last updated:` header failing YYMMDD / YYMMDD-HHMM parse → HARD BANNER unconditionally
+- POINTER_CONTENT_HASH recomputed and verified via Node.js round-trip
+
+**F8a Test execution (full pipeline)**
+- Corruption staged: `Last updated: 260504X` → commit b0c164c
+- Concurrent brain session (807d167) overwrote to `260505X` (X propagated via FULL-REPLACE)
+- POINTER v3.3 state update (e7b7189) cleaned the corruption via FULL-REPLACE
+- Chat v1 test: HARD BANNER fired (brain fetch blocked — Rule 14); Steps 3/3.5 untestable without embedded URLs
+- Chat v2 test: all 7 brain files fetched directly; state.md read as `260505` (clean); Step 3.5 PASSES
+- Gate verdict: 🟢 CLEAR — correct behavior (no corruption = no banner)
+
+**Secondary findings**
+- RESPONSE_RULES.md is 404 on gl-brain-public (dead URL in POINTER Step 2 always-fetch list)
+- integrity.md own header has trailing text `(Hardening #4)` — not in Step 3.5 scope, noted inconsistency
+- F8a gate is CC-executable but Chat-incomplete by design (Rule 14 blocks chain-fetch)
+- Accidental revert: `git revert HEAD` hit bc60d42 (patterns entry) instead of corruption; recovered this session
+
+**Brain rebless (SHA 5f03a02)**
+- Restored phantom carry-forward anti-pattern entry to patterns.md (accidentally reverted in d4c275a)
+- Staged pending decisions.md carry-forward contracts entry (Chat-authored 260503)
+- All 5 hashes recomputed and verified; last_verified: 260505-1205
+- Post-commit hook auto-corrected patterns_hash after hook-side re-measurement
+
+### Corruption commit trail
+- b0c164c — test: deliberate integrity drift (260504X)
+- 807d167 — concurrent write → 260505X
+- d4c275a — accidental revert of patterns entry [ACCIDENTAL]
+- e7b7189 — POINTER v3.3 + state update (cleaned 260505X via FULL-REPLACE)
+- 98516b1 — patterns restore + decisions + integrity rebless
+- 5f03a02 — hook-corrected integrity (patterns_hash final)
+
+### GP-1 Gate: GREEN — inherited 260504
+
+### What's next
+- Fix RESPONSE_RULES.md dead URL in POINTER (separate session)
+- integrity.md own header trailing text cleanup (low priority)
+
+---
+
 ## 260505 — Schema decision + CC fallback test VIABLE [via: CC]
 
 [PERSISTENT]
