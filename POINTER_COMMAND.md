@@ -1,6 +1,6 @@
-POINTER_VERSION: v3.2
-POINTER_CONTENT_HASH: 04db35999c32a1e89bc0cd47c7865e5acf5cde69f37713617ac370dd436937b3
-Last updated: 260428
+POINTER_VERSION: v3.3
+POINTER_CONTENT_HASH: 1be01a1f5f68c819716f4fed9529a7ab2c8e08e79ac28a13efb428dd143b995b
+Last updated: 260505
 Author: CC
 
 # GlobaLink Brain — COMMAND Project
@@ -30,6 +30,12 @@ This gate closes failure modes F4 (POINTER drift) and F8a (self-sealing freshnes
 | Fetch failed | 🟡 SOFT BANNER: "Cannot reach gl-brain-public to verify POINTER version. Proceeding with local v[local]; flag stale risk." |
 
 ### STEP 2 — Required brain fetch
+
+**CDN cache busting (required every fetch):** Append `?v=` + today's date in
+YYMMDD format to every `raw.githubusercontent.com` URL before fetching.
+Example (today = 260505): append `?v=260505` to every URL below.
+Without this, GitHub's CDN may serve a stale cached version and the freshness
+gate receives old data, making drift detection unreliable.
 
 Always fetch:
 - `https://raw.githubusercontent.com/jglobalink2024/gl-brain-public/main/gl/format.md`
@@ -71,6 +77,15 @@ Read `Last updated:` from `command/state.md`. Compare to today.
 
 Read `command/integrity.md`. For each of the five tracked files
 (state.md, decisions.md, patterns.md, killed.md, research.md):
+
+**Malformed date check (Chat + CC — runs first):**
+Parse each file's `Last updated:` header. Valid formats: `YYMMDD` or `YYMMDD-HHMM`.
+If the value is missing, blank, or contains unexpected characters (e.g. `260504X`,
+`260505X`, trailing letters, symbols):
+→ 🔴 HARD BANNER: "BRAIN INTEGRITY MISMATCH on [file] — `Last updated:` header is
+malformed ([value]). Out-of-band edit or corruption detected. Operator must inspect
+and run `brain-committer --rebless` after verifying content is correct."
+Stop. Do not synthesize from suspect content.
 
 **Date proxy check (Chat + CC):**
 Compare each file's `Last updated:` header to integrity.md's `last_verified:` field.
@@ -160,6 +175,13 @@ console.log(actual === expected ? 'OK' : 'MISMATCH');
 
 ## Version history
 
+- v3.3 (260505) — Two L1 gate hardening fixes: (1) CDN cache-busting instruction
+  added to Step 2 — Chat must append `?v=YYMMDD` to all raw.githubusercontent.com
+  fetches; without this GitHub CDN serves stale data and drift detection is blind.
+  (2) Malformed date rule added to Step 3.5 — any `Last updated:` that fails YYMMDD
+  or YYMMDD-HHMM parse triggers HARD BANNER unconditionally. Closes F8a empirically:
+  corruption test (260505) confirmed CDN stale + day-only date comparison were both
+  insufficient. Hash field recomputed.
 - v3.2 (260504) — Session-type fetch references elevated from relative paths to full
   HTTPS URLs. Closes Chat-side fetch ceiling for STRATEGY / BUILD / COMPETITIVE /
   GTM / PATENT session-type additions. Rule 14 manifestation: claude.ai web_fetch
